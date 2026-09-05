@@ -7,11 +7,30 @@ stages:
       hash: md5
       md5: 987ab3dde3dfde5c070fd3b1f06442ca
       size: 303
-    - path: src/cnbr
+    - path: src/cnbr/__main__.py
       hash: md5
-      md5: 3de80481458451f4b122f3430b046b26.dir
-      size: 47118
-      nfiles: 22
+      md5: a9c88551e985b4280c50b9475f1fcdb8
+      size: 65
+    - path: src/cnbr/cli.py
+      hash: md5
+      md5: 8d50812ef95596480fdc993ce6240bea
+      size: 1409
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: e4a4db34fceefb8002b1e5b1bc007a37
+      size: 1732
+    - path: src/cnbr/logging.py
+      hash: md5
+      md5: 0db16ad957d085f020e18e930c38c87a
+      size: 694
+    - path: src/cnbr/run_context.py
+      hash: md5
+      md5: acbffdb065856e761e18c8707d073282
+      size: 1832
+    - path: src/cnbr/synthetic.py
+      hash: md5
+      md5: fcf8743f1da0a9b702b5f6afdda51312
+      size: 4377
     - path: tests/fixtures/synthetic_calls.jsonl
       hash: md5
       md5: 40c8061022e68ae29aca41f7695beeef
@@ -27,7 +46,7 @@ stages:
       size: 5108
     - path: reports/tables/synthetic_run.json
       hash: md5
-      md5: adcf5a3eea00ab89ac5c84f7c1fe94f0
+      md5: cd7f82592852814629a7c0f09a896377
       size: 758
     - path: reports/tables/synthetic_summary.csv
       hash: md5

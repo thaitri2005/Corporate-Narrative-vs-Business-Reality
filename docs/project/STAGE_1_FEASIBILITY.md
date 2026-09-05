@@ -46,6 +46,14 @@ Determine whether the intended Consumer Staples study is legally usable, suffici
 - Coverage and quality rules will reduce 34 candidates to the final analytical cohort; the earlier
   15–30 figure is a target cohort size, not a hand-selected universe cap.
 
+### Identity and fiscal contract implementation
+
+- Registry schema v1.0 now defines effective-dated CIK, ticker, legal-name, and provider identifiers.
+- Fiscal-period schema v1.0 separates period, earnings-release, call, and filing-acceptance time.
+- Cross-row validation rejects overlapping identifiers/periods, duplicate quarter keys, and one
+  call mapped to multiple quarters; explicit reviewed exceptions remain possible where designed.
+- Unit fixtures cover ticker change, non-calendar periods, missing calls, and invalid mappings.
+
 ## Decisions
 
 ### DEC-S1-01 — STRUX rights path

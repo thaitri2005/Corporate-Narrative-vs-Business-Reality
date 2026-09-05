@@ -11,6 +11,8 @@ nav:
       - Consumer Staples universe: adr/ADR-005-consumer-staples-universe.md
   - Runbooks:
       - Development: runbooks/development.md
+  - Data contracts:
+      - Company and fiscal registry: data-contracts/company-and-fiscal-registry.md
   - Project control:
       - Responsibilities: project/RESPONSIBILITIES.md
       - RAID register: project/RAID.md

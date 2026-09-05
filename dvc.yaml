@@ -13,7 +13,12 @@ stages:
     cmd: python -m cnbr synthetic-run --config configs/data/synthetic.yaml
     deps:
       - configs/data/synthetic.yaml
-      - src/cnbr
+      - src/cnbr/__main__.py
+      - src/cnbr/cli.py
+      - src/cnbr/config.py
+      - src/cnbr/logging.py
+      - src/cnbr/run_context.py
+      - src/cnbr/synthetic.py
       - tests/fixtures/synthetic_calls.jsonl
     outs:
       - data/interim/synthetic_calls.parquet
