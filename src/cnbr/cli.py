@@ -5,7 +5,13 @@ import os
 from collections.abc import Sequence
 from pathlib import Path
 
-from cnbr.config import load_sec_spike_config, load_synthetic_config, load_universe_config
+from cnbr.config import (
+    load_sec_coverage_config,
+    load_sec_spike_config,
+    load_synthetic_config,
+    load_universe_config,
+)
+from cnbr.financials import build_concept_coverage
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import run_sec_spike
@@ -25,6 +31,10 @@ def build_parser() -> argparse.ArgumentParser:
         "sec-spike", help="Run the bounded Stage 1 SEC feasibility acquisition"
     )
     sec_spike.add_argument("--config", type=Path, required=True)
+    sec_coverage = subparsers.add_parser(
+        "sec-coverage", help="Measure local SEC Company Facts concept availability"
+    )
+    sec_coverage.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -46,3 +56,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         if user_agent is None:
             raise RuntimeError("CNBR_SEC_USER_AGENT is required for SEC requests")
         run_sec_spike(sec_config, Path.cwd().resolve(), user_agent)
+    elif args.command == "sec-coverage":
+        config_path = args.config.resolve()
+        coverage_config = load_sec_coverage_config(config_path)
+        build_concept_coverage(coverage_config, Path.cwd().resolve())

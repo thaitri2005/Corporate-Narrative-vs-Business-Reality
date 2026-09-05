@@ -13,12 +13,12 @@ stages:
       size: 65
     - path: src/cnbr/cli.py
       hash: md5
-      md5: 8d50812ef95596480fdc993ce6240bea
-      size: 1409
+      md5: 60e1e0e15bc602795928832f301cdfc9
+      size: 2567
     - path: src/cnbr/config.py
       hash: md5
-      md5: e4a4db34fceefb8002b1e5b1bc007a37
-      size: 1732
+      md5: 56fe87b695a97ef7fba11122d349e3c5
+      size: 4100
     - path: src/cnbr/logging.py
       hash: md5
       md5: 0db16ad957d085f020e18e930c38c87a
@@ -58,12 +58,12 @@ stages:
     deps:
     - path: configs/data/consumer_staples_universe.yaml
       hash: md5
-      md5: 9d7df40ccc9badb8ef4dcda248ef2525
-      size: 521
+      md5: af63f5e79a69cf27dcdd43a3b2b983dc
+      size: 549
     - path: src/cnbr/config.py
       hash: md5
-      md5: e4a4db34fceefb8002b1e5b1bc007a37
-      size: 1732
+      md5: 56fe87b695a97ef7fba11122d349e3c5
+      size: 4100
     - path: src/cnbr/registry
       hash: md5
       md5: 552af0294913a3fce7b481a83a8ea155.dir
@@ -92,8 +92,8 @@ stages:
       size: 660
     - path: src/cnbr/config.py
       hash: md5
-      md5: e11f6cf6d64910b8d7daf577d4f5b882
-      size: 2803
+      md5: 56fe87b695a97ef7fba11122d349e3c5
+      size: 4100
     - path: src/cnbr/sources
       hash: md5
       md5: da507b1a32e410ad2395980f9191464c.dir
@@ -109,3 +109,34 @@ stages:
       hash: md5
       md5: 56a52f6d390bf7e697b256b504302bf1
       size: 4009
+  sec_coverage:
+    cmd: python -m cnbr sec-coverage --config 
+      configs/data/sec_concept_coverage.yaml
+    deps:
+    - path: configs/data/sec_concept_coverage.yaml
+      hash: md5
+      md5: 7283c0d915ee9af5ca19158f2d90c0a3
+      size: 761
+    - path: data/raw/sec/feasibility-2026-09-05
+      hash: md5
+      md5: e9041d38342a83f4d771f343514a5cf7.dir
+      size: 20894726
+      nfiles: 10
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: 56fe87b695a97ef7fba11122d349e3c5
+      size: 4100
+    - path: src/cnbr/financials
+      hash: md5
+      md5: 0dd06dfa9a1bb97de22171c8305218fa.dir
+      size: 16076
+      nfiles: 4
+    outs:
+    - path: reports/tables/sec_concept_coverage.csv
+      hash: md5
+      md5: 26dba81ca1b31cd082f914a2e13ce100
+      size: 2608
+    - path: reports/tables/sec_concept_coverage.json
+      hash: md5
+      md5: c0ea10fa6939cf8eb89268847d10c04f
+      size: 2291

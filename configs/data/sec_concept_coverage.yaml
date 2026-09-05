@@ -1,0 +1,30 @@
+schema_version: "1.0"
+start_fiscal_year: 2017
+end_fiscal_year: 2024
+input_dir: data/raw/sec/feasibility-2026-09-05
+detail_path: reports/tables/sec_concept_coverage.csv
+summary_path: reports/tables/sec_concept_coverage.json
+concepts:
+  revenue:
+    expected_periods: 32
+    concepts:
+      - RevenueFromContractWithCustomerExcludingAssessedTax
+      - Revenues
+      - SalesRevenueNet
+      - SalesRevenueGoodsNet
+  gross_profit:
+    expected_periods: 32
+    concepts:
+      - GrossProfit
+  operating_income:
+    expected_periods: 32
+    concepts:
+      - OperatingIncomeLoss
+  inventory:
+    expected_periods: 32
+    concepts:
+      - InventoryNet
+  capital_expenditure:
+    expected_periods: 32
+    concepts:
+      - PaymentsToAcquirePropertyPlantAndEquipment

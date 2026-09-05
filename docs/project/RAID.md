@@ -9,7 +9,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 | R-01 | STRUX rights do not permit intended processing or release | Medium | Critical | Data steward | Rights review before acquisition/scale; source adapter fallback | Open |
 | R-02 | Continuous Consumer Staples coverage is inadequate | Medium | High | Research lead | Coverage-only cohort analysis before hypothesis selection | Open |
 | R-03 | Fiscal/call alignment leaks future information | Medium | Critical | Data engineer | Canonical time spine, golden records, future-invariance tests | Open |
-| R-04 | Cross-company XBRL mappings are inconsistent | High | High | Financial reviewer | Versioned mappings, reconciliation, narrow metrics | Open |
+| R-04 | Cross-company XBRL mappings are inconsistent | High | High | Financial reviewer | Versioned mappings, reconciliation, narrow metrics; direct GrossProfit already fails 5-company coverage | Open/evidence confirmed |
 | R-05 | Taxonomy is ambiguous or imbalanced | High | High | NLP lead | Pilot, hard negatives, merge/remove weak labels | Open |
 | R-06 | Small company count weakens inference | High | High | Quantitative lead | Conservative inference, effect sizes, influence analysis | Open |
 | R-07 | Infrastructure consumes research capacity | Medium | Medium | Tech lead | Adoption gates and modular monolith | Mitigated by design |

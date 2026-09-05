@@ -47,6 +47,25 @@ The five-company spike acquired submissions and Company Facts for KO, PG, COST, 
 This is an acquisition success, not yet evidence that fiscal-period mappings or concepts are
 comparable. That assessment is the next local step.
 
+### Initial Company Facts availability screen
+
+The local, hash-bound audit counted unique `(fiscal_year, fiscal_period)` labels from 2017–2024 for
+candidate US-GAAP concepts. These are availability results only; they do not prove correct duration,
+dimensions, amendments, Q4 derivation, or economic comparability.
+
+| Candidate metric | Companies with any coverage | Median label coverage | Initial ruling |
+|---|---:|---:|---|
+| Revenue family | 5/5 | 100% | Continue to reconciliation |
+| Operating income | 5/5 | 100% | Continue; strongest margin numerator candidate |
+| Inventory | 5/5 | 100% | Continue; instant-fact timing checks required |
+| CapEx | 5/5 | 100% | Continue; derive quarters from YTD only with explicit rules |
+| Direct gross profit | 3/5 | 12.5% | Not universal; conditional/derived mapping only |
+
+Direct `GrossProfit` is absent for PG and WMT and appears for only four fiscal labels for COST. The
+project must not declare standardized gross margin across the cohort without a validated
+revenue-minus-cost derivation and company-level reconciliation. Detailed evidence:
+`docs/project/SEC_CONCEPT_COVERAGE.md`.
+
 ### Capacity
 
 - No big-data infrastructure is justified.

@@ -1,4 +1,14 @@
 stages:
+  sec_coverage:
+    cmd: python -m cnbr sec-coverage --config configs/data/sec_concept_coverage.yaml
+    deps:
+      - configs/data/sec_concept_coverage.yaml
+      - data/raw/sec/feasibility-2026-09-05
+      - src/cnbr/config.py
+      - src/cnbr/financials
+    outs:
+      - reports/tables/sec_concept_coverage.csv
+      - reports/tables/sec_concept_coverage.json
   sec_spike:
     cmd: python -m cnbr sec-spike --config configs/data/sec_feasibility_spike.yaml
     deps:

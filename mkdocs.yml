@@ -22,6 +22,7 @@ nav:
       - Capacity estimate: project/CAPACITY_ESTIMATE.md
       - Data source register: project/DATA_SOURCE_REGISTER.md
       - Stage 1 feasibility: project/STAGE_1_FEASIBILITY.md
+      - SEC concept coverage: project/SEC_CONCEPT_COVERAGE.md
       - STRUX permission request: project/STRUX_PERMISSION_REQUEST.md
 docs_dir: docs
 site_dir: site
