@@ -58,3 +58,17 @@ Studio only after defining the annotation interface and codebook decisions.
 After the initial candidate-match pilot, run `configs/data/annotation_controls.yaml` to create a
 small lexical-nonmatch control packet. It measures whether the draft dictionary misses meaningful
 topic language; it is not a model evaluation set.
+
+## Pilot result and decision — 2026-09-06
+
+One reviewer completed 42 local tasks: 24 candidate matches and 18 lexical-nonmatch controls.
+Candidate matches received 23 Yes and 1 No. Controls received 13 No, 3 Yes, and 2 Unsure. The
+control Yes results occurred once each for cost pressure, demand/volume, and portfolio expansion;
+the two Unsure results were cost pressure and supply chain. The candidate-match No was the generic
+`innovation` pattern under portfolio expansion.
+
+Decision: retain `pricing` and `guidance_outlook` as high-precision discovery candidates; retain
+`cost_pressure`, `demand_volume`, and `supply_chain` for a larger pilot with expanded wording;
+keep `portfolio_expansion` explicitly provisional and do not promote generic `innovation` as a
+standalone portfolio-expansion signal. No construct is yet a validated research label, and no
+classifier or outcome analysis may use this pilot as a test set.

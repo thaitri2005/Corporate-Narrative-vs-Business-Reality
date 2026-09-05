@@ -10,7 +10,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 | R-02 | Continuous Consumer Staples coverage is inadequate | Medium | High | Research lead | Coverage-only cohort analysis before hypothesis selection | Open |
 | R-03 | Fiscal/call alignment leaks future information | Medium | Critical | Data engineer | Canonical time spine, golden records, future-invariance tests | Open |
 | R-04 | Cross-company XBRL mappings are inconsistent | High | High | Financial reviewer | Versioned mappings, reconciliation, narrow metrics; direct GrossProfit already fails 5-company coverage | Open/evidence confirmed |
-| R-05 | Taxonomy is ambiguous or imbalanced | High | High | NLP lead | Pilot, hard negatives, merge/remove weak labels | Open |
+| R-05 | Taxonomy is ambiguous or imbalanced | High | High | NLP lead | Pilot found generic `innovation` ambiguity and nonmatch misses; expand pilot before freezing | Open/evidence gathered |
 | R-06 | Small company count weakens inference | High | High | Quantitative lead | Conservative inference, effect sizes, influence analysis | Open |
 | R-07 | Infrastructure consumes research capacity | Medium | Medium | Tech lead | Adoption gates and modular monolith | Mitigated by design |
 | R-08 | Future MkDocs 2 ecosystem changes disrupt docs | Low | Medium | Tech lead | Keep MkDocs 1/Material 9 locked; reassess only during upgrade | Monitoring |

@@ -43,6 +43,10 @@ discovery baseline for six draft Consumer Staples constructs. Its aggregate outp
 non-confirmatory and is not joined to the analytical panel. See `TAXONOMY_DRAFT.md` for collision
 risks, null semantics, and the annotation/benchmark gate required for promotion.
 
+The two local pilot packets yielded 42 single-reviewer judgments. They are sufficient to narrow the
+draft taxonomy and choose the next annotation design, but not to train/evaluate a semantic model or
+freeze labels. Details and the promotion decision are recorded in `TAXONOMY_DRAFT.md`.
+
 ## Financial reconciliation control
 
 `cnbr financial-reconcile` independently recomputes every resolved canonical value from its stored
