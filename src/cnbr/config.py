@@ -358,6 +358,7 @@ class AnnotationPilotConfig(BaseModel):
     call_mappings_path: Path
     lexical_config_path: Path
     tasks_path: Path
+    html_path: Path
     manifest_path: Path
     samples_per_topic: int = Field(default=4, ge=1, le=20)
     excluded_quality_flags: list[str]

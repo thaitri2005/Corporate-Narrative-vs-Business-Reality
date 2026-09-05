@@ -1,6 +1,9 @@
+# ruff: noqa: E501
+
 from __future__ import annotations
 
 import hashlib
+import html
 import json
 import re
 from datetime import UTC, datetime
@@ -19,6 +22,53 @@ def _sha256(path: Path) -> str:
 
 def _task_id(topic_id: str, call_id: str, turn_index: int) -> str:
     return hashlib.sha256(f"{topic_id}|{call_id}|{turn_index}".encode()).hexdigest()
+
+
+def _build_review_html(tasks: list[dict[str, object]]) -> str:
+    cards: list[str] = []
+    for task in tasks:
+        data = cast(dict[str, object], task["data"])
+        task_id = str(data["task_id"])
+        cards.append(
+            '<article data-task-id="'
+            + html.escape(task_id)
+            + '"><h2>'
+            + html.escape(str(data["candidate_topic"]))
+            + "</h2><p>"
+            + html.escape(
+                f"{data['ticker']} · FY{data['fiscal_year']} Q{data['fiscal_quarter']} · {data['view']}"
+            )
+            + "</p><blockquote>"
+            + html.escape(str(data["text"]))
+            + '</blockquote><label><input type="radio" name="'
+            + html.escape(task_id)
+            + '" value="yes"> Yes</label><label><input type="radio" name="'
+            + html.escape(task_id)
+            + '" value="no"> No</label><label><input type="radio" name="'
+            + html.escape(task_id)
+            + '" value="unsure"> Unsure</label><br><textarea placeholder="Optional brief note; do not copy transcript text"></textarea></article>'
+        )
+    task_data = json.dumps(
+        [
+            {
+                "task_id": cast(dict[str, object], task["data"])["task_id"],
+                "candidate_topic": cast(dict[str, object], task["data"])["candidate_topic"],
+            }
+            for task in tasks
+        ]
+    )
+    return (
+        """<!doctype html><html><head><meta charset="utf-8"><title>Annotation pilot</title>
+<style>body{font-family:system-ui;max-width:900px;margin:auto;padding:2rem}article{border-top:1px solid #ccc;padding:1rem 0}blockquote{white-space:pre-wrap;background:#f6f6f6;padding:1rem}label{margin-right:1rem}textarea{width:100%;height:4rem;margin-top:1rem}</style>
+</head><body><h1>Restricted local annotation pilot</h1><p>For each excerpt: does it genuinely discuss the candidate topic? Pick Yes, No, or Unsure. Candidate topics are suggestions, not answers. Export your labels when finished; do not publish this page or copy text into notes.</p><button id="export">Download labels</button>"""
+        + "".join(cards)
+        + """<script>
+const tasks = """
+        + task_data
+        + """;
+document.querySelector('#export').onclick=()=>{const labels=tasks.map(task=>{const card=document.querySelector(`[data-task-id="${task.task_id}"]`);const picked=card.querySelector('input:checked');return {...task,verdict:picked?.value||'',notes:card.querySelector('textarea').value};});const blob=new Blob([JSON.stringify(labels,null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='annotation_pilot_labels.json';link.click();URL.revokeObjectURL(link.href);};
+</script></body></html>"""
+    )
 
 
 def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> dict[str, object]:
@@ -76,10 +126,13 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
     if len(task_ids) != len(set(task_ids)):
         raise ValueError("Annotation pilot task IDs are not unique")
     tasks_path = repo_root / config.tasks_path
+    html_path = repo_root / config.html_path
     manifest_path = repo_root / config.manifest_path
-    tasks_path.parent.mkdir(parents=True, exist_ok=True)
+    for path in (tasks_path, html_path):
+        path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     tasks_path.write_text(json.dumps(tasks, indent=2) + "\n", encoding="utf-8")
+    html_path.write_text(_build_review_html(tasks), encoding="utf-8")
     manifest: dict[str, object] = {
         "schema_version": config.schema_version,
         "taxonomy_version": lexical_config.taxonomy_version,
@@ -90,6 +143,7 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
         "utterances_sha256": _sha256(repo_root / config.utterances_path),
         "call_mappings_sha256": _sha256(repo_root / config.call_mappings_path),
         "tasks_sha256": _sha256(tasks_path),
+        "html_sha256": _sha256(html_path),
         "release_class": "restricted-local-annotation-tasks",
     }
     manifest_path.write_text(

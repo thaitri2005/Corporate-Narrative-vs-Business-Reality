@@ -49,7 +49,8 @@ needed model download approval.
 ## Pilot task packet
 
 `cnbr annotation-pilot --config configs/data/annotation_pilot.yaml` creates a deterministic,
-Label Studio-compatible JSON task packet. It includes draft-topic metadata and text only in ignored
-`data/review/`; the committed manifest records counts, hashes, and the taxonomy revision without
-copying text. Candidate topics are sampling aids, not pre-applied labels. Import the local packet
-into Label Studio only after defining the annotation interface and codebook decisions.
+Label Studio-compatible JSON task packet and a click-through local HTML review page. It includes
+draft-topic metadata and text only in ignored `data/review/`; the committed manifest records counts,
+hashes, and the taxonomy revision without copying text. Candidate topics are sampling aids, not
+pre-applied labels. The local page exports a text-free label JSON; import the task packet into Label
+Studio only after defining the annotation interface and codebook decisions.

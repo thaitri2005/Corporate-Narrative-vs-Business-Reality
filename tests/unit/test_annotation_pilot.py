@@ -46,6 +46,7 @@ def test_annotation_pilot_writes_restricted_tasks_and_text_free_manifest(tmp_pat
         call_mappings_path=Path("data/mappings.parquet"),
         lexical_config_path=Path("lexical.yaml"),
         tasks_path=Path("data/review/tasks.json"),
+        html_path=Path("data/review/tasks.html"),
         manifest_path=Path("reports/manifest.json"),
         samples_per_topic=1,
         excluded_quality_flags=[],
@@ -56,4 +57,5 @@ def test_annotation_pilot_writes_restricted_tasks_and_text_free_manifest(tmp_pat
     assert result["task_count"] == 1
     assert result["release_class"] == "restricted-local-annotation-tasks"
     assert (tmp_path / config.tasks_path).exists()
+    assert (tmp_path / config.html_path).exists()
     assert "Synthetic pricing example" not in (tmp_path / config.manifest_path).read_text()
