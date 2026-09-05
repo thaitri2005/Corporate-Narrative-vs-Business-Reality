@@ -1,4 +1,15 @@
 stages:
+  strux_ingest:
+    cmd: python -m cnbr strux-ingest --config configs/data/strux.yaml
+    deps:
+      - configs/data/strux.yaml
+      - data/curated/company_universe-2026-09-05.parquet
+      - src/cnbr/config.py
+      - src/cnbr/sources/strux.py
+    outs:
+      - data/raw/strux
+      - data/interim/strux-consumer-staples-2026-09-05.parquet
+      - data/interim/strux-consumer-staples-2026-09-05.manifest.json
   sec_filing_index:
     cmd: python -m cnbr sec-filing-index --config configs/data/sec_filing_index.yaml
     deps:
@@ -24,7 +35,8 @@ stages:
     deps:
       - configs/data/sec_feasibility_spike.yaml
       - src/cnbr/config.py
-      - src/cnbr/sources
+      - src/cnbr/sources/sec.py
+      - src/cnbr/sources/sec_acquisition.py
     outs:
       - data/raw/sec/feasibility-2026-09-05
       - data/raw/sec/feasibility-2026-09-05.manifest.json

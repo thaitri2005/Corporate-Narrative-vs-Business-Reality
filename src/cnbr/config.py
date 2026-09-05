@@ -137,6 +137,32 @@ class SecFilingIndexConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class StruxSourceFile(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    url: str
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    raw_path: Path
+
+
+class StruxIngestionConfig(BaseModel):
+    """Restricted local STRUX acquisition and universe-filter configuration."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    source_revision: str
+    sources: list[StruxSourceFile] = Field(min_length=1)
+    universe_path: Path
+    output_path: Path
+    manifest_path: Path
+    rights_policy: str = "personal-local-risk-accepted"
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -165,3 +191,9 @@ def load_sec_filing_index_config(path: Path) -> SecFilingIndexConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return SecFilingIndexConfig.model_validate(raw)
+
+
+def load_strux_ingestion_config(path: Path) -> StruxIngestionConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return StruxIngestionConfig.model_validate(raw)

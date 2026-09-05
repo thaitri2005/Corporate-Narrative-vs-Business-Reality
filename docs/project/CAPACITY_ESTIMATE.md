@@ -90,14 +90,18 @@ These totals include environment/model caches, raw/interim/curated/feature layer
 - **GPU:** Not required for Stage 1–3 or classical baselines. For BERT-class fine-tuning, 8 GB VRAM is a constrained minimum; **12–16 GB VRAM** is more comfortable with mixed precision and modest batches. Renting short batch jobs is preferable to purchasing hardware before the model-adoption gate.
 - **Network:** Initial STRUX download is roughly 343 MB according to the current dataset page. Model downloads are commonly 0.1–2 GB each. SEC requests should be cached and rate-policy compliant.
 
+Measured Stage 1 acquisition uses only the two `full` shards: 295,339,860 bytes (~281.7 MiB) raw.
+Filtering to the 34-company universe yields 549 calls in 8,884,666 bytes (~8.47 MiB), confirming
+that transcript storage is not a hardware constraint. DVC caching may retain another raw copy.
+
 ## 8. Annotation workload
 
 Data size is small; human review is heavier than storage. A 1,500–4,000 chunk labeled set with overlap for double annotation is a plausible starting range. At roughly 30–75 seconds per chunk including decisions, annotation represents approximately 20–85 first-pass hours before training, adjudication, and codebook revision. The taxonomy pilot must measure actual throughput.
 
 ## 9. Capacity controls
 
-- After explicit permission/license is retained, download STRUX once, filter locally, and verify
-  duplicate split semantics. Until then, do not acquire transcript content.
+- Download only the two pinned `full` STRUX shards (approximately 295 MB), verify their hashes,
+  filter locally, and avoid the overlapping train/test views.
 - Store durable tables as compressed Parquet.
 - Reuse one frozen embedding artifact across model comparisons when valid.
 - Retain best/final checkpoints and evaluation artifacts; delete redundant recoverable checkpoints under a documented policy.

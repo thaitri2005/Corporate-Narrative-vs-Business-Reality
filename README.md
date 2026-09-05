@@ -26,10 +26,13 @@ uv sync --extra pipeline
 uv run --extra pipeline dvc repro synthetic
 ```
 
-The synthetic fixture contains no real company or transcript data. Real and licensed data belongs under ignored/DVC-managed data paths and must satisfy the source-rights review before ingestion.
+The synthetic fixture contains no real company or transcript data. Real data belongs under
+ignored/DVC-managed paths. STRUX is restricted to private local portfolio analysis because its
+published repository has no explicit license; raw or reconstructable transcript content is not a
+release artifact and must not be sent to external services.
 
 ## Current status
 
 Stage 0 is locally complete. Stage 1 has frozen a 34-company, commit-pinned Consumer Staples
-sampling frame and implemented a mocked SEC adapter. STRUX acquisition awaits explicit permission;
-live SEC feasibility requests await an owner-approved identifying User-Agent and API-use approval.
+sampling frame, completed a five-company SEC acquisition/coverage spike, and approved a bounded,
+checksum-verified STRUX ingestion under the private/local-use constraint.

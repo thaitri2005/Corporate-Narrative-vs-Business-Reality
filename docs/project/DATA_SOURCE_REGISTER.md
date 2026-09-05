@@ -7,7 +7,7 @@ No source may move from `candidate` to `approved` until acquisition, storage, tr
 
 | ID | Source | Intended use | Access | License/terms status | Data class | Current decision |
 |---|---|---|---|---|---|---|
-| SRC-001 | STRUX Transcripts on Hugging Face | Prepared remarks, Q&A, participants, dates | Public download | No explicit dataset license found in current card/repository metadata; upstream text attributed to Motley Fool | Restricted pending review | Candidate; metadata inspection only, no corpus download yet |
+| SRC-001 | STRUX Transcripts on Hugging Face | Prepared remarks, Q&A, participants, dates | Public download | No explicit dataset license found; upstream text attributed to Motley Fool; owner accepted risk only for private/local personal portfolio analysis | Restricted local | Approved with constraints: pinned/checksummed acquisition; no external API, raw/reconstructable release, or license claim |
 | SRC-002 | STRUX project site/paper | Corpus documentation, counts, methodology | Public web/paper | Publication citation applies; not evidence of transcript redistribution rights | Public metadata | Approved for documentation |
 | SRC-003 | SEC EDGAR submissions API | Filing history, accepted timestamps, accession records | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Approved for feasibility ingestion; proposed primary source |
 | SRC-004 | SEC Company Facts/XBRL API | Quarterly standardized financial facts | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Approved for feasibility ingestion; proposed primary source pending concept audit |
@@ -41,6 +41,25 @@ Published split metadata reports:
 | `full` | 11,411 | 588,031,777 |
 
 The combined published download is approximately 343 MB. Train/test appear to be selected evaluation subsets alongside the full corpus; overlap must be tested before using any split counts as unique calls.
+
+The implemented acquisition uses only the two `full` shards at upstream revision
+`8c3d39f2d70a8fa2d619f8c7bef9176efcb89520` (approximately 295 MB on the repository file page),
+verifies their published SHA-256 values, and filters them locally. It intentionally does not
+download the overlapping `train` and `test` views.
+
+The verified raw files total 295,339,860 bytes (~281.7 MiB). Local universe filtering retains 549
+calls and all 34 Consumer Staples tickers in an 8,884,666-byte (~8.47 MiB) Parquet. There are no
+duplicate ticker/date rows; 28 companies have at least 12 calls. These are acquisition-level checks,
+not yet proof of fiscal alignment or transcript semantic quality.
+
+### SRC-001 approved controls
+
+- Purpose is limited to the owner's private personal/CV portfolio analysis.
+- Raw source and filtered transcript rows remain ignored by Git and locally DVC-managed.
+- No transcript content is sent to third-party APIs or cloud processing services.
+- No raw, excerpted, row-level, or reconstructable transcript data is published.
+- Public outputs are limited to code, attribution/provenance, methods, and non-reconstructable aggregates.
+- The absent license remains an open risk; expanded/team/commercial use requires a new decision.
 
 ## SRC-003/004 implemented controls
 

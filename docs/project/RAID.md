@@ -6,7 +6,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 
 | ID | Risk | Likelihood | Impact | Owner role | Response | Status |
 |---|---|---:|---:|---|---|---|
-| R-01 | STRUX rights do not permit intended processing or release | Medium | Critical | Data steward | Rights review before acquisition/scale; source adapter fallback | Open |
+| R-01 | STRUX has no explicit license for intended processing or release | Medium | Critical if scope expands | Project owner | Owner accepted private/local portfolio risk; prohibit external APIs and raw/reconstructable release; adapter fallback before expanded use | Accepted/monitored |
 | R-02 | Continuous Consumer Staples coverage is inadequate | Medium | High | Research lead | Coverage-only cohort analysis before hypothesis selection | Open |
 | R-03 | Fiscal/call alignment leaks future information | Medium | Critical | Data engineer | Canonical time spine, golden records, future-invariance tests | Open |
 | R-04 | Cross-company XBRL mappings are inconsistent | High | High | Financial reviewer | Versioned mappings, reconciliation, narrow metrics; direct GrossProfit already fails 5-company coverage | Open/evidence confirmed |

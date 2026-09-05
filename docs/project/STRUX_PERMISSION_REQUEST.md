@@ -1,9 +1,13 @@
 # STRUX transcript-dataset permission request
 
-> Status: Draft ready for project owner to send  
+> Status: Archived; not required for the currently approved private/local portfolio scope
 > Recipient: Yiming Lu, STRUX author/dataset publisher  
 > Public professional contact located: `yiming.lu@emory.edu`  
 > Do not record permission as granted until a written response and its scope are retained.
+
+The project owner chose on 2026-09-05 to proceed without sending this request, accepting the
+unresolved license risk only for private local analysis. This draft is retained as the ready path
+if publication scope expands; no permission has been requested or granted.
 
 ## Draft email
 

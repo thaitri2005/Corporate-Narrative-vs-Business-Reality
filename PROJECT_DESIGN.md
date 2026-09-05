@@ -57,8 +57,9 @@ The thesis is to convert changes in what Consumer Staples companies say into str
 - Start from a point-in-time snapshot of S&P 500 constituents classified as GICS Consumer
   Staples, then select approximately 15–30 companies using predeclared coverage and quality rules.
 - Preferably 12–20+ usable quarterly calls per company.
-- STRUX as a gated candidate transcript source: no transcript acquisition until explicit
-  research-use permission or usable license terms are retained in the source register.
+- STRUX as a restricted, local-only transcript source for this personal portfolio project. Its
+  absent license remains a recorded risk: never publish raw/reconstructable text or send it to an
+  external model/API; publish code, provenance, and non-reconstructable aggregate results only.
 - Company × fiscal quarter as the canonical observation.
 - Management prepared remarks, management answers, and analyst questions separated.
 - Roughly 10–15 economically meaningful topics.
@@ -585,7 +586,7 @@ Do not rank truthfulness or infer intent. Present NLP as imperfect measurement. 
 | D-007 | Polars primary; DuckDB verification | Proposed | Complementary roles on common format | Benchmark/team evidence differs |
 | D-008 | DVC lineage, optional and cache-isolated | Accepted with mitigation | Research DAG and artifact versioning; keep untrusted writers away from cache | Patched dependency, security posture change, or safer equivalent |
 | D-009 | MLflow tracking | Proposed | Standard experiment lineage | Cost exceeds benefit |
-| D-010 | STRUX candidate source | Proposed | Structured roles and intended scale | Rights/quality/coverage fail |
+| D-010 | STRUX restricted local source for owner-accepted personal use | Accepted with constraints | Structured roles, modest size, and portfolio value; no license is asserted | Quality/coverage fails, intended use expands, or redistribution becomes necessary |
 | D-011 | SEC XBRL primary financial source | Proposed | Primary-source provenance | Outcome coverage fails |
 | D-012 | Baselines before complexity | Accepted | Proves incremental value | Not expected |
 | D-013 | No dashboard in core v1 | Accepted | Research system/report are primary | User evidence establishes need |
@@ -593,6 +594,7 @@ Do not rank truthfulness or infer intent. Present NLP as imperfect measurement. 
 | D-015 | Point-in-time S&P 500 GICS Consumer Staples universe from the ODC-PDDL Data Package | Accepted | Reproducible, openly licensed, supplies CIK and standard sector labels | Historical-membership source becomes necessary or source/license changes |
 | D-016 | Local-first resource envelope and approval gate | Accepted | Keeps the project viable on ordinary hardware and prevents unapproved external processing/cost | Owner approves a measured exception |
 | D-017 | Three-worker, 8-request/second SEC acquisition with file manifests | Accepted | Reliable and resumable at 34-company scale without a metadata database | Scale or multi-process coordination invalidates file-level checkpointing |
+| D-018 | Pin and checksum the two non-overlapping STRUX `full` shards, then filter locally | Accepted | Reproducible acquisition without double-counting train/test views | Upstream revision/schema changes or a licensed replacement is selected |
 
 Full ADRs record context, drivers, alternatives, decision, consequences, validation, and rollback.
 
@@ -600,7 +602,7 @@ Full ADRs record context, drivers, alternatives, decision, consequences, validat
 
 ## 13. Open design questions
 
-- STRUX usage and redistribution rights.
+- Long-term STRUX replacement or explicit licensing if project use expands beyond private portfolio analysis.
 - Final eligible company cohort.
 - Primary mechanism after coverage-only review.
 - Cross-company SEC gross-margin and CapEx comparability.

@@ -25,7 +25,9 @@ The brief proposes STRUX for structured calls and requires quarterly financial f
 
 ## Proposed decision
 
-Treat STRUX as a candidate, not a commitment. Use SEC EDGAR submissions/XBRL as the primary standardized financial source, company filings for verification/operating metrics, and licensed sources only through explicit adapters.
+Treat STRUX as a restricted local transcript source under ADR-007, not a generally licensed asset.
+Use SEC EDGAR submissions/XBRL as the primary standardized financial source, company filings for
+verification/operating metrics, and other licensed sources only through explicit adapters.
 
 ## Consequences
 
@@ -33,4 +35,6 @@ Stage 1 begins with rights and coverage diligence. Providers remain separate, re
 
 ## Validation and rollback
 
-Accept only if Stage 1 license, coverage, role-quality, fiscal-mapping, and financial-concept audits pass. Otherwise switch the affected adapter or revise scope through another ADR.
+Retain only if Stage 1 coverage, role-quality, fiscal-mapping, and financial-concept audits pass.
+The absent STRUX license is handled by the private/local boundary in ADR-007; broader use requires a
+licensed replacement or written permission.

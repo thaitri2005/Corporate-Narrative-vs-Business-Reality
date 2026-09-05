@@ -18,7 +18,10 @@ Determine whether the intended Consumer Staples study is legally usable, suffici
 - No explicit license identifier or usable redistribution terms were found in the current dataset card metadata reviewed on 2026-09-05.
 - The card states “More Information needed,” and the project describes Motley Fool as the transcript source.
 
-**Interim ruling:** metadata/documentation review may continue. Do not download, process, send to external models, or redistribute transcript content until rights are clarified.
+**Ruling:** on 2026-09-05 the project owner explicitly accepted the unresolved license risk for this
+private personal/CV project. Local download and transformation are allowed for the project; raw or
+reconstructable text must stay out of Git/public releases and external APIs. This is a project risk
+decision, not a claim that a license or redistribution permission exists.
 
 ### Financial source
 
@@ -83,7 +86,13 @@ revenue-minus-cost derivation and company-level reconciliation. Detailed evidenc
 ### Capacity
 
 - No big-data infrastructure is justified.
-- The Consumer Staples subset should be tens of megabytes of text, with total ordinary working storage approximately 2–5 GB before transformer checkpoints.
+- The two verified `full` shards total 295,339,860 bytes (~281.7 MiB); the locally filtered
+  Consumer Staples Parquet is 8,884,666 bytes (~8.47 MiB).
+- The filtered data contains 549 calls across all 34 universe tickers, with zero duplicate
+  ticker/date rows and no empty participant, prepared-remarks, or Q&A lists.
+- Company coverage ranges from 5 to 27 calls (median 15); 28 companies have at least 12 calls and
+  17 have at least 16. The target cohort is therefore feasible, subject to fiscal and content QA.
+- Total ordinary working storage remains approximately 2–5 GB before transformer checkpoints.
 - Detailed estimate: `docs/project/CAPACITY_ESTIMATE.md`.
 
 ### Company-universe implementation
@@ -111,10 +120,11 @@ revenue-minus-cost derivation and company-level reconciliation. Detailed evidenc
 
 ### DEC-S1-01 — STRUX rights path
 
-**Accepted 2026-09-05:** request explicit research-use permission/license from the dataset authors
-before downloading. Continue all non-transcript work in parallel. If permission is declined or
-remains materially ambiguous at the M1 gate, evaluate a clearly licensed replacement through an
-adapter rather than silently weakening the control.
+**Accepted 2026-09-05, superseding the earlier permission-first choice:** use STRUX for private,
+local portfolio research under explicit owner risk acceptance. Do not send text to external APIs or
+release raw, excerpted, row-level, or otherwise reconstructable transcript content. Publish only
+pipeline code, source attribution/provenance, methodology, and non-reconstructable aggregates. A
+licensed replacement or written permission is required before broader use.
 
 Alternatives:
 
@@ -135,24 +145,25 @@ Alternative: derive an industry universe from public SEC SIC codes. This avoids 
 
 ### DEC-S1-03 — SEC request identity
 
-**Pending user input:** the SEC client needs a truthful user-agent containing a name/organization
-and contact email. This is runtime configuration and must not be committed as a secret or
-placeholder in real requests. The adapter rejects placeholder identities and live SEC acquisition
-remains disabled; mocked implementation and tests may proceed.
+**Accepted 2026-09-05:** the project owner supplied a monitored contact email and approved read-only
+SEC API use. The identifying User-Agent is supplied at runtime and is not committed. The adapter
+rejects missing/placeholder identities; the five-company live acquisition completed within the
+three-worker and 8-request-starts/second limits.
 
-## Work that can continue while SEC identity and STRUX permission are pending
+## Work proceeding under the accepted controls
 
 - Extend the implemented/tested SEC adapter into cached, rate-controlled acquisition.
 - Extend the implemented universe registry into effective-dated identity and fiscal-period contracts.
 - Create coverage-report schemas and commands.
-- Prepare transcript adapter interfaces without acquiring text.
+- Acquire the two pinned STRUX `full` shards, verify hashes, and filter locally.
 - Develop the literature/construct evidence matrix.
 
 ## Gate evidence remaining
 
-- Approved transcript rights path.
+- STRUX restricted-use decision and machine-enforced local acquisition path.
 - Versioned Consumer Staples universe artifact and manifest.
-- STRUX Consumer Staples call coverage matrix.
+- Detailed STRUX fiscal-quarter mapping and content-quality matrix (basic coverage passed: 549 calls,
+  34/34 tickers, 28 with at least 12 calls).
 - Multi-company SEC concept/period reconciliation.
 - Candidate primary-mechanism coverage scorecard.
 - Revised effort and risk estimate.

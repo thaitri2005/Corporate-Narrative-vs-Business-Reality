@@ -91,7 +91,7 @@ The implementation must not add these merely because tooling makes them easy:
 
 | ID | Assumption | Validation point | If false |
 |---|---|---|---|
-| A-01 | STRUX can be accessed and legally used for the intended transformations | M1 | No acquisition before explicit permission/license; switch transcript adapter/source if declined or unclear |
+| A-01 | Owner accepts the unresolved STRUX license risk for private, local portfolio analysis | M1 | Keep raw/reconstructable data private; prohibit external processing and switch source if use expands |
 | A-02 | At least 15 companies have roughly 12 usable calls | M1 | Reduce inference scope, extend time, or reconsider industry only through ADR |
 | A-03 | Speaker roles and call sections can be normalized reliably | M1/M2 | Exclude weak records, add manual mapping, or restrict signal sections |
 | A-04 | SEC filings cover core GAAP outcomes | M1/M2 | Add licensed source or narrow outcomes |
@@ -502,7 +502,7 @@ Acceptance:
 
 Tasks:
 
-- WP03-01 Record STRUX license, access, schema, field definitions, provenance, and redistribution rules.
+- WP03-01 Record STRUX's absent license, owner risk acceptance, local-use boundary, schema, pinned provenance, and no-redistribution rule.
 - WP03-02 Inspect sample records across years, firms, prepared remarks, and Q&A.
 - WP03-03 Measure transcript completeness, language, length, role coverage, duplicates, and gaps.
 - WP03-04 Select and document Consumer Staples classification source.
@@ -1256,8 +1256,8 @@ An implementation issue is ready when:
 
 ### Iteration 1 — Prove feasibility
 
-1. Request explicit STRUX research-use permission and complete the rights/data-sheet review; do not acquire transcript text before approval.
-2. Build metadata-only company/call coverage report.
+1. Acquire only the pinned STRUX `full` shards, verify SHA-256, keep them local/DVC-managed, and filter to the approved universe.
+2. Build the company/call coverage and quality report without analyzing outcomes.
 3. Materialize the approved point-in-time S&P 500 GICS Consumer Staples snapshot and map identifiers.
 4. Spike SEC facts for 3–5 diverse companies.
 5. Audit fiscal mapping and core metric reconciliation.

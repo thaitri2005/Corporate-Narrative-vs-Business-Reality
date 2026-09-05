@@ -10,6 +10,7 @@ nav:
       - DVC cache security: adr/ADR-004-dvc-cache-security.md
       - Consumer Staples universe: adr/ADR-005-consumer-staples-universe.md
       - SEC acquisition: adr/ADR-006-sec-acquisition-reliability.md
+      - STRUX restricted local use: adr/ADR-007-strux-restricted-local-use.md
   - Runbooks:
       - Development: runbooks/development.md
   - Data contracts:
@@ -23,6 +24,6 @@ nav:
       - Data source register: project/DATA_SOURCE_REGISTER.md
       - Stage 1 feasibility: project/STAGE_1_FEASIBILITY.md
       - SEC concept coverage: project/SEC_CONCEPT_COVERAGE.md
-      - STRUX permission request: project/STRUX_PERMISSION_REQUEST.md
+      - Archived STRUX permission request: project/STRUX_PERMISSION_REQUEST.md
 docs_dir: docs
 site_dir: site
