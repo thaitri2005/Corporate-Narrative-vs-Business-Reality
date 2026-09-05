@@ -11,6 +11,7 @@ from cnbr.config import (
     load_sec_spike_config,
     load_strux_ingestion_config,
     load_synthetic_config,
+    load_transcript_audit_config,
     load_universe_config,
 )
 from cnbr.financials import build_concept_coverage, build_filing_index
@@ -18,6 +19,7 @@ from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import ingest_strux_subset, run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
+from cnbr.transcripts import build_transcript_audit
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -45,6 +47,10 @@ def build_parser() -> argparse.ArgumentParser:
         "strux-ingest", help="Acquire and locally filter the restricted STRUX full split"
     )
     strux.add_argument("--config", type=Path, required=True)
+    transcript_audit = subparsers.add_parser(
+        "transcript-audit", help="Profile local transcript coverage and structural quality"
+    )
+    transcript_audit.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -78,3 +84,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         strux_config = load_strux_ingestion_config(config_path)
         ingest_strux_subset(strux_config, Path.cwd().resolve())
+    elif args.command == "transcript-audit":
+        config_path = args.config.resolve()
+        audit_config = load_transcript_audit_config(config_path)
+        build_transcript_audit(audit_config, Path.cwd().resolve())

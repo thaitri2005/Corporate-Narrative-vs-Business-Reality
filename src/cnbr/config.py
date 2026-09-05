@@ -163,6 +163,23 @@ class StruxIngestionConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class TranscriptAuditConfig(BaseModel):
+    """Local transcript coverage and structural-quality audit configuration."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    input_path: Path
+    call_detail_path: Path
+    company_summary_path: Path
+    manifest_path: Path
+    minimum_calls: int = Field(default=12, ge=1)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -197,3 +214,9 @@ def load_strux_ingestion_config(path: Path) -> StruxIngestionConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return StruxIngestionConfig.model_validate(raw)
+
+
+def load_transcript_audit_config(path: Path) -> TranscriptAuditConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return TranscriptAuditConfig.model_validate(raw)

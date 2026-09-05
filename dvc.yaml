@@ -1,4 +1,15 @@
 stages:
+  transcript_audit:
+    cmd: python -m cnbr transcript-audit --config configs/data/audit.yaml
+    deps:
+      - configs/data/audit.yaml
+      - data/interim/strux-consumer-staples-2026-09-05.parquet
+      - src/cnbr/config.py
+      - src/cnbr/transcripts/audit.py
+    outs:
+      - reports/tables/strux_call_quality.csv
+      - reports/tables/strux_company_coverage.csv
+      - reports/tables/strux_transcript_audit.json
   strux_ingest:
     cmd: python -m cnbr strux-ingest --config configs/data/strux.yaml
     deps:

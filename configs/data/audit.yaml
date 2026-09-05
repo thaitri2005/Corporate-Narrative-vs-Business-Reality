@@ -1,0 +1,6 @@
+schema_version: "1.0"
+input_path: data/interim/strux-consumer-staples-2026-09-05.parquet
+call_detail_path: reports/tables/strux_call_quality.csv
+company_summary_path: reports/tables/strux_company_coverage.csv
+manifest_path: reports/tables/strux_transcript_audit.json
+minimum_calls: 12

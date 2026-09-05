@@ -1,13 +1,13 @@
 schema_version: "1.0"
-source_revision: 8c3d39f2d70a8fa2d619f8c7bef9176efcb89520
+source_revision: 8c3d39f2d70a8fa2d619f8c7bef9176efcb89520  # pragma: allowlist secret
 rights_policy: personal-local-risk-accepted
 universe_path: data/curated/company_universe-2026-09-05.parquet
 output_path: data/interim/strux-consumer-staples-2026-09-05.parquet
 manifest_path: data/interim/strux-consumer-staples-2026-09-05.manifest.json
 sources:
   - url: https://huggingface.co/datasets/BUILDERlym/STRUX-Transcripts/resolve/8c3d39f2d70a8fa2d619f8c7bef9176efcb89520/data/full-00000-of-00002.parquet
-    sha256: 151c812942bb100218c4e521a943d5bd5e54cf5db93b0e90e330883ab482499a
+    sha256: 151c812942bb100218c4e521a943d5bd5e54cf5db93b0e90e330883ab482499a  # pragma: allowlist secret
     raw_path: data/raw/strux/full-00000-of-00002.parquet
   - url: https://huggingface.co/datasets/BUILDERlym/STRUX-Transcripts/resolve/8c3d39f2d70a8fa2d619f8c7bef9176efcb89520/data/full-00001-of-00002.parquet
-    sha256: 3576078ccf98364a149fc0bc7d335d2c92a4d2250535665e302f97ddc91fb68f
+    sha256: 3576078ccf98364a149fc0bc7d335d2c92a4d2250535665e302f97ddc91fb68f  # pragma: allowlist secret
     raw_path: data/raw/strux/full-00001-of-00002.parquet

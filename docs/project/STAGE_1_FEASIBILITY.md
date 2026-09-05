@@ -92,8 +92,14 @@ revenue-minus-cost derivation and company-level reconciliation. Detailed evidenc
   ticker/date rows and no empty participant, prepared-remarks, or Q&A lists.
 - Company coverage ranges from 5 to 27 calls (median 15); 28 companies have at least 12 calls and
   17 have at least 16. The target cohort is therefore feasible, subject to fiscal and content QA.
+- Coverage is temporally uneven: 15 companies end in 2021, five in 2022, and 14 reach 2024. Only 12
+  both meet the 12-call threshold and reach 2024. A balanced 2017–2024 panel is not supported as-is;
+  the cohort/window/supplemental-source choice remains open until the coverage gate.
+- The corpus contains approximately 5.17 million whitespace-delimited words (median 9,425 per call),
+  confirming that local CPU preprocessing is viable.
 - Total ordinary working storage remains approximately 2–5 GB before transformer checkpoints.
 - Detailed estimate: `docs/project/CAPACITY_ESTIMATE.md`.
+- Transcript audit: `docs/project/STRUX_COVERAGE.md`.
 
 ### Company-universe implementation
 

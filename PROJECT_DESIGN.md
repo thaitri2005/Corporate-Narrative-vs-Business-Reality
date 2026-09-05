@@ -57,6 +57,8 @@ The thesis is to convert changes in what Consumer Staples companies say into str
 - Start from a point-in-time snapshot of S&P 500 constituents classified as GICS Consumer
   Staples, then select approximately 15–30 companies using predeclared coverage and quality rules.
 - Preferably 12–20+ usable quarterly calls per company.
+- Use an explicitly documented unbalanced-panel or revised-window rule because observed STRUX
+  endpoints are uneven; do not imply uniform 2017–2024 coverage.
 - STRUX as a restricted, local-only transcript source for this personal portfolio project. Its
   absent license remains a recorded risk: never publish raw/reconstructable text or send it to an
   external model/API; publish code, provenance, and non-reconstructable aggregate results only.
