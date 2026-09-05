@@ -29,7 +29,8 @@ path, so file existence plus validation and the DVC/JSON manifests provide adequ
 
 ## Consequences
 
-- Ten endpoint artifacts for five companies were acquired successfully using approximately 19.9 MiB.
+- Thirteen artifacts for five companies were acquired successfully using approximately 20.8 MiB,
+  including only three submission-history shards whose provider-declared ranges overlap the study.
 - Worker count and request rate are schema-validated hard limits, not operator suggestions.
 - User-Agent identity remains in runtime configuration; only its SHA-256 enters the ignored raw
   manifest.

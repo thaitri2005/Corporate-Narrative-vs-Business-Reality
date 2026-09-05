@@ -50,7 +50,8 @@ The combined published download is approximately 343 MB. Train/test appear to be
 - Bounded retries for 429/5xx responses with exponential/`Retry-After` backoff.
 - JSON-object validation, same-directory atomic replacement, SHA-256, partial-failure manifest, and
   valid-file resume behavior.
-- Five-company spike completed with 10/10 artifacts and 20,894,726 bytes.
+- Five-company spike completed with 13/13 artifacts and 21,842,180 bytes: ten main endpoint
+  responses plus three provider-declared submission-history shards overlapping 2017–2024.
 
 ## Approval checklist
 

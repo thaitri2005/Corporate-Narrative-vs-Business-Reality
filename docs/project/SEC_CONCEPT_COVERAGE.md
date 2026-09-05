@@ -57,3 +57,10 @@ JSON contains the resolved configuration hash and SHA-256 of every Company Facts
 4. Reconcile a manual golden sample to filed statements for all five companies.
 5. Decide whether operating margin becomes the common margin outcome and where company-specific
    gross-margin mappings remain defensible.
+
+## Filing-spine evidence
+
+The submissions audit combines the main recent arrays with only overlapping provider-declared
+history shards. It yields 170 unique filings: 32 base 10-K/10-Q filings per company plus 10
+amendments. This closes the apparent PG/WMT/KO history gaps seen when only `filings.recent` was read.
+The resulting Parquet and JSON summary are produced by `cnbr sec-filing-index` and tracked in DVC.

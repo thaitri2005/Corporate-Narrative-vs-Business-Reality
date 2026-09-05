@@ -16,7 +16,26 @@ def test_sec_spike_is_atomic_hashed_and_resumable(tmp_path: Path) -> None:
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request.url.path)
-        return httpx.Response(200, json={"source": request.url.path}, request=request)
+        if request.url.path == "/submissions/CIK0000021344.json":
+            payload = {
+                "filings": {
+                    "files": [
+                        {
+                            "name": "CIK0000021344-submissions-001.json",
+                            "filingFrom": "2010-01-01",
+                            "filingTo": "2018-01-01",
+                        },
+                        {
+                            "name": "CIK0000021344-submissions-002.json",
+                            "filingFrom": "2000-01-01",
+                            "filingTo": "2009-12-31",
+                        },
+                    ]
+                }
+            }
+        else:
+            payload = {"source": request.url.path}
+        return httpx.Response(200, json=payload, request=request)
 
     config = SecSpikeConfig.model_validate(
         {
@@ -24,6 +43,8 @@ def test_sec_spike_is_atomic_hashed_and_resumable(tmp_path: Path) -> None:
             "max_workers": 2,
             "requests_per_second": 8,
             "max_attempts": 2,
+            "study_start": "2017-01-01",
+            "study_end": "2024-12-31",
             "output_dir": "data/raw/sec/test",
             "manifest_path": "data/raw/sec/test.manifest.json",
         }
@@ -40,9 +61,9 @@ def test_sec_spike_is_atomic_hashed_and_resumable(tmp_path: Path) -> None:
             config, tmp_path, "CNBR Research team@organization.org", client=client
         )
 
-    assert len(requests) == 2
-    assert first["artifact_count"] == 2
-    assert second["artifact_count"] == 2
+    assert len(requests) == 3
+    assert first["artifact_count"] == 3
+    assert second["artifact_count"] == 3
     artifacts = cast(list[dict[str, object]], second["artifacts"])
     assert {artifact["disposition"] for artifact in artifacts} == {"cached"}
     assert not list(tmp_path.rglob("*.tmp"))

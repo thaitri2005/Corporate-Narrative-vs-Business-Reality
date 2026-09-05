@@ -12,6 +12,7 @@ import httpx
 SEC_BASE_URL: Final[str] = "https://data.sec.gov"
 EMAIL_PATTERN: Final[re.Pattern[str]] = re.compile(r"\b[^\s@]+@[^\s@]+\.[^\s@]+\b")
 PLACEHOLDERS: Final[tuple[str, ...]] = ("example.com", "your name", "researcher name")
+HISTORY_FILE_PATTERN: Final[re.Pattern[str]] = re.compile(r"^CIK\d{10}-submissions-\d{3}\.json$")
 RETRYABLE_STATUS: Final[set[int]] = {429, 500, 502, 503, 504}
 
 
@@ -81,6 +82,16 @@ class SecClient:
             path = f"/api/xbrl/companyfacts/CIK{normalized_cik}.json"
         else:
             raise ValueError(f"Unsupported SEC artifact kind: {kind!r}")
+        response = self._get(path)
+        payload = response.json()
+        if not isinstance(payload, dict):
+            raise ValueError(f"Expected a JSON object from SEC endpoint {path}")
+        return str(response.url), response.content
+
+    def submission_history_bytes(self, filename: str) -> tuple[str, bytes]:
+        if HISTORY_FILE_PATTERN.fullmatch(filename) is None:
+            raise ValueError(f"Invalid SEC submission-history filename: {filename!r}")
+        path = f"/submissions/{filename}"
         response = self._get(path)
         payload = response.json()
         if not isinstance(payload, dict):

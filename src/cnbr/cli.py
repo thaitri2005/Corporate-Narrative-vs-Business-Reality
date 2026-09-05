@@ -7,11 +7,12 @@ from pathlib import Path
 
 from cnbr.config import (
     load_sec_coverage_config,
+    load_sec_filing_index_config,
     load_sec_spike_config,
     load_synthetic_config,
     load_universe_config,
 )
-from cnbr.financials import build_concept_coverage
+from cnbr.financials import build_concept_coverage, build_filing_index
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import run_sec_spike
@@ -35,6 +36,10 @@ def build_parser() -> argparse.ArgumentParser:
         "sec-coverage", help="Measure local SEC Company Facts concept availability"
     )
     sec_coverage.add_argument("--config", type=Path, required=True)
+    filing_index = subparsers.add_parser(
+        "sec-filing-index", help="Build the local SEC filing and acceptance-time spine"
+    )
+    filing_index.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -60,3 +65,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         coverage_config = load_sec_coverage_config(config_path)
         build_concept_coverage(coverage_config, Path.cwd().resolve())
+    elif args.command == "sec-filing-index":
+        config_path = args.config.resolve()
+        filing_config = load_sec_filing_index_config(config_path)
+        build_filing_index(filing_config, Path.cwd().resolve())

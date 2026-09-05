@@ -13,12 +13,12 @@ stages:
       size: 65
     - path: src/cnbr/cli.py
       hash: md5
-      md5: 60e1e0e15bc602795928832f301cdfc9
-      size: 2567
+      md5: c73d2af510e5b8ba81913f7a7f765dae
+      size: 3044
     - path: src/cnbr/config.py
       hash: md5
-      md5: 56fe87b695a97ef7fba11122d349e3c5
-      size: 4100
+      md5: 242aaccc32d6bc0bebfbe10f51dde6f3
+      size: 5308
     - path: src/cnbr/logging.py
       hash: md5
       md5: 0db16ad957d085f020e18e930c38c87a
@@ -62,8 +62,8 @@ stages:
       size: 549
     - path: src/cnbr/config.py
       hash: md5
-      md5: 56fe87b695a97ef7fba11122d349e3c5
-      size: 4100
+      md5: 242aaccc32d6bc0bebfbe10f51dde6f3
+      size: 5308
     - path: src/cnbr/registry
       hash: md5
       md5: 552af0294913a3fce7b481a83a8ea155.dir
@@ -88,27 +88,27 @@ stages:
     deps:
     - path: configs/data/sec_feasibility_spike.yaml
       hash: md5
-      md5: e953ed419cc16aabce0696dbb95be489
-      size: 660
+      md5: 21a6ca0214ca14fdd6fe048b90ce3e1e
+      size: 706
     - path: src/cnbr/config.py
       hash: md5
-      md5: 56fe87b695a97ef7fba11122d349e3c5
-      size: 4100
+      md5: 242aaccc32d6bc0bebfbe10f51dde6f3
+      size: 5308
     - path: src/cnbr/sources
       hash: md5
-      md5: da507b1a32e410ad2395980f9191464c.dir
-      size: 26961
+      md5: c79ab3c162164da5d2518af1491341a7.dir
+      size: 36414
       nfiles: 6
     outs:
     - path: data/raw/sec/feasibility-2026-09-05
       hash: md5
-      md5: e9041d38342a83f4d771f343514a5cf7.dir
-      size: 20894726
-      nfiles: 10
+      md5: 9ac588a7aed2b3e4ba196c7d97d81533.dir
+      size: 21842180
+      nfiles: 13
     - path: data/raw/sec/feasibility-2026-09-05.manifest.json
       hash: md5
-      md5: 56a52f6d390bf7e697b256b504302bf1
-      size: 4009
+      md5: cda5b9f6c97d2903a054d01c6493065b
+      size: 5212
   sec_coverage:
     cmd: python -m cnbr sec-coverage --config 
       configs/data/sec_concept_coverage.yaml
@@ -119,18 +119,18 @@ stages:
       size: 761
     - path: data/raw/sec/feasibility-2026-09-05
       hash: md5
-      md5: e9041d38342a83f4d771f343514a5cf7.dir
-      size: 20894726
-      nfiles: 10
+      md5: 9ac588a7aed2b3e4ba196c7d97d81533.dir
+      size: 21842180
+      nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 56fe87b695a97ef7fba11122d349e3c5
-      size: 4100
+      md5: 242aaccc32d6bc0bebfbe10f51dde6f3
+      size: 5308
     - path: src/cnbr/financials
       hash: md5
-      md5: 0dd06dfa9a1bb97de22171c8305218fa.dir
-      size: 16076
-      nfiles: 4
+      md5: 567217980613ba0f42bf736c2ec25512.dir
+      size: 31307
+      nfiles: 6
     outs:
     - path: reports/tables/sec_concept_coverage.csv
       hash: md5
@@ -140,3 +140,33 @@ stages:
       hash: md5
       md5: c0ea10fa6939cf8eb89268847d10c04f
       size: 2291
+  sec_filing_index:
+    cmd: python -m cnbr sec-filing-index --config 
+      configs/data/sec_filing_index.yaml
+    deps:
+    - path: configs/data/sec_filing_index.yaml
+      hash: md5
+      md5: cc05afdd9e55cc955b54aa30c3ce6dde
+      size: 237
+    - path: data/raw/sec/feasibility-2026-09-05
+      hash: md5
+      md5: 9ac588a7aed2b3e4ba196c7d97d81533.dir
+      size: 21842180
+      nfiles: 13
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: 242aaccc32d6bc0bebfbe10f51dde6f3
+      size: 5308
+    - path: src/cnbr/financials/filing_index.py
+      hash: md5
+      md5: 18d4e0f0404e4f3ba0ae705c6087b6a7
+      size: 6393
+    outs:
+    - path: data/curated/sec_filing_index-2017-2024.parquet
+      hash: md5
+      md5: 60facf6e315a5e22ab7c9b56b72aefd6
+      size: 9351
+    - path: reports/tables/sec_filing_index-2017-2024.json
+      hash: md5
+      md5: 0714aa8ceeab05cdf260ba607fc9dcfc
+      size: 2475

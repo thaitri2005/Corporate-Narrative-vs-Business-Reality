@@ -2,6 +2,8 @@ schema_version: "1.0"
 max_workers: 3
 requests_per_second: 8.0
 max_attempts: 4
+study_start: 2017-01-01
+study_end: 2024-12-31
 output_dir: data/raw/sec/feasibility-2026-09-05
 manifest_path: data/raw/sec/feasibility-2026-09-05.manifest.json
 companies:

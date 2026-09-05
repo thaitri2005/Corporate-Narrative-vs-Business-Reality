@@ -67,8 +67,16 @@ class SecSpikeConfig(BaseModel):
     max_workers: int = Field(default=3, ge=1, le=3)
     requests_per_second: float = Field(default=8.0, gt=0, le=8.0)
     max_attempts: int = Field(default=4, ge=1, le=5)
+    study_start: date
+    study_end: date
     output_dir: Path
     manifest_path: Path
+
+    @model_validator(mode="after")
+    def validate_study_dates(self) -> SecSpikeConfig:
+        if self.study_end < self.study_start:
+            raise ValueError("study_end must be on or after study_start")
+        return self
 
     def content_hash(self) -> str:
         payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
@@ -106,6 +114,29 @@ class SecCoverageConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class SecFilingIndexConfig(BaseModel):
+    """Configuration for a local SEC filing/time spine."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    study_start: date
+    study_end: date
+    input_dir: Path
+    output_path: Path
+    summary_path: Path
+
+    @model_validator(mode="after")
+    def validate_study_dates(self) -> SecFilingIndexConfig:
+        if self.study_end < self.study_start:
+            raise ValueError("study_end must be on or after study_start")
+        return self
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -128,3 +159,9 @@ def load_sec_coverage_config(path: Path) -> SecCoverageConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return SecCoverageConfig.model_validate(raw)
+
+
+def load_sec_filing_index_config(path: Path) -> SecFilingIndexConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return SecFilingIndexConfig.model_validate(raw)

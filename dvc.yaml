@@ -1,4 +1,14 @@
 stages:
+  sec_filing_index:
+    cmd: python -m cnbr sec-filing-index --config configs/data/sec_filing_index.yaml
+    deps:
+      - configs/data/sec_filing_index.yaml
+      - data/raw/sec/feasibility-2026-09-05
+      - src/cnbr/config.py
+      - src/cnbr/financials/filing_index.py
+    outs:
+      - data/curated/sec_filing_index-2017-2024.parquet
+      - reports/tables/sec_filing_index-2017-2024.json
   sec_coverage:
     cmd: python -m cnbr sec-coverage --config configs/data/sec_concept_coverage.yaml
     deps:

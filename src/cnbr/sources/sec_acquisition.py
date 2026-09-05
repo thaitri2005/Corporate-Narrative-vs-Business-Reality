@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any, cast
 from uuid import uuid4
 
 from cnbr.config import SecCompanyConfig, SecSpikeConfig
@@ -77,6 +78,76 @@ def _acquire_one(
     )
 
 
+def _acquire_history(
+    client: SecClient,
+    company: SecCompanyConfig,
+    filename: str,
+    output_dir: Path,
+) -> SecArtifactResult:
+    cik = company.cik.zfill(10)
+    relative = Path(cik) / "submissions-history" / filename
+    destination = output_dir / relative
+    source_url = f"{SEC_BASE_URL}/submissions/{filename}"
+    if destination.exists():
+        content = destination.read_bytes()
+        _validate_json_object(content, relative.as_posix())
+        disposition = "cached"
+    else:
+        source_url, content = client.submission_history_bytes(filename)
+        _validate_json_object(content, source_url)
+        _atomic_write(destination, content)
+        disposition = "downloaded"
+    return SecArtifactResult(
+        cik=cik,
+        ticker=company.ticker,
+        kind="submissions_history",
+        path=relative.as_posix(),
+        source_url=source_url,
+        sha256=hashlib.sha256(content).hexdigest(),
+        bytes=len(content),
+        disposition=disposition,
+    )
+
+
+def _history_targets(
+    config: SecSpikeConfig, output_dir: Path
+) -> list[tuple[SecCompanyConfig, str]]:
+    targets: list[tuple[SecCompanyConfig, str]] = []
+    for company in config.companies:
+        cik = company.cik.zfill(10)
+        submissions = _load_local_object(output_dir / cik / "submissions.json")
+        filings = submissions.get("filings")
+        filings_typed = cast(dict[str, Any], filings) if isinstance(filings, dict) else {}
+        files_unknown = filings_typed.get("files")
+        if not isinstance(files_unknown, list):
+            continue
+        files = cast(list[Any], files_unknown)
+        for shard_unknown in files:
+            if not isinstance(shard_unknown, dict):
+                continue
+            shard = cast(dict[str, Any], shard_unknown)
+            name = shard.get("name")
+            filing_from = shard.get("filingFrom")
+            filing_to = shard.get("filingTo")
+            if not isinstance(name, str):
+                continue
+            if not isinstance(filing_from, str) or not isinstance(filing_to, str):
+                continue
+            if (
+                filing_from <= config.study_end.isoformat()
+                and filing_to >= config.study_start.isoformat()
+            ):
+                targets.append((company, name))
+    return targets
+
+
+def _load_local_object(path: Path) -> dict[str, Any]:
+    content = path.read_bytes()
+    _validate_json_object(content, path.as_posix())
+    payload: Any = json.loads(content)
+    return cast(dict[str, Any], payload)
+
+
 def run_sec_spike(
     config: SecSpikeConfig,
     repo_root: Path,
@@ -119,6 +190,29 @@ def run_sec_spike(
                             "kind": kind,
                             "error_type": type(error).__name__,
                             "message": str(error),
+                        }
+                    )
+        history_targets = _history_targets(config, output_dir)
+        with ThreadPoolExecutor(max_workers=config.max_workers) as executor:
+            history_futures = {
+                executor.submit(_acquire_history, sec_client, company, filename, output_dir): (
+                    company,
+                    filename,
+                )
+                for company, filename in history_targets
+            }
+            for future in as_completed(history_futures):
+                company, filename = history_futures[future]
+                try:
+                    results.append(future.result())
+                except Exception as error:
+                    errors.append(
+                        {
+                            "cik": company.cik.zfill(10),
+                            "ticker": company.ticker,
+                            "kind": "submissions_history",
+                            "error_type": type(error).__name__,
+                            "message": f"{filename}: {error}",
                         }
                     )
     finally:

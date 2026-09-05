@@ -44,6 +44,8 @@ def test_sec_spike_caps_workers_and_request_rate() -> None:
         "companies": [{"cik": "21344", "ticker": "KO", "reason": "fixture"}],
         "max_workers": 4,
         "requests_per_second": 9,
+        "study_start": "2017-01-01",
+        "study_end": "2024-12-31",
         "output_dir": "data/raw/sec",
         "manifest_path": "data/raw/sec.manifest.json",
     }

@@ -1,0 +1,6 @@
+schema_version: "1.0"
+study_start: 2017-01-01
+study_end: 2024-12-31
+input_dir: data/raw/sec/feasibility-2026-09-05
+output_path: data/curated/sec_filing_index-2017-2024.parquet
+summary_path: reports/tables/sec_filing_index-2017-2024.json

@@ -37,15 +37,29 @@ The five-company spike acquired submissions and Company Facts for KO, PG, COST, 
 | Measure | Result |
 |---|---:|
 | Companies | 5 |
-| Endpoints/artifacts | 10 |
-| Successful | 10 |
+| Base endpoint artifacts | 10 |
+| Overlapping submission-history shards | 3 |
+| Successful total | 13 |
 | Failed | 0 |
-| Raw bytes | 20,894,726 (~19.9 MiB) |
+| Raw bytes | 21,842,180 (~20.8 MiB) |
 | Workers | 3 maximum |
 | Request-start cap | 8/second |
 
 This is an acquisition success, not yet evidence that fiscal-period mappings or concepts are
 comparable. That assessment is the next local step.
+
+The main submissions response is a rolling recent window, not necessarily the full study history.
+The downloader now discovers provider-declared history shards and acquires only shards whose date
+range overlaps 2017–2024. Three shards closed the observed KO, PG, and WMT gaps.
+
+### Filing and acceptance-time spine
+
+Recent and overlapping history submissions normalize to 170 unique 10-K/10-Q accessions across the
+five companies, including 10 amendments. Every company has 32 base filings covering the intended
+eight fiscal years; KO and PG each add one amendment and MO adds eight. The table preserves report
+date, filing date, SEC acceptance timestamp, form/amendment status, primary document, source shard,
+CIK, ticker, entity name, and fiscal-year-end metadata. This passes filing availability and
+identifier continuity, while fact-to-filing and fiscal-quarter value reconciliation remain open.
 
 ### Initial Company Facts availability screen
 
