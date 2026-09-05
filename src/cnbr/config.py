@@ -348,6 +348,25 @@ class LexicalBaselineConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class AnnotationPilotConfig(BaseModel):
+    """Configuration for a restricted local, Label Studio-compatible pilot task packet."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    utterances_path: Path
+    call_mappings_path: Path
+    lexical_config_path: Path
+    tasks_path: Path
+    manifest_path: Path
+    samples_per_topic: int = Field(default=4, ge=1, le=20)
+    excluded_quality_flags: list[str]
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class PanelBuildConfig(BaseModel):
     """Configuration for the frozen-key analytical thin-slice panel."""
 
@@ -467,6 +486,12 @@ def load_lexical_baseline_config(path: Path) -> LexicalBaselineConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return LexicalBaselineConfig.model_validate(raw)
+
+
+def load_annotation_pilot_config(path: Path) -> AnnotationPilotConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return AnnotationPilotConfig.model_validate(raw)
 
 
 def load_panel_build_config(path: Path) -> PanelBuildConfig:

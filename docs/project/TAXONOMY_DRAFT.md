@@ -45,3 +45,11 @@ Before any dictionary feature can enter a study dataset, we need a stratified pi
 inclusion/exclusion rules, hard negatives, inter-annotator agreement targets, and a locked test set.
 Embedding or transformer evaluation requires a separate measured tokenizer/model benchmark and any
 needed model download approval.
+
+## Pilot task packet
+
+`cnbr annotation-pilot --config configs/data/annotation_pilot.yaml` creates a deterministic,
+Label Studio-compatible JSON task packet. It includes draft-topic metadata and text only in ignored
+`data/review/`; the committed manifest records counts, hashes, and the taxonomy revision without
+copying text. Candidate topics are sampling aids, not pre-applied labels. Import the local packet
+into Label Studio only after defining the annotation interface and codebook decisions.

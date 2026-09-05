@@ -1,0 +1,8 @@
+schema_version: "1.0"
+utterances_path: data/curated/utterances.parquet
+call_mappings_path: data/curated/call_fiscal_mappings.parquet
+lexical_config_path: configs/data/lexical_baseline.yaml
+tasks_path: data/review/annotation_pilot_tasks.json
+manifest_path: reports/tables/annotation_pilot.json
+samples_per_topic: 4
+excluded_quality_flags: [blank_text, possible_source_footer]

@@ -16,7 +16,7 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def _view_for(role: str, section: str) -> str | None:
+def view_for(role: str, section: str) -> str | None:
     if role in {"executive", "company_other"}:
         return "management_prepared" if section == "prepared_remarks" else "management_qa"
     if role == "analyst":
@@ -59,7 +59,7 @@ def build_lexical_baseline(config: LexicalBaselineConfig, repo_root: Path) -> di
         mapping = mapping_by_call.get(call_id)
         if mapping is None or set(cast(list[str], utterance["quality_flags"])) & excluded_flags:
             continue
-        view = _view_for(str(utterance["speaker_role"]), str(utterance["section"]))
+        view = view_for(str(utterance["speaker_role"]), str(utterance["section"]))
         if view not in eligible_views:
             continue
         words = int(utterance["word_count"])
