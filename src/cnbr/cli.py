@@ -10,6 +10,7 @@ from cnbr.config import (
     load_financial_extract_config,
     load_financial_feature_config,
     load_financial_normalize_config,
+    load_financial_reconciliation_config,
     load_fiscal_alignment_config,
     load_fiscal_review_config,
     load_lexical_baseline_config,
@@ -31,6 +32,7 @@ from cnbr.financials import (
     build_fiscal_alignment,
     extract_financial_facts,
     normalize_financial_values,
+    reconcile_financial_values,
 )
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
@@ -94,6 +96,10 @@ def build_parser() -> argparse.ArgumentParser:
         "financial-features", help="Derive transparent quarterly financial features"
     )
     financial_features.add_argument("--config", type=Path, required=True)
+    financial_reconcile = subparsers.add_parser(
+        "financial-reconcile", help="Audit canonical financial values against stored operands"
+    )
+    financial_reconcile.add_argument("--config", type=Path, required=True)
     narrative_features = subparsers.add_parser(
         "narrative-features", help="Derive role-aware non-semantic transcript structure features"
     )
@@ -167,6 +173,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         feature_config = load_financial_feature_config(config_path)
         build_financial_features(feature_config, Path.cwd().resolve())
+    elif args.command == "financial-reconcile":
+        config_path = args.config.resolve()
+        reconciliation_config = load_financial_reconciliation_config(config_path)
+        reconcile_financial_values(reconciliation_config, Path.cwd().resolve())
     elif args.command == "narrative-features":
         config_path = args.config.resolve()
         narrative_config = load_narrative_feature_config(config_path)

@@ -58,6 +58,6 @@ inaudible markers, and 3,875 very short segments. These records are flagged rath
 Fiscal mapping remains explicitly pending.
 
 For the five-company aligned thin slice, a structural baseline aggregates 983,194 eligible words
-across 102 company-quarter calls. It excludes 16 source-footer/blank utterances under a versioned
+across 101 retained company-quarter calls. It excludes 14 source-footer/blank utterances under a versioned
 rule and records management-prepared, management-Q&A, analyst-prepared, analyst-Q&A, operator, and
 unknown word counts/shares. These are non-semantic diagnostic features, not topic signals.

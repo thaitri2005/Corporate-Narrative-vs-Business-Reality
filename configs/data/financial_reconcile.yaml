@@ -1,0 +1,6 @@
+schema_version: "1.0"
+values_path: data/curated/financial_values.parquet
+occurrence_path: data/interim/financial_fact_occurrences.parquet
+detail_path: reports/tables/financial_reconciliation_sample.csv
+manifest_path: reports/tables/financial_reconciliation.json
+samples_per_formula_ticker: 3

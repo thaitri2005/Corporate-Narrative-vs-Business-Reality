@@ -598,7 +598,7 @@ Do not rank truthfulness or infer intent. Present NLP as imperfect measurement. 
 | D-017 | Three-worker, 8-request/second SEC acquisition with file manifests | Accepted | Reliable and resumable at 34-company scale without a metadata database | Scale or multi-process coordination invalidates file-level checkpointing |
 | D-018 | Pin and checksum the two non-overlapping STRUX `full` shards, then filter locally | Accepted | Reproducible acquisition without double-counting train/test views | Upstream revision/schema changes or a licensed replacement is selected |
 | D-019 | Coverage-qualified 28-company unbalanced candidate panel with a 12-company recent-coverage robustness cohort | Accepted | Preserves clusters and within-firm history while exposing temporal source gaps | Fewer than 15 firms retain 12 mapped calls or supplemental coverage changes the evidence |
-| D-020 | Preserve date-only call precision and use accession-bound latest-preceding-period mapping with a 75-day gate | Accepted | Avoids false timestamps/calendar-year shortcuts; five-company result maps 102/102 calls at 15–45 day lags | Manual audit fails or source supplies authoritative reported-period metadata |
+| D-020 | Preserve date-only call precision and use accession-bound latest-preceding-period mapping with a 75-day gate | Accepted | Avoids false timestamps/calendar-year shortcuts; local review quarantined one conflicting STRUX record, leaving 101 mappings at 15–45 day lags | Source supplies authoritative reported-period metadata or review identifies further conflicts |
 
 Full ADRs record context, drivers, alternatives, decision, consequences, validation, and rollback.
 

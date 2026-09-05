@@ -38,5 +38,5 @@ sampling frame, completed a five-company SEC acquisition/coverage spike, and app
 checksum-verified STRUX ingestion under the private/local-use constraint.
 
 A five-company M2 vertical slice now runs from canonical transcripts and SEC fiscal alignment
-through financial/narrative features to a 102-row point-in-time analytical panel. Manual mapping and
+through financial/narrative features to a 101-row point-in-time analytical panel. Manual mapping and
 filing reconciliation remain gates before scaling or statistical analysis.

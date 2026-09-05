@@ -17,10 +17,10 @@ pinned STRUX + SEC snapshots
   -> point-in-time analytical thin-slice panel
 ```
 
-The analytical artifact contains 102 unique company/fiscal-quarter observations across KO, PG,
+The analytical artifact contains 101 unique company/fiscal-quarter observations across KO, PG,
 COST, WMT, and MO. Each row carries role/section narrative structure, current financial controls,
-and fiscal-keyed next-quarter outcomes. Lead coverage is 102/102 for operating margin and
-CapEx/revenue, and 101/102 for revenue YoY and inventory YoY. The panel is 33,721 bytes.
+and fiscal-keyed next-quarter outcomes. Lead coverage is 101/101 for operating margin,
+CapEx/revenue, revenue YoY, and inventory YoY. The panel is 33,573 bytes.
 
 No outcome association has been estimated or inspected. This protects the pre-analysis workflow
 while taxonomy, manual reconciliation, and cohort rules are still being validated.
@@ -42,6 +42,14 @@ while taxonomy, manual reconciliation, and cohort rules are still being validate
 discovery baseline for six draft Consumer Staples constructs. Its aggregate output is explicitly
 non-confirmatory and is not joined to the analytical panel. See `TAXONOMY_DRAFT.md` for collision
 risks, null semantics, and the annotation/benchmark gate required for promotion.
+
+## Financial reconciliation control
+
+`cnbr financial-reconcile` independently recomputes every resolved canonical value from its stored
+fact operands, fails on missing operands/formula mismatches, and emits a stratified, text-free CSV
+sample. This closes the local arithmetic/provenance portion of the reconciliation gate; independent
+filing-presentation review remains required before M2 acceptance because the local snapshot contains
+Company Facts, not filing-rendered statements.
 
 Gross margin is intentionally absent because the earlier concept audit rejected universal direct
 comparability. No external API, cloud execution, GPU, database, or distributed system is required.

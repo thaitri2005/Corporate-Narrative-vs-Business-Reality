@@ -42,6 +42,17 @@ stages:
     outs:
       - data/features/financial_features.parquet
       - reports/tables/financial_features.json
+  financial_reconcile:
+    cmd: python -m cnbr financial-reconcile --config configs/data/financial_reconcile.yaml
+    deps:
+      - configs/data/financial_reconcile.yaml
+      - data/curated/financial_values.parquet
+      - data/interim/financial_fact_occurrences.parquet
+      - src/cnbr/config.py
+      - src/cnbr/financials/reconcile.py
+    outs:
+      - reports/tables/financial_reconciliation_sample.csv
+      - reports/tables/financial_reconciliation.json
   financial_normalize:
     cmd: python -m cnbr financial-normalize --config configs/data/values.yaml
     deps:

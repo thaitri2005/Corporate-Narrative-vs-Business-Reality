@@ -278,6 +278,23 @@ class FinancialFeatureConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class FinancialReconciliationConfig(BaseModel):
+    """Configuration for local arithmetic and provenance reconciliation of canonical values."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    values_path: Path
+    occurrence_path: Path
+    detail_path: Path
+    manifest_path: Path
+    samples_per_formula_ticker: int = Field(default=3, ge=1, le=5)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class NarrativeFeatureConfig(BaseModel):
     """Configuration for role-aware, non-semantic transcript structure features."""
 
@@ -432,6 +449,12 @@ def load_financial_feature_config(path: Path) -> FinancialFeatureConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return FinancialFeatureConfig.model_validate(raw)
+
+
+def load_financial_reconciliation_config(path: Path) -> FinancialReconciliationConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return FinancialReconciliationConfig.model_validate(raw)
 
 
 def load_narrative_feature_config(path: Path) -> NarrativeFeatureConfig:

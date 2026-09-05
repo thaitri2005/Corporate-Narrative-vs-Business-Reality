@@ -1,6 +1,6 @@
 # Five-company fiscal-alignment thin slice
 
-> Status: Automated contract checks passed; manual sample review pending  
+> Status: Automated checks and local sample review passed with one quarantined source conflict
 > Updated: 2026-09-05
 
 ## Scope and result
@@ -9,9 +9,10 @@ The thin slice uses the already cached SEC submissions and Company Facts for KO,
 MO. It covers 160 non-amended 10-Q/10-K filings: exactly 32 fiscal periods per company. Amendments
 remain source versions and do not create additional quarters.
 
-All 102 available STRUX calls for these companies map uniquely to the latest preceding fiscal period
-end within the predeclared 75-day window. Observed lags range from 15 to 45 days; no call is unmapped
-and no period receives multiple calls.
+Of 102 available STRUX calls for these companies, 101 map uniquely to the latest preceding fiscal
+period end within the predeclared 75-day window. Observed lags range from 15 to 45 days; no retained
+period receives multiple calls. One COST source record is quarantined because its source date and
+prepared-remarks reported quarter conflict; it is never silently date-repaired.
 
 ## Mapping rule
 
@@ -65,11 +66,10 @@ CapEx/revenue ratios, 140 revenue YoY values, 140 inventory YoY values, and thei
 inputs. Same-quarter year-over-year comparisons require an actual prior fiscal-year key; missing
 predecessors remain absent. No narrative/outcome association has been run.
 
-A matching role/section structural baseline covers all 102 mapped calls and 983,194 eligible words.
+A matching role/section structural baseline covers all 101 retained calls and 971,966 eligible words.
 It supplies leakage-safe corpus diagnostics for the thin slice, but deliberately does not stand in
 for the later theory-grounded narrative taxonomy or semantic model.
 
-The point-in-time join now materializes 102 unique analytical rows. Next-quarter operating margin
-and CapEx/revenue are present for all 102; revenue YoY and inventory YoY are present for 101. The
-33,721-byte artifact is a join/lag deliverable only—no coefficient, correlation, or outcome-guided
+The point-in-time join now materializes 101 unique analytical rows. Each lead outcome is present for
+all 101. The 33,573-byte artifact is a join/lag deliverable only—no coefficient, correlation, or outcome-guided
 selection has been computed.
