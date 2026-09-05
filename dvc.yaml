@@ -21,6 +21,17 @@ stages:
     outs:
       - data/features/narrative_structure_features.parquet
       - reports/tables/narrative_structure_features.json
+  lexical_baseline:
+    cmd: python -m cnbr lexical-baseline --config configs/data/lexical_baseline.yaml
+    deps:
+      - configs/data/lexical_baseline.yaml
+      - data/curated/utterances.parquet
+      - data/curated/call_fiscal_mappings.parquet
+      - src/cnbr/config.py
+      - src/cnbr/transcripts/lexical.py
+    outs:
+      - data/features/lexical_discovery_baseline.parquet
+      - reports/tables/lexical_discovery_baseline.json
   financial_features:
     cmd: python -m cnbr financial-features --config configs/data/features.yaml
     deps:

@@ -12,6 +12,7 @@ from cnbr.config import (
     load_financial_normalize_config,
     load_fiscal_alignment_config,
     load_fiscal_review_config,
+    load_lexical_baseline_config,
     load_narrative_feature_config,
     load_panel_build_config,
     load_sec_coverage_config,
@@ -37,6 +38,7 @@ from cnbr.review import build_fiscal_review_packet
 from cnbr.sources import ingest_strux_subset, run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
 from cnbr.transcripts import (
+    build_lexical_baseline,
     build_narrative_structure_features,
     build_transcript_audit,
     normalize_transcripts,
@@ -96,6 +98,10 @@ def build_parser() -> argparse.ArgumentParser:
         "narrative-features", help="Derive role-aware non-semantic transcript structure features"
     )
     narrative_features.add_argument("--config", type=Path, required=True)
+    lexical_baseline = subparsers.add_parser(
+        "lexical-baseline", help="Build local, non-confirmatory lexical discovery features"
+    )
+    lexical_baseline.add_argument("--config", type=Path, required=True)
     panel_build = subparsers.add_parser(
         "panel-build", help="Build the point-in-time analytical thin-slice panel"
     )
@@ -165,6 +171,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         narrative_config = load_narrative_feature_config(config_path)
         build_narrative_structure_features(narrative_config, Path.cwd().resolve())
+    elif args.command == "lexical-baseline":
+        config_path = args.config.resolve()
+        lexical_config = load_lexical_baseline_config(config_path)
+        build_lexical_baseline(lexical_config, Path.cwd().resolve())
     elif args.command == "panel-build":
         config_path = args.config.resolve()
         panel_config = load_panel_build_config(config_path)

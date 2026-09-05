@@ -36,6 +36,13 @@ while taxonomy, manual reconciliation, and cohort rules are still being validate
 - Finalize the eligible 28-company candidate and 12-company recent-coverage robustness cohorts.
 - Add semantic chunks only after a tokenizer/model benchmark; canonical utterances remain unchanged.
 
+## M3 pilot started without external model processing
+
+`configs/data/lexical_baseline.yaml` and `cnbr lexical-baseline` implement a local-only dictionary
+discovery baseline for six draft Consumer Staples constructs. Its aggregate output is explicitly
+non-confirmatory and is not joined to the analytical panel. See `TAXONOMY_DRAFT.md` for collision
+risks, null semantics, and the annotation/benchmark gate required for promotion.
+
 Gross margin is intentionally absent because the earlier concept audit rejected universal direct
 comparability. No external API, cloud execution, GPU, database, or distributed system is required.
 

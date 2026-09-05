@@ -29,6 +29,7 @@ nav:
       - SEC concept coverage: project/SEC_CONCEPT_COVERAGE.md
       - Fiscal alignment: project/FISCAL_ALIGNMENT.md
       - M2 progress: project/M2_PROGRESS.md
+      - Taxonomy draft: project/TAXONOMY_DRAFT.md
       - STRUX coverage audit: project/STRUX_COVERAGE.md
       - Archived STRUX permission request: project/STRUX_PERMISSION_REQUEST.md
 docs_dir: docs

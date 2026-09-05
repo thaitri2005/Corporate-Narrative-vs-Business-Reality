@@ -295,6 +295,42 @@ class NarrativeFeatureConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class LexicalTopicDefinition(BaseModel):
+    """A transparent, versioned discovery dictionary; never a ground-truth label."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    topic_id: str = Field(pattern=r"^[a-z][a-z0-9_]{2,63}$")
+    display_name: str = Field(min_length=1)
+    patterns: list[str] = Field(min_length=1)
+
+
+class LexicalBaselineConfig(BaseModel):
+    """Configuration for local-only dictionary topic discovery features."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "0.1"
+    taxonomy_version: str
+    utterances_path: Path
+    call_mappings_path: Path
+    output_path: Path
+    manifest_path: Path
+    excluded_quality_flags: list[str]
+    views: list[str] = Field(min_length=1)
+    topics: list[LexicalTopicDefinition] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_unique_topic_ids(self) -> LexicalBaselineConfig:
+        if len({topic.topic_id for topic in self.topics}) != len(self.topics):
+            raise ValueError("Lexical topic IDs must be unique")
+        return self
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class PanelBuildConfig(BaseModel):
     """Configuration for the frozen-key analytical thin-slice panel."""
 
@@ -402,6 +438,12 @@ def load_narrative_feature_config(path: Path) -> NarrativeFeatureConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return NarrativeFeatureConfig.model_validate(raw)
+
+
+def load_lexical_baseline_config(path: Path) -> LexicalBaselineConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return LexicalBaselineConfig.model_validate(raw)
 
 
 def load_panel_build_config(path: Path) -> PanelBuildConfig:

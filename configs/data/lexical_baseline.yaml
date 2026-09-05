@@ -1,0 +1,27 @@
+schema_version: "0.1"
+taxonomy_version: "0.1-draft"
+utterances_path: data/curated/utterances.parquet
+call_mappings_path: data/curated/call_fiscal_mappings.parquet
+output_path: data/features/lexical_discovery_baseline.parquet
+manifest_path: reports/tables/lexical_discovery_baseline.json
+excluded_quality_flags: [blank_text, possible_source_footer]
+views: [management_prepared, management_qa, analyst_qa]
+topics:
+  - topic_id: pricing
+    display_name: Pricing and price/mix
+    patterns: ['\bprice(?:s|d|ing)?\b', '\bprice[- ]mix\b', '\bpricing action']
+  - topic_id: cost_pressure
+    display_name: Cost pressure
+    patterns: ['\bcost pressure\b', '\binflation(?:ary)?\b', '\bcommodity costs?\b', '\binput costs?\b']
+  - topic_id: demand_volume
+    display_name: Demand and volume
+    patterns: ['\bconsumer demand\b', '\bvolume(?:s)?\b', '\bconsumption\b']
+  - topic_id: supply_chain
+    display_name: Supply chain and availability
+    patterns: ['\bsupply chain\b', '\bout[- ]of[- ]stock\b', '\bproduct availability\b', '\bin[- ]stock\b']
+  - topic_id: portfolio_expansion
+    display_name: Portfolio expansion and innovation
+    patterns: ['\binnovation\b', '\bnew product', '\bexpan(?:d|sion)']
+  - topic_id: guidance_outlook
+    display_name: Guidance and outlook
+    patterns: ['\bguidance\b', '\boutlook\b', '\bforecast']
