@@ -100,6 +100,10 @@ revenue-minus-cost derivation and company-level reconciliation. Detailed evidenc
 - Total ordinary working storage remains approximately 2–5 GB before transformer checkpoints.
 - Detailed estimate: `docs/project/CAPACITY_ESTIMATE.md`.
 - Transcript audit: `docs/project/STRUX_COVERAGE.md`.
+- Canonical normalization now preserves all 79,467 source speech segments across 549 calls with
+  deterministic identifiers, source coordinates, role/section labels, text hashes, and quality
+  flags. It creates flagged observed-speaker records where source participant lists are incomplete;
+  no transcript text enters manifests, logs, tests, or public reports.
 
 ### Company-universe implementation
 

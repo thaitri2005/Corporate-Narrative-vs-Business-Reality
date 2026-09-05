@@ -1,4 +1,17 @@
 stages:
+  transcript_normalize:
+    cmd: python -m cnbr transcript-normalize --config configs/data/norm.yaml
+    deps:
+      - configs/data/norm.yaml
+      - data/interim/strux-consumer-staples-2026-09-05.parquet
+      - data/curated/company_universe-2026-09-05.parquet
+      - src/cnbr/config.py
+      - src/cnbr/transcripts/normalize.py
+    outs:
+      - data/curated/calls.parquet
+      - data/curated/participants.parquet
+      - data/curated/utterances.parquet
+      - data/curated/transcript_normalization.manifest.json
   transcript_audit:
     cmd: python -m cnbr transcript-audit --config configs/data/audit.yaml
     deps:

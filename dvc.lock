@@ -13,12 +13,12 @@ stages:
       size: 65
     - path: src/cnbr/cli.py
       hash: md5
-      md5: 99017cabdced3fdfdb3324e62901df85
-      size: 4026
+      md5: 27bb93191339ea8f4a93248e2dacf72c
+      size: 4555
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/logging.py
       hash: md5
       md5: 0db16ad957d085f020e18e930c38c87a
@@ -62,8 +62,8 @@ stages:
       size: 549
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/registry
       hash: md5
       md5: 552af0294913a3fce7b481a83a8ea155.dir
@@ -92,8 +92,8 @@ stages:
       size: 706
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/sources/sec.py
       hash: md5
       md5: 8d8c2463a3f5c0d39689a8ec4019529f
@@ -127,8 +127,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/financials
       hash: md5
       md5: 567217980613ba0f42bf736c2ec25512.dir
@@ -158,8 +158,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/financials/filing_index.py
       hash: md5
       md5: 18d4e0f0404e4f3ba0ae705c6087b6a7
@@ -186,8 +186,8 @@ stages:
       size: 6619
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/sources/strux.py
       hash: md5
       md5: 091ee8c031ed43dfa817966e6602f48e
@@ -219,12 +219,12 @@ stages:
       size: 8884666
     - path: src/cnbr/config.py
       hash: md5
-      md5: 033f0035170812dc94e09ea4d013541e
-      size: 7077
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
     - path: src/cnbr/transcripts/audit.py
       hash: md5
-      md5: 840111762613856c359f5bba3d444958
-      size: 5360
+      md5: 6f3599b9810f43a3c2f8fa248989aa7a
+      size: 5386
     outs:
     - path: reports/tables/strux_call_quality.csv
       hash: md5
@@ -238,3 +238,43 @@ stages:
       hash: md5
       md5: 0b3f527d76e52c220f9f8f0fadcae01f
       size: 1064
+  transcript_normalize:
+    cmd: python -m cnbr transcript-normalize --config configs/data/norm.yaml
+    deps:
+    - path: configs/data/norm.yaml
+      hash: md5
+      md5: c6fcf4bfeed5f1355c90907d6eb579f0
+      size: 552
+    - path: data/curated/company_universe-2026-09-05.parquet
+      hash: md5
+      md5: 57d815c4cb7200cccc7493b57c06170c
+      size: 6619
+    - path: data/interim/strux-consumer-staples-2026-09-05.parquet
+      hash: md5
+      md5: 5dd7a3d72d1c94ed23a67c30691eba4a
+      size: 8884666
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: f3e3b3e921f4af0b1809f4bcad4c7bf0
+      size: 7982
+    - path: src/cnbr/transcripts/normalize.py
+      hash: md5
+      md5: d3c651c24948ec57b07903ba15b78781
+      size: 10579
+    outs:
+    - path: data/curated/calls.parquet
+      hash: md5
+      md5: 8606511fcf42d610b7cc2f42d2037355
+      size: 29463
+    - path: data/curated/participants.parquet
+      hash: md5
+      md5: 7d92ffb1feac980dd45f58bc4e2d200c
+      size: 350500
+    - path: data/curated/transcript_normalization.manifest.json
+      hash: md5
+      md5: 47eb2ee837f109b77c317e3b70f70395
+      size: 995
+    - path: data/curated/utterances.parquet
+      hash: md5
+      md5: 23a4457ac1556d75b38f7681fac271fd
+      size: 15679382

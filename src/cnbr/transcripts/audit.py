@@ -23,14 +23,15 @@ def _sha256(path: Path) -> str:
 def _section_metrics(section: object) -> tuple[int, int, int, int]:
     turns = cast(list[dict[str, Any]], section)
     segments = [str(segment) for turn in turns for segment in turn.get("speech", [])]
-    return len(turns), len(segments), sum(len(text.split()) for text in segments), sum(
-        not text.strip() for text in segments
+    return (
+        len(turns),
+        len(segments),
+        sum(len(text.split()) for text in segments),
+        sum(not text.strip() for text in segments),
     )
 
 
-def build_transcript_audit(
-    config: TranscriptAuditConfig, repo_root: Path
-) -> dict[str, object]:
+def build_transcript_audit(config: TranscriptAuditConfig, repo_root: Path) -> dict[str, object]:
     """Profile call coverage and section integrity without exposing transcript text."""
     input_path = repo_root / config.input_path
     calls = pl.read_parquet(input_path)
@@ -87,9 +88,10 @@ def build_transcript_audit(
     word_counts = cast(list[int], detail["total_word_count"].to_list())
     end_year_distribution = {
         str(row["last_call_year"]): row["len"]
-        for row in company.group_by("last_call_year").len().sort("last_call_year").iter_rows(
-            named=True
-        )
+        for row in company.group_by("last_call_year")
+        .len()
+        .sort("last_call_year")
+        .iter_rows(named=True)
     }
     manifest: dict[str, object] = {
         "schema_version": config.schema_version,

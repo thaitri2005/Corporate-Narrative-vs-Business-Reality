@@ -11,10 +11,12 @@ nav:
       - Consumer Staples universe: adr/ADR-005-consumer-staples-universe.md
       - SEC acquisition: adr/ADR-006-sec-acquisition-reliability.md
       - STRUX restricted local use: adr/ADR-007-strux-restricted-local-use.md
+      - Unbalanced primary panel: adr/ADR-008-unbalanced-primary-panel.md
   - Runbooks:
       - Development: runbooks/development.md
   - Data contracts:
       - Company and fiscal registry: data-contracts/company-and-fiscal-registry.md
+      - Transcript corpus: data-contracts/transcript-corpus.md
   - Project control:
       - Responsibilities: project/RESPONSIBILITIES.md
       - RAID register: project/RAID.md

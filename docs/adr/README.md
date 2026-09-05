@@ -9,3 +9,4 @@ ADRs capture material, durable decisions. Statuses are Proposed, Accepted, Super
 - [ADR-005: Point-in-time Consumer Staples universe](ADR-005-consumer-staples-universe.md)
 - [ADR-006: Bounded file-manifest SEC acquisition](ADR-006-sec-acquisition-reliability.md)
 - [ADR-007: STRUX restricted local use](ADR-007-strux-restricted-local-use.md)
+- [ADR-008: Coverage-qualified unbalanced panel](ADR-008-unbalanced-primary-panel.md)

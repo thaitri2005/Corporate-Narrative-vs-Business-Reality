@@ -1,0 +1,13 @@
+schema_version: "1.0"
+source_revision: 8c3d39f2d70a8fa2d619f8c7bef9176efcb89520  # pragma: allowlist secret
+input_path: data/interim/strux-consumer-staples-2026-09-05.parquet
+universe_path: data/curated/company_universe-2026-09-05.parquet
+calls_path: data/curated/calls.parquet
+participants_path: data/curated/participants.parquet
+utterances_path: data/curated/utterances.parquet
+manifest_path: data/curated/transcript_normalization.manifest.json
+duplicate_minimum_words: 20
+role_by_position:
+  Executive: executive
+  Analyst: analyst
+  Other: unknown

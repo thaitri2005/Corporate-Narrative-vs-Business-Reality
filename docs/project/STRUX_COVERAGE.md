@@ -45,3 +45,14 @@ not transcript text, and remain DVC-managed pending release review.
 This audit establishes acquisition integrity and coarse structural completeness only. It does not
 yet prove fiscal-quarter alignment, correct speaker-role semantics, call completeness, or absence of
 selection bias.
+
+## Canonical normalization result
+
+The deterministic normalization stage produced 549 calls, 7,714 participant records, and 79,467
+source-segment utterances. It assigned 54,297 utterances to executives, 17,261 to analysts, 7,241 to
+operators, and retained 668 as unknown. Source participant lists omitted speakers in many calls, so
+589 flagged observed-speaker participant records were added to preserve referential integrity.
+
+Quality flags identify 457 repeated utterances of at least 20 words, 98 possible source footers, 197
+inaudible markers, and 3,875 very short segments. These records are flagged rather than deleted.
+Fiscal mapping remains explicitly pending.

@@ -180,6 +180,27 @@ class TranscriptAuditConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class TranscriptNormalizeConfig(BaseModel):
+    """Configuration for deterministic STRUX-to-canonical transcript normalization."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    source_revision: str
+    input_path: Path
+    universe_path: Path
+    calls_path: Path
+    participants_path: Path
+    utterances_path: Path
+    manifest_path: Path
+    role_by_position: dict[str, str]
+    duplicate_minimum_words: int = Field(default=20, ge=1)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -220,3 +241,9 @@ def load_transcript_audit_config(path: Path) -> TranscriptAuditConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return TranscriptAuditConfig.model_validate(raw)
+
+
+def load_transcript_normalize_config(path: Path) -> TranscriptNormalizeConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return TranscriptNormalizeConfig.model_validate(raw)

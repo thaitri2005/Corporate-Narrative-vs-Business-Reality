@@ -92,7 +92,7 @@ The implementation must not add these merely because tooling makes them easy:
 | ID | Assumption | Validation point | If false |
 |---|---|---|---|
 | A-01 | Owner accepts the unresolved STRUX license risk for private, local portfolio analysis | M1 | Keep raw/reconstructable data private; prohibit external processing and switch source if use expands |
-| A-02 | At least 15 companies have roughly 12 usable calls | M1 | Reduce inference scope, extend time, or reconsider industry only through ADR |
+| A-02 | At least 15 companies retain 12 fiscally mapped, structurally valid calls | M1/M2 | Current acquisition screen has 28 candidates; reduce inference scope or revisit source/window if mapping drops below 15 |
 | A-03 | Speaker roles and call sections can be normalized reliably | M1/M2 | Exclude weak records, add manual mapping, or restrict signal sections |
 | A-04 | SEC filings cover core GAAP outcomes | M1/M2 | Add licensed source or narrow outcomes |
 | A-05 | One economically matched narrative/outcome pair has adequate coverage | M1 | Choose a different mechanism before looking at outcome associations |

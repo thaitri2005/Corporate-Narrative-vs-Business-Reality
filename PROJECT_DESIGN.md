@@ -597,6 +597,7 @@ Do not rank truthfulness or infer intent. Present NLP as imperfect measurement. 
 | D-016 | Local-first resource envelope and approval gate | Accepted | Keeps the project viable on ordinary hardware and prevents unapproved external processing/cost | Owner approves a measured exception |
 | D-017 | Three-worker, 8-request/second SEC acquisition with file manifests | Accepted | Reliable and resumable at 34-company scale without a metadata database | Scale or multi-process coordination invalidates file-level checkpointing |
 | D-018 | Pin and checksum the two non-overlapping STRUX `full` shards, then filter locally | Accepted | Reproducible acquisition without double-counting train/test views | Upstream revision/schema changes or a licensed replacement is selected |
+| D-019 | Coverage-qualified 28-company unbalanced candidate panel with a 12-company recent-coverage robustness cohort | Accepted | Preserves clusters and within-firm history while exposing temporal source gaps | Fewer than 15 firms retain 12 mapped calls or supplemental coverage changes the evidence |
 
 Full ADRs record context, drivers, alternatives, decision, consequences, validation, and rollback.
 
@@ -605,7 +606,7 @@ Full ADRs record context, drivers, alternatives, decision, consequences, validat
 ## 13. Open design questions
 
 - Long-term STRUX replacement or explicit licensing if project use expands beyond private portfolio analysis.
-- Final eligible company cohort.
+- Final fiscal/content-qualified membership within the predeclared coverage cohorts.
 - Primary mechanism after coverage-only review.
 - Cross-company SEC gross-margin and CapEx comparability.
 - Price/mix and organic-growth coverage.
