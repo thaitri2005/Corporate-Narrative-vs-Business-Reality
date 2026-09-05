@@ -294,6 +294,24 @@ class NarrativeFeatureConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class PanelBuildConfig(BaseModel):
+    """Configuration for the frozen-key analytical thin-slice panel."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    narrative_path: Path
+    financial_path: Path
+    output_path: Path
+    manifest_path: Path
+    current_financial_metrics: list[str]
+    lead_outcome_metrics: list[str]
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -370,3 +388,9 @@ def load_narrative_feature_config(path: Path) -> NarrativeFeatureConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return NarrativeFeatureConfig.model_validate(raw)
+
+
+def load_panel_build_config(path: Path) -> PanelBuildConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return PanelBuildConfig.model_validate(raw)

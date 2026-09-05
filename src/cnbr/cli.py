@@ -5,12 +5,14 @@ import os
 from collections.abc import Sequence
 from pathlib import Path
 
+from cnbr.analysis import build_thin_slice_panel
 from cnbr.config import (
     load_financial_extract_config,
     load_financial_feature_config,
     load_financial_normalize_config,
     load_fiscal_alignment_config,
     load_narrative_feature_config,
+    load_panel_build_config,
     load_sec_coverage_config,
     load_sec_filing_index_config,
     load_sec_spike_config,
@@ -92,6 +94,10 @@ def build_parser() -> argparse.ArgumentParser:
         "narrative-features", help="Derive role-aware non-semantic transcript structure features"
     )
     narrative_features.add_argument("--config", type=Path, required=True)
+    panel_build = subparsers.add_parser(
+        "panel-build", help="Build the point-in-time analytical thin-slice panel"
+    )
+    panel_build.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -153,3 +159,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         narrative_config = load_narrative_feature_config(config_path)
         build_narrative_structure_features(narrative_config, Path.cwd().resolve())
+    elif args.command == "panel-build":
+        config_path = args.config.resolve()
+        panel_config = load_panel_build_config(config_path)
+        build_thin_slice_panel(panel_config, Path.cwd().resolve())

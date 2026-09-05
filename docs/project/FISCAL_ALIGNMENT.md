@@ -68,3 +68,8 @@ predecessors remain absent. No narrative/outcome association has been run.
 A matching role/section structural baseline covers all 102 mapped calls and 983,194 eligible words.
 It supplies leakage-safe corpus diagnostics for the thin slice, but deliberately does not stand in
 for the later theory-grounded narrative taxonomy or semantic model.
+
+The point-in-time join now materializes 102 unique analytical rows. Next-quarter operating margin
+and CapEx/revenue are present for all 102; revenue YoY and inventory YoY are present for 101. The
+33,721-byte artifact is a join/lag deliverable only—no coefficient, correlation, or outcome-guided
+selection has been computed.

@@ -36,3 +36,7 @@ release artifact and must not be sent to external services.
 Stage 0 is locally complete. Stage 1 has frozen a 34-company, commit-pinned Consumer Staples
 sampling frame, completed a five-company SEC acquisition/coverage spike, and approved a bounded,
 checksum-verified STRUX ingestion under the private/local-use constraint.
+
+A five-company M2 vertical slice now runs from canonical transcripts and SEC fiscal alignment
+through financial/narrative features to a 102-row point-in-time analytical panel. Manual mapping and
+filing reconciliation remain gates before scaling or statistical analysis.

@@ -13,12 +13,12 @@ stages:
       size: 65
     - path: src/cnbr/cli.py
       hash: md5
-      md5: 7b65ab890a6997a3b592a530f4702fe9
-      size: 7165
+      md5: 49fdce015032e5c7af94f1672c1182c8
+      size: 7650
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/logging.py
       hash: md5
       md5: 0db16ad957d085f020e18e930c38c87a
@@ -62,8 +62,8 @@ stages:
       size: 549
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/registry
       hash: md5
       md5: 552af0294913a3fce7b481a83a8ea155.dir
@@ -92,8 +92,8 @@ stages:
       size: 706
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/sources/sec.py
       hash: md5
       md5: 8d8c2463a3f5c0d39689a8ec4019529f
@@ -127,8 +127,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/financials/coverage.py
       hash: md5
       md5: 96454088af13dc877b80eec5f439bc05
@@ -157,8 +157,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/financials/filing_index.py
       hash: md5
       md5: 18d4e0f0404e4f3ba0ae705c6087b6a7
@@ -185,8 +185,8 @@ stages:
       size: 6619
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/sources/strux.py
       hash: md5
       md5: 091ee8c031ed43dfa817966e6602f48e
@@ -218,8 +218,8 @@ stages:
       size: 8884666
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/transcripts/audit.py
       hash: md5
       md5: 6f3599b9810f43a3c2f8fa248989aa7a
@@ -254,8 +254,8 @@ stages:
       size: 8884666
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/transcripts/normalize.py
       hash: md5
       md5: 676150448ad0a076ac5eeb10d21d41e9
@@ -303,8 +303,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/contracts/registry.py
       hash: md5
       md5: e7e96e0773b9bb33551a0dd2b1da0e61
@@ -348,8 +348,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/financials/extract.py
       hash: md5
       md5: 509b721e81782a70120b80dd7cb245bd
@@ -388,8 +388,8 @@ stages:
       size: 118560
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/financials/normalize.py
       hash: md5
       md5: f2bf280c1cde2b649e941564a197f3b7
@@ -416,8 +416,8 @@ stages:
       size: 35211
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/financials/features.py
       hash: md5
       md5: 541eb2c5711fd37c071446d1bcbced56
@@ -448,8 +448,8 @@ stages:
       size: 15679382
     - path: src/cnbr/config.py
       hash: md5
-      md5: d0d41ac01509b34d41ed8f2fc571cac1
-      size: 12181
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
     - path: src/cnbr/transcripts/features.py
       hash: md5
       md5: 949aafc4da04c52f7fc13364ac2cc83f
@@ -463,3 +463,35 @@ stages:
       hash: md5
       md5: 52d1c8c3de2fb26a8031bb420893dacf
       size: 663
+  panel_build:
+    cmd: python -m cnbr panel-build --config configs/data/panel.yaml
+    deps:
+    - path: configs/data/panel.yaml
+      hash: md5
+      md5: bb31c9865cea1307f63c04731a6f53f8
+      size: 473
+    - path: data/features/financial_features.parquet
+      hash: md5
+      md5: abd6d4b7231504e83eb72c35502e0451
+      size: 64176
+    - path: data/features/narrative_structure_features.parquet
+      hash: md5
+      md5: 3bdd28effad986c448461d1e81b4a6e3
+      size: 17962
+    - path: src/cnbr/analysis/panel.py
+      hash: md5
+      md5: cc87251671c369ab2df51cc6a54bb75d
+      size: 3429
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: 67865181ff419054e686541ef28852a4
+      size: 12943
+    outs:
+    - path: data/analytical/thin_slice_panel.parquet
+      hash: md5
+      md5: c92a346c92bd9b24f8e89c6f53952c7a
+      size: 33721
+    - path: reports/tables/thin_slice_panel.json
+      hash: md5
+      md5: b89e21fc865b4ab4551cf32849897577
+      size: 749

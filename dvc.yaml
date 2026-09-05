@@ -1,4 +1,15 @@
 stages:
+  panel_build:
+    cmd: python -m cnbr panel-build --config configs/data/panel.yaml
+    deps:
+      - configs/data/panel.yaml
+      - data/features/narrative_structure_features.parquet
+      - data/features/financial_features.parquet
+      - src/cnbr/config.py
+      - src/cnbr/analysis/panel.py
+    outs:
+      - data/analytical/thin_slice_panel.parquet
+      - reports/tables/thin_slice_panel.json
   narrative_features:
     cmd: python -m cnbr narrative-features --config configs/data/narrative.yaml
     deps:

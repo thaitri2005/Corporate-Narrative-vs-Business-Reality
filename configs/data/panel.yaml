@@ -1,0 +1,15 @@
+schema_version: "1.0"
+narrative_path: data/features/narrative_structure_features.parquet
+financial_path: data/features/financial_features.parquet
+output_path: data/analytical/thin_slice_panel.parquet
+manifest_path: reports/tables/thin_slice_panel.json
+current_financial_metrics:
+  - revenue
+  - operating_margin
+  - inventory
+  - capital_expenditure_to_revenue
+lead_outcome_metrics:
+  - revenue_yoy
+  - operating_margin
+  - inventory_yoy
+  - capital_expenditure_to_revenue
