@@ -242,6 +242,26 @@ class FinancialExtractConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class FinancialNormalizeConfig(BaseModel):
+    """Configuration for canonical quarterly financial-value resolution."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    occurrence_path: Path
+    fiscal_periods_path: Path
+    filing_index_path: Path
+    universe_path: Path
+    output_path: Path
+    manifest_path: Path
+    metric_concepts: dict[str, list[str]] = Field(min_length=1)
+    revenue_priority_by_ticker: dict[str, list[str]] = Field(min_length=1)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -300,3 +320,9 @@ def load_financial_extract_config(path: Path) -> FinancialExtractConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return FinancialExtractConfig.model_validate(raw)
+
+
+def load_financial_normalize_config(path: Path) -> FinancialNormalizeConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return FinancialNormalizeConfig.model_validate(raw)

@@ -1,0 +1,18 @@
+schema_version: "1.0"
+occurrence_path: data/interim/financial_fact_occurrences.parquet
+fiscal_periods_path: data/curated/fiscal_periods.parquet
+filing_index_path: data/curated/sec_filing_index-2017-2024.parquet
+universe_path: data/curated/company_universe-2026-09-05.parquet
+output_path: data/curated/financial_values.parquet
+manifest_path: reports/tables/financial_normalization.json
+metric_concepts:
+  revenue: []
+  operating_income: [OperatingIncomeLoss]
+  inventory: [InventoryNet]
+  capital_expenditure: [PaymentsToAcquirePropertyPlantAndEquipment]
+revenue_priority_by_ticker:
+  COST: [Revenues, RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet]
+  KO: [Revenues, SalesRevenueGoodsNet]
+  MO: [RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet]
+  PG: [Revenues, SalesRevenueNet]
+  WMT: [Revenues, RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet]

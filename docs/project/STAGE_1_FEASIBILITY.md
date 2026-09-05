@@ -79,6 +79,12 @@ base filings has a current USD occurrence for revenue, operating income, invento
 canonical value has yet been selected: overlapping concepts and durations remain explicit pending
 reconciliation.
 
+The first canonical resolver subsequently produced all 640 expected metric keys and resolved 637
+values: 307 direct-quarter flows, 160 direct inventory instants, and 170 cumulative-difference
+flows. Three left-boundary flow values remain explicitly null because the necessary prior cumulative
+filing predates the acquired window. Every derived value retains both operand fact IDs; manual
+filing reconciliation is still required.
+
 ### Initial Company Facts availability screen
 
 The local, hash-bound audit counted unique `(fiscal_year, fiscal_period)` labels from 2017–2024 for

@@ -1,4 +1,17 @@
 stages:
+  financial_normalize:
+    cmd: python -m cnbr financial-normalize --config configs/data/values.yaml
+    deps:
+      - configs/data/values.yaml
+      - data/interim/financial_fact_occurrences.parquet
+      - data/curated/fiscal_periods.parquet
+      - data/curated/sec_filing_index-2017-2024.parquet
+      - data/curated/company_universe-2026-09-05.parquet
+      - src/cnbr/config.py
+      - src/cnbr/financials/normalize.py
+    outs:
+      - data/curated/financial_values.parquet
+      - reports/tables/financial_normalization.json
   financial_extract:
     cmd: python -m cnbr financial-extract --config configs/data/facts.yaml
     deps:

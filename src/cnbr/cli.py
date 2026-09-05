@@ -7,6 +7,7 @@ from pathlib import Path
 
 from cnbr.config import (
     load_financial_extract_config,
+    load_financial_normalize_config,
     load_fiscal_alignment_config,
     load_sec_coverage_config,
     load_sec_filing_index_config,
@@ -22,6 +23,7 @@ from cnbr.financials import (
     build_filing_index,
     build_fiscal_alignment,
     extract_financial_facts,
+    normalize_financial_values,
 )
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
@@ -71,6 +73,10 @@ def build_parser() -> argparse.ArgumentParser:
         "financial-extract", help="Extract accession-bound long-form SEC fact occurrences"
     )
     financial_extract.add_argument("--config", type=Path, required=True)
+    financial_normalize = subparsers.add_parser(
+        "financial-normalize", help="Resolve canonical quarterly financial values"
+    )
+    financial_normalize.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -120,3 +126,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         extract_config = load_financial_extract_config(config_path)
         extract_financial_facts(extract_config, Path.cwd().resolve())
+    elif args.command == "financial-normalize":
+        config_path = args.config.resolve()
+        financial_config = load_financial_normalize_config(config_path)
+        normalize_financial_values(financial_config, Path.cwd().resolve())

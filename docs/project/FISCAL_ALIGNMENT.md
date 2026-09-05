@@ -48,3 +48,14 @@ least one current USD occurrence for each of revenue, operating income, inventor
 
 This is deliberately an occurrence layer, not a canonical-value table. Overlapping revenue concepts
 and quarter/YTD observations remain separate for the next reconciliation and selection stage.
+
+## Canonical quarterly values
+
+A versioned company-specific revenue priority and common metric rules now resolve 637 of 640 expected
+company-quarter-metric values. The table contains 307 direct-quarter values, 160 direct inventory
+instants, and 170 values derived as cumulative minus prior cumulative with both operand fact IDs.
+
+Three early-window flow values remain null because their required prior cumulative filing precedes
+the acquired boundary. They are labeled `unresolved_missing_prior_cumulative`, not imputed. This is
+an expected left-boundary limitation and demonstrates that the resolver fails visibly rather than
+manufacturing a quarter. Filing-sample reconciliation remains open before M2 acceptance.
