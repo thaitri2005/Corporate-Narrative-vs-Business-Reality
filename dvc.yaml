@@ -1,4 +1,14 @@
 stages:
+  financial_features:
+    cmd: python -m cnbr financial-features --config configs/data/features.yaml
+    deps:
+      - configs/data/features.yaml
+      - data/curated/financial_values.parquet
+      - src/cnbr/config.py
+      - src/cnbr/financials/features.py
+    outs:
+      - data/features/financial_features.parquet
+      - reports/tables/financial_features.json
   financial_normalize:
     cmd: python -m cnbr financial-normalize --config configs/data/values.yaml
     deps:

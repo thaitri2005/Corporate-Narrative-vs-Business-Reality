@@ -262,6 +262,21 @@ class FinancialNormalizeConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class FinancialFeatureConfig(BaseModel):
+    """Configuration for deterministic thin-slice financial feature derivation."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    input_path: Path
+    output_path: Path
+    manifest_path: Path
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -326,3 +341,9 @@ def load_financial_normalize_config(path: Path) -> FinancialNormalizeConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return FinancialNormalizeConfig.model_validate(raw)
+
+
+def load_financial_feature_config(path: Path) -> FinancialFeatureConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return FinancialFeatureConfig.model_validate(raw)

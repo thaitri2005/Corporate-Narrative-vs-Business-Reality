@@ -7,6 +7,7 @@ from pathlib import Path
 
 from cnbr.config import (
     load_financial_extract_config,
+    load_financial_feature_config,
     load_financial_normalize_config,
     load_fiscal_alignment_config,
     load_sec_coverage_config,
@@ -21,6 +22,7 @@ from cnbr.config import (
 from cnbr.financials import (
     build_concept_coverage,
     build_filing_index,
+    build_financial_features,
     build_fiscal_alignment,
     extract_financial_facts,
     normalize_financial_values,
@@ -77,6 +79,10 @@ def build_parser() -> argparse.ArgumentParser:
         "financial-normalize", help="Resolve canonical quarterly financial values"
     )
     financial_normalize.add_argument("--config", type=Path, required=True)
+    financial_features = subparsers.add_parser(
+        "financial-features", help="Derive transparent quarterly financial features"
+    )
+    financial_features.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -130,3 +136,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         financial_config = load_financial_normalize_config(config_path)
         normalize_financial_values(financial_config, Path.cwd().resolve())
+    elif args.command == "financial-features":
+        config_path = args.config.resolve()
+        feature_config = load_financial_feature_config(config_path)
+        build_financial_features(feature_config, Path.cwd().resolve())

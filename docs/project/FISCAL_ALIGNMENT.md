@@ -59,3 +59,8 @@ Three early-window flow values remain null because their required prior cumulati
 the acquired boundary. They are labeled `unresolved_missing_prior_cumulative`, not imputed. This is
 an expected left-boundary limitation and demonstrates that the resolver fails visibly rather than
 manufacturing a quarter. Filing-sample reconciliation remains open before M2 acceptance.
+
+The mechanical feature stage then produced 1,234 long-form rows: 159 operating margins, 158
+CapEx/revenue ratios, 140 revenue YoY values, 140 inventory YoY values, and their resolved canonical
+inputs. Same-quarter year-over-year comparisons require an actual prior fiscal-year key; missing
+predecessors remain absent. No narrative/outcome association has been run.

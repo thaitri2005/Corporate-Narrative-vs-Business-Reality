@@ -1,0 +1,4 @@
+schema_version: "1.0"
+input_path: data/curated/financial_values.parquet
+output_path: data/features/financial_features.parquet
+manifest_path: reports/tables/financial_features.json
