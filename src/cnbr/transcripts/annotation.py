@@ -92,7 +92,10 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
         if view is None:
             continue
         for topic_id, pattern in patterns:
-            if pattern.search(str(utterance["text"])):
+            is_match = bool(pattern.search(str(utterance["text"])))
+            if (config.selection_mode == "lexical_match" and is_match) or (
+                config.selection_mode == "lexical_nonmatch" and not is_match
+            ):
                 candidates[topic_id].append(
                     {
                         "call_id": call_id,
@@ -118,6 +121,7 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
                     "data": {
                         "task_id": _task_id(topic_id, str(row["call_id"]), int(row["turn_index"])),
                         "candidate_topic": topic_id,
+                        "selection_mode": config.selection_mode,
                         **row,
                     }
                 }
@@ -140,6 +144,7 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
         "config_sha256": config.content_hash(),
         "task_count": len(tasks),
         "selected_by_candidate_topic": selected_by_topic,
+        "selection_mode": config.selection_mode,
         "utterances_sha256": _sha256(repo_root / config.utterances_path),
         "call_mappings_sha256": _sha256(repo_root / config.call_mappings_path),
         "tasks_sha256": _sha256(tasks_path),

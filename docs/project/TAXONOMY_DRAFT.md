@@ -54,3 +54,7 @@ draft-topic metadata and text only in ignored `data/review/`; the committed mani
 hashes, and the taxonomy revision without copying text. Candidate topics are sampling aids, not
 pre-applied labels. The local page exports a text-free label JSON; import the task packet into Label
 Studio only after defining the annotation interface and codebook decisions.
+
+After the initial candidate-match pilot, run `configs/data/annotation_controls.yaml` to create a
+small lexical-nonmatch control packet. It measures whether the draft dictionary misses meaningful
+topic language; it is not a model evaluation set.

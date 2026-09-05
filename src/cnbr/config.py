@@ -4,7 +4,7 @@ import hashlib
 import json
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -361,6 +361,7 @@ class AnnotationPilotConfig(BaseModel):
     html_path: Path
     manifest_path: Path
     samples_per_topic: int = Field(default=4, ge=1, le=20)
+    selection_mode: Literal["lexical_match", "lexical_nonmatch"] = "lexical_match"
     excluded_quality_flags: list[str]
 
     def content_hash(self) -> str:
