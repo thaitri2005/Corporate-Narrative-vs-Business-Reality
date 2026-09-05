@@ -1,4 +1,16 @@
 stages:
+  financial_extract:
+    cmd: python -m cnbr financial-extract --config configs/data/facts.yaml
+    deps:
+      - configs/data/facts.yaml
+      - data/curated/sec_filing_index-2017-2024.parquet
+      - data/curated/company_universe-2026-09-05.parquet
+      - data/raw/sec/feasibility-2026-09-05
+      - src/cnbr/config.py
+      - src/cnbr/financials/extract.py
+    outs:
+      - data/interim/financial_fact_occurrences.parquet
+      - reports/tables/financial_fact_extraction.json
   fiscal_align:
     cmd: python -m cnbr fiscal-align --config configs/data/align.yaml
     deps:

@@ -13,12 +13,12 @@ stages:
       size: 65
     - path: src/cnbr/cli.py
       hash: md5
-      md5: d3b7437caca382cace133546346b7b53
-      size: 5052
+      md5: 883aecf27fb06c0349dc402eee165912
+      size: 5578
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/logging.py
       hash: md5
       md5: 0db16ad957d085f020e18e930c38c87a
@@ -62,8 +62,8 @@ stages:
       size: 549
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/registry
       hash: md5
       md5: 552af0294913a3fce7b481a83a8ea155.dir
@@ -92,8 +92,8 @@ stages:
       size: 706
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/sources/sec.py
       hash: md5
       md5: 8d8c2463a3f5c0d39689a8ec4019529f
@@ -127,8 +127,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/financials/coverage.py
       hash: md5
       md5: 96454088af13dc877b80eec5f439bc05
@@ -157,8 +157,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/financials/filing_index.py
       hash: md5
       md5: 18d4e0f0404e4f3ba0ae705c6087b6a7
@@ -185,8 +185,8 @@ stages:
       size: 6619
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/sources/strux.py
       hash: md5
       md5: 091ee8c031ed43dfa817966e6602f48e
@@ -218,8 +218,8 @@ stages:
       size: 8884666
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/transcripts/audit.py
       hash: md5
       md5: 6f3599b9810f43a3c2f8fa248989aa7a
@@ -254,8 +254,8 @@ stages:
       size: 8884666
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/transcripts/normalize.py
       hash: md5
       md5: 676150448ad0a076ac5eeb10d21d41e9
@@ -303,8 +303,8 @@ stages:
       nfiles: 13
     - path: src/cnbr/config.py
       hash: md5
-      md5: 575f7b867058c7cf7941c3fae76bc721
-      size: 8961
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
     - path: src/cnbr/contracts/registry.py
       hash: md5
       md5: e7e96e0773b9bb33551a0dd2b1da0e61
@@ -326,3 +326,40 @@ stages:
       hash: md5
       md5: eb8efb4140e5791a1d1942816454bade
       size: 1458
+  financial_extract:
+    cmd: python -m cnbr financial-extract --config configs/data/facts.yaml
+    deps:
+    - path: configs/data/facts.yaml
+      hash: md5
+      md5: 27d3586051e6fd69222c40662faa25c4
+      size: 659
+    - path: data/curated/company_universe-2026-09-05.parquet
+      hash: md5
+      md5: 57d815c4cb7200cccc7493b57c06170c
+      size: 6619
+    - path: data/curated/sec_filing_index-2017-2024.parquet
+      hash: md5
+      md5: 60facf6e315a5e22ab7c9b56b72aefd6
+      size: 9351
+    - path: data/raw/sec/feasibility-2026-09-05
+      hash: md5
+      md5: 9ac588a7aed2b3e4ba196c7d97d81533.dir
+      size: 21842180
+      nfiles: 13
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: a83cf486dfd83d9127b6d5020243d604
+      size: 9808
+    - path: src/cnbr/financials/extract.py
+      hash: md5
+      md5: 509b721e81782a70120b80dd7cb245bd
+      size: 7564
+    outs:
+    - path: data/interim/financial_fact_occurrences.parquet
+      hash: md5
+      md5: 680e94864825fd938f612a9531640491
+      size: 118560
+    - path: reports/tables/financial_fact_extraction.json
+      hash: md5
+      md5: da6b82a12f2b835cc6dc16111cac9623
+      size: 1821

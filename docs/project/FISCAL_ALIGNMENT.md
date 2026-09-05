@@ -37,3 +37,14 @@ mapping or treating the result as trusted canonical data.
 The next financial step extracts provenance-rich facts for revenue, operating income, inventory, and
 CapEx, then classifies direct-quarter/YTD/annual/instant observations. Gross profit remains deferred
 because direct concept coverage is not comparable across the sample.
+
+## Fact-occurrence extraction
+
+The accession-bound extractor now retains 2,279 relevant Company Facts occurrences across the five
+companies in a 118,560-byte Parquet. Each row preserves source concept, unit, exact JSON value,
+start/end, duration class, SEC fiscal labels/frame, accession, form, filing and acceptance time,
+amendment/current-period flags, source item locator, and file hash. All 160 base filings have at
+least one current USD occurrence for each of revenue, operating income, inventory, and CapEx.
+
+This is deliberately an occurrence layer, not a canonical-value table. Overlapping revenue concepts
+and quarter/YTD observations remain separate for the next reconciliation and selection stage.

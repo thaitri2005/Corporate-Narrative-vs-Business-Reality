@@ -74,6 +74,11 @@ sequence, date-order, call-uniqueness, and timezone checks pass. Manual reported
 remains required before the mapping is promoted to trusted canonical status. See
 `docs/project/FISCAL_ALIGNMENT.md`.
 
+The subsequent extraction retained 2,279 accession-bound fact occurrences. Every one of the 160
+base filings has a current USD occurrence for revenue, operating income, inventory, and CapEx. No
+canonical value has yet been selected: overlapping concepts and durations remain explicit pending
+reconciliation.
+
 ### Initial Company Facts availability screen
 
 The local, hash-bound audit counted unique `(fiscal_year, fiscal_period)` labels from 2017–2024 for

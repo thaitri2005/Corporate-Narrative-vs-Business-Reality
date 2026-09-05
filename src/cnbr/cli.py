@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from cnbr.config import (
+    load_financial_extract_config,
     load_fiscal_alignment_config,
     load_sec_coverage_config,
     load_sec_filing_index_config,
@@ -16,7 +17,12 @@ from cnbr.config import (
     load_transcript_normalize_config,
     load_universe_config,
 )
-from cnbr.financials import build_concept_coverage, build_filing_index, build_fiscal_alignment
+from cnbr.financials import (
+    build_concept_coverage,
+    build_filing_index,
+    build_fiscal_alignment,
+    extract_financial_facts,
+)
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import ingest_strux_subset, run_sec_spike
@@ -61,6 +67,10 @@ def build_parser() -> argparse.ArgumentParser:
         "fiscal-align", help="Build an accession-bound fiscal spine and map date-precision calls"
     )
     fiscal_align.add_argument("--config", type=Path, required=True)
+    financial_extract = subparsers.add_parser(
+        "financial-extract", help="Extract accession-bound long-form SEC fact occurrences"
+    )
+    financial_extract.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -106,3 +116,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         alignment_config = load_fiscal_alignment_config(config_path)
         build_fiscal_alignment(alignment_config, Path.cwd().resolve())
+    elif args.command == "financial-extract":
+        config_path = args.config.resolve()
+        extract_config = load_financial_extract_config(config_path)
+        extract_financial_facts(extract_config, Path.cwd().resolve())

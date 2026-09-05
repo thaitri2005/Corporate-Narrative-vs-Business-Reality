@@ -1,0 +1,19 @@
+schema_version: "1.0"
+companies: [KO, PG, COST, WMT, MO]
+filing_index_path: data/curated/sec_filing_index-2017-2024.parquet
+universe_path: data/curated/company_universe-2026-09-05.parquet
+sec_raw_dir: data/raw/sec/feasibility-2026-09-05
+output_path: data/interim/financial_fact_occurrences.parquet
+manifest_path: reports/tables/financial_fact_extraction.json
+metric_concepts:
+  revenue:
+    - RevenueFromContractWithCustomerExcludingAssessedTax
+    - Revenues
+    - SalesRevenueNet
+    - SalesRevenueGoodsNet
+  operating_income:
+    - OperatingIncomeLoss
+  inventory:
+    - InventoryNet
+  capital_expenditure:
+    - PaymentsToAcquirePropertyPlantAndEquipment
