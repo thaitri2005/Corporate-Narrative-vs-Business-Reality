@@ -201,6 +201,28 @@ class TranscriptNormalizeConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class FiscalAlignmentConfig(BaseModel):
+    """Configuration for the accession-bound fiscal spine and call mapping thin slice."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "2.0"
+    companies: list[str] = Field(min_length=1)
+    filing_index_path: Path
+    calls_path: Path
+    universe_path: Path
+    sec_raw_dir: Path
+    fiscal_periods_path: Path
+    call_mappings_path: Path
+    manifest_path: Path
+    maximum_call_lag_days: int = Field(default=75, ge=1, le=120)
+    period_boundary_concepts: list[str] = Field(min_length=1)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -247,3 +269,9 @@ def load_transcript_normalize_config(path: Path) -> TranscriptNormalizeConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return TranscriptNormalizeConfig.model_validate(raw)
+
+
+def load_fiscal_alignment_config(path: Path) -> FiscalAlignmentConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return FiscalAlignmentConfig.model_validate(raw)

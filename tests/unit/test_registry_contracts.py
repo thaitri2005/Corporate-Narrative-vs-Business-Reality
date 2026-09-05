@@ -6,6 +6,7 @@ import pytest
 from pydantic import ValidationError
 
 from cnbr.contracts.registry import (
+    CallTimePrecision,
     CompanyIdentifier,
     FiscalPeriod,
     IdentifierType,
@@ -40,7 +41,9 @@ def _period(
         period_start=start,
         period_end=end,
         call_id=call_id,
+        call_date=call_at.date() if call_at else None,
         call_started_at=call_at,
+        call_time_precision=CallTimePrecision.DATETIME if call_at else None,
         mapping_source="golden-fixture",
     )
 
@@ -66,7 +69,7 @@ def test_missing_call_is_valid_but_partial_call_mapping_is_not() -> None:
     missing_call = _period(1, date(2025, 1, 1), date(2025, 3, 31))
     validate_fiscal_periods([missing_call])
 
-    with pytest.raises(ValidationError, match="call_id and call_started_at"):
+    with pytest.raises(ValidationError, match="mapped calls require"):
         FiscalPeriod(
             company_id="sec-cik-0000000001",
             fiscal_year=2025,
@@ -76,6 +79,21 @@ def test_missing_call_is_valid_but_partial_call_mapping_is_not() -> None:
             call_id="call-1",
             mapping_source="golden-fixture",
         )
+
+
+def test_date_precision_call_does_not_require_invented_timestamp() -> None:
+    period = FiscalPeriod(
+        company_id="sec-cik-0000000001",
+        fiscal_year=2025,
+        fiscal_quarter=1,
+        period_start=date(2025, 1, 1),
+        period_end=date(2025, 3, 31),
+        call_id="call-date-only",
+        call_date=date(2025, 4, 10),
+        call_time_precision=CallTimePrecision.DATE,
+        mapping_source="golden-fixture",
+    )
+    validate_fiscal_periods([period])
 
 
 def test_call_cannot_map_to_two_quarters() -> None:

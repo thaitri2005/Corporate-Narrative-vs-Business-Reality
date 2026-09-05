@@ -1,4 +1,19 @@
 stages:
+  fiscal_align:
+    cmd: python -m cnbr fiscal-align --config configs/data/align.yaml
+    deps:
+      - configs/data/align.yaml
+      - data/curated/sec_filing_index-2017-2024.parquet
+      - data/curated/calls.parquet
+      - data/curated/company_universe-2026-09-05.parquet
+      - data/raw/sec/feasibility-2026-09-05
+      - src/cnbr/config.py
+      - src/cnbr/contracts/registry.py
+      - src/cnbr/financials/alignment.py
+    outs:
+      - data/curated/fiscal_periods.parquet
+      - data/curated/call_fiscal_mappings.parquet
+      - reports/tables/fiscal_alignment.json
   transcript_normalize:
     cmd: python -m cnbr transcript-normalize --config configs/data/norm.yaml
     deps:
@@ -50,7 +65,7 @@ stages:
       - configs/data/sec_concept_coverage.yaml
       - data/raw/sec/feasibility-2026-09-05
       - src/cnbr/config.py
-      - src/cnbr/financials
+      - src/cnbr/financials/coverage.py
     outs:
       - reports/tables/sec_concept_coverage.csv
       - reports/tables/sec_concept_coverage.json

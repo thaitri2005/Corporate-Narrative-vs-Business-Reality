@@ -66,9 +66,7 @@ def _content_flags(text: str) -> list[str]:
     return flags
 
 
-def normalize_transcripts(
-    config: TranscriptNormalizeConfig, repo_root: Path
-) -> dict[str, object]:
+def normalize_transcripts(config: TranscriptNormalizeConfig, repo_root: Path) -> dict[str, object]:
     """Normalize STRUX calls into deterministic call, participant, and utterance tables."""
     invalid_roles = set(config.role_by_position.values()) - VALID_ROLES
     if invalid_roles:

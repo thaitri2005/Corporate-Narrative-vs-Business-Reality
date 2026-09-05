@@ -1,6 +1,7 @@
 """Versioned domain contracts and cross-row invariants."""
 
 from cnbr.contracts.registry import (
+    CallTimePrecision,
     CompanyIdentifier,
     FiscalPeriod,
     IdentifierType,
@@ -9,6 +10,7 @@ from cnbr.contracts.registry import (
 )
 
 __all__ = [
+    "CallTimePrecision",
     "CompanyIdentifier",
     "FiscalPeriod",
     "IdentifierType",

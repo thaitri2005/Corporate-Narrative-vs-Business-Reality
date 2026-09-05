@@ -1,0 +1,15 @@
+schema_version: "2.0"
+companies: [KO, PG, COST, WMT, MO]
+filing_index_path: data/curated/sec_filing_index-2017-2024.parquet
+calls_path: data/curated/calls.parquet
+universe_path: data/curated/company_universe-2026-09-05.parquet
+sec_raw_dir: data/raw/sec/feasibility-2026-09-05
+fiscal_periods_path: data/curated/fiscal_periods.parquet
+call_mappings_path: data/curated/call_fiscal_mappings.parquet
+manifest_path: reports/tables/fiscal_alignment.json
+maximum_call_lag_days: 75
+period_boundary_concepts:
+  - RevenueFromContractWithCustomerExcludingAssessedTax
+  - Revenues
+  - SalesRevenueNet
+  - SalesRevenueGoodsNet

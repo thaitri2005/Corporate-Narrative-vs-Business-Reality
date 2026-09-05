@@ -6,6 +6,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from cnbr.config import (
+    load_fiscal_alignment_config,
     load_sec_coverage_config,
     load_sec_filing_index_config,
     load_sec_spike_config,
@@ -15,7 +16,7 @@ from cnbr.config import (
     load_transcript_normalize_config,
     load_universe_config,
 )
-from cnbr.financials import build_concept_coverage, build_filing_index
+from cnbr.financials import build_concept_coverage, build_filing_index, build_fiscal_alignment
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import ingest_strux_subset, run_sec_spike
@@ -56,6 +57,10 @@ def build_parser() -> argparse.ArgumentParser:
         "transcript-normalize", help="Normalize local STRUX calls into canonical transcript tables"
     )
     transcript_normalize.add_argument("--config", type=Path, required=True)
+    fiscal_align = subparsers.add_parser(
+        "fiscal-align", help="Build an accession-bound fiscal spine and map date-precision calls"
+    )
+    fiscal_align.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -97,3 +102,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         normalize_config = load_transcript_normalize_config(config_path)
         normalize_transcripts(normalize_config, Path.cwd().resolve())
+    elif args.command == "fiscal-align":
+        config_path = args.config.resolve()
+        alignment_config = load_fiscal_alignment_config(config_path)
+        build_fiscal_alignment(alignment_config, Path.cwd().resolve())

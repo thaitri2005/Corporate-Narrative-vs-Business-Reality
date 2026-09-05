@@ -64,6 +64,16 @@ date, filing date, SEC acceptance timestamp, form/amendment status, primary docu
 CIK, ticker, entity name, and fiscal-year-end metadata. This passes filing availability and
 identifier continuity, while fact-to-filing and fiscal-quarter value reconciliation remain open.
 
+### Five-company call/fiscal alignment
+
+Registry schema 2.0 now represents STRUX calls at their actual date precision without inventing a
+time or timezone. An accession-bound thin slice built 160 unique fiscal periods—32 each for KO, PG,
+COST, WMT, and MO—and mapped all 102 available calls. Every call maps uniquely to the latest
+preceding period end; observed lags are 15–45 days under a 75-day maximum. Automated overlap,
+sequence, date-order, call-uniqueness, and timezone checks pass. Manual reported-quarter review
+remains required before the mapping is promoted to trusted canonical status. See
+`docs/project/FISCAL_ALIGNMENT.md`.
+
 ### Initial Company Facts availability screen
 
 The local, hash-bound audit counted unique `(fiscal_year, fiscal_period)` labels from 2017–2024 for

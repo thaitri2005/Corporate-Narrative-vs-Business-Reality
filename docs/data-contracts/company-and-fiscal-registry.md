@@ -1,6 +1,6 @@
 # Company and fiscal registry contract
 
-> Schema version: 1.0  
+> Schema version: 2.0
 > Implementation: `src/cnbr/contracts/registry.py`
 
 ## Purpose
@@ -36,14 +36,15 @@ schema_version
 company_id, fiscal_year, fiscal_quarter
 period_start, period_end
 earnings_release_at
-call_id, call_started_at
+call_id, call_date, call_started_at, call_time_precision
 filing_accepted_at
 mapping_source
 mapping_exception_reason
 ```
 
-Missing calls remain null rather than manufacturing an observation. `call_id` and `call_started_at`
-must appear together. A call maps to at most one quarter. A call dated before period end is rejected
+Missing calls remain null rather than manufacturing an observation. A mapped call always has
+`call_date`; `call_started_at` exists only when the source provides a timezone-aware timestamp.
+`call_time_precision` makes that distinction explicit. A call maps to at most one quarter. A call dated before period end is rejected
 unless a reviewed mapping exception explains the source anomaly. Periods for the same company may
 not overlap; non-calendar fiscal years are fully supported.
 

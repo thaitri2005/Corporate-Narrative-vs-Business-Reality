@@ -8,7 +8,7 @@ from typing import Self
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-REGISTRY_SCHEMA_VERSION = "1.0"
+REGISTRY_SCHEMA_VERSION = "2.0"
 
 
 class IdentifierType(StrEnum):
@@ -16,6 +16,11 @@ class IdentifierType(StrEnum):
     TICKER = "ticker"
     LEGAL_NAME = "legal_name"
     PROVIDER_ID = "provider_id"
+
+
+class CallTimePrecision(StrEnum):
+    DATE = "date"
+    DATETIME = "datetime"
 
 
 class CompanyIdentifier(BaseModel):
@@ -52,7 +57,9 @@ class FiscalPeriod(BaseModel):
     period_end: date
     earnings_release_at: datetime | None = None
     call_id: str | None = None
+    call_date: date | None = None
     call_started_at: datetime | None = None
+    call_time_precision: CallTimePrecision | None = None
     filing_accepted_at: datetime | None = None
     mapping_source: str = Field(min_length=1)
     mapping_exception_reason: str | None = None
@@ -61,14 +68,28 @@ class FiscalPeriod(BaseModel):
     def validate_dates_and_call(self) -> Self:
         if self.period_end < self.period_start:
             raise ValueError("period_end must be on or after period_start")
-        if (self.call_id is None) != (self.call_started_at is None):
-            raise ValueError("call_id and call_started_at must either both be set or both be null")
+        call_fields = (self.call_date, self.call_started_at, self.call_time_precision)
+        if self.call_id is None and any(value is not None for value in call_fields):
+            raise ValueError("call time fields require call_id")
+        if self.call_id is not None:
+            if self.call_date is None or self.call_time_precision is None:
+                raise ValueError("mapped calls require call_date and call_time_precision")
+            if (
+                self.call_time_precision == CallTimePrecision.DATE
+                and self.call_started_at is not None
+            ):
+                raise ValueError("date-precision calls cannot have call_started_at")
+            if self.call_time_precision == CallTimePrecision.DATETIME:
+                if self.call_started_at is None:
+                    raise ValueError("datetime-precision calls require call_started_at")
+                if self.call_started_at.date() != self.call_date:
+                    raise ValueError("call_date must match call_started_at")
         timestamps = (self.earnings_release_at, self.call_started_at, self.filing_accepted_at)
         if any(value is not None and value.tzinfo is None for value in timestamps):
             raise ValueError("event timestamps must be timezone-aware")
         if (
-            self.call_started_at is not None
-            and self.call_started_at.date() < self.period_end
+            self.call_date is not None
+            and self.call_date < self.period_end
             and not self.mapping_exception_reason
         ):
             raise ValueError("a call before period_end requires mapping_exception_reason")
