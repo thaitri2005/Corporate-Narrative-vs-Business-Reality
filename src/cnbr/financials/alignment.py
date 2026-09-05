@@ -89,6 +89,16 @@ def build_fiscal_alignment(config: FiscalAlignmentConfig, repo_root: Path) -> di
     calls = pl.read_parquet(repo_root / config.calls_path).filter(
         pl.col("ticker").is_in(config.companies)
     )
+    excluded_call_ids = set(config.review_excluded_call_ids)
+    observed_call_ids = set(cast(list[str], calls["call_id"].to_list()))
+    unknown_exclusions = excluded_call_ids - observed_call_ids
+    if unknown_exclusions:
+        raise ValueError(
+            "Fiscal review exclusions do not exist in the configured call set: "
+            + ", ".join(sorted(unknown_exclusions))
+        )
+    if excluded_call_ids:
+        calls = calls.filter(~pl.col("call_id").is_in(sorted(excluded_call_ids)))
     universe = pl.read_parquet(repo_root / config.universe_path).select(
         "ticker", "company_id", "cik"
     )
@@ -228,6 +238,8 @@ def build_fiscal_alignment(config: FiscalAlignmentConfig, repo_root: Path) -> di
         "maximum_periods_per_company": max(periods_per_company),
         "mapped_call_count": mapping_frame.height,
         "unmapped_call_count": calls.height - mapping_frame.height,
+        "review_excluded_call_count": len(excluded_call_ids),
+        "review_excluded_call_ids": sorted(excluded_call_ids),
         "minimum_call_lag_days": min(call_lags),
         "maximum_call_lag_days": max(call_lags),
         "input_companyfacts_sha256": fact_hashes,

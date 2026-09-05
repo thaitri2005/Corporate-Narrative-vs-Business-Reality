@@ -32,9 +32,9 @@ def test_fiscal_alignment_uses_accession_boundaries_and_date_precision(tmp_path:
     ).write_parquet(curated / "universe.parquet")
     pl.DataFrame(
         {
-            "call_id": ["call-q2"],
-            "ticker": ["TEST"],
-            "call_date": ["2024-07-10"],
+            "call_id": ["call-q2", "excluded-call-q2"],
+            "ticker": ["TEST", "TEST"],
+            "call_date": ["2024-07-10", "2024-07-10"],
         }
     ).write_parquet(curated / "calls.parquet")
     company_facts = {
@@ -81,6 +81,7 @@ def test_fiscal_alignment_uses_accession_boundaries_and_date_precision(tmp_path:
         call_mappings_path=Path("data/curated/mappings.parquet"),
         manifest_path=Path("reports/alignment.json"),
         period_boundary_concepts=["Revenues"],
+        review_excluded_call_ids=["excluded-call-q2"],
     )
 
     result = build_fiscal_alignment(config, tmp_path)
@@ -88,6 +89,7 @@ def test_fiscal_alignment_uses_accession_boundaries_and_date_precision(tmp_path:
     periods = pl.read_parquet(tmp_path / config.fiscal_periods_path)
     assert result["fiscal_period_count"] == 2
     assert result["mapped_call_count"] == 1
+    assert result["review_excluded_call_count"] == 1
     assert periods["fiscal_quarter"].to_list() == [1, 2]
     assert periods["period_start"].to_list() == ["2024-01-01", "2024-04-01"]
     assert periods["call_time_precision"].to_list() == [None, "date"]

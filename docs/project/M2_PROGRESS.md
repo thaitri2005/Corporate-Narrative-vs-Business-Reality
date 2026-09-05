@@ -27,7 +27,9 @@ while taxonomy, manual reconciliation, and cohort rules are still being validate
 
 ## Remaining M2 gates
 
-- Manually verify a stratified call-to-reported-quarter sample across the five fiscal calendars.
+- Complete the remaining local fiscal-mapping sample review; one confirmed STRUX date/content
+  conflict (COST, source date 2017-05-31) is quarantined in `configs/data/align.yaml` rather
+  than silently repaired.
 - Reconcile a stratified direct and cumulative-derived financial sample to filing presentation.
 - Define review thresholds and store adjudication without transcript text in Git.
 - Scale SEC acquisition/fiscal normalization from five companies only after the sample passes.

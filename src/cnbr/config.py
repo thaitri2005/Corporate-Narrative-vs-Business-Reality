@@ -217,6 +217,7 @@ class FiscalAlignmentConfig(BaseModel):
     manifest_path: Path
     maximum_call_lag_days: int = Field(default=75, ge=1, le=120)
     period_boundary_concepts: list[str] = Field(min_length=1)
+    review_excluded_call_ids: list[str] = Field(default_factory=list)
 
     def content_hash(self) -> str:
         payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))

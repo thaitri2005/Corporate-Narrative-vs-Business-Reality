@@ -13,3 +13,7 @@ period_boundary_concepts:
   - Revenues
   - SalesRevenueNet
   - SalesRevenueGoodsNet
+review_excluded_call_ids:
+  # STRUX metadata says 2017-05-31; prepared remarks identify FY2018 Q3.
+  # Quarantined after local fiscal-mapping review; never infer or repair a source date.
+  - dfb87fcbc45541de394c35b84e787f1bd03d8e2e3422c3f26418cfae65f1e42a
