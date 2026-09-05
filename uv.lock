@@ -558,6 +558,7 @@ analysis = [
 nlp = [
     { name = "datasets" },
     { name = "sentence-transformers" },
+    { name = "torch" },
     { name = "transformers" },
 ]
 pipeline = [
@@ -594,6 +595,7 @@ requires-dist = [
     { name = "sentence-transformers", marker = "extra == 'nlp'", specifier = ">=3,<6" },
     { name = "statsmodels", marker = "extra == 'analysis'", specifier = ">=0.14,<1" },
     { name = "structlog", specifier = ">=24.4,<26" },
+    { name = "torch", marker = "extra == 'nlp'", specifier = ">=2.4,<3" },
     { name = "transformers", marker = "extra == 'nlp'", specifier = ">=4.45,<6" },
 ]
 provides-extras = ["pipeline", "analysis", "nlp"]

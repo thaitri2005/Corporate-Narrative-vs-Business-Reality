@@ -72,3 +72,12 @@ Decision: retain `pricing` and `guidance_outlook` as high-precision discovery ca
 keep `portfolio_expansion` explicitly provisional and do not promote generic `innovation` as a
 standalone portfolio-expansion signal. No construct is yet a validated research label, and no
 classifier or outcome analysis may use this pilot as a test set.
+
+## Local LLM calibration — rejected baseline
+
+The pinned local checkpoint `HuggingFaceTB/SmolLM2-360M-Instruct` at revision
+`cbcad7f4d160a10174f725b968ab6faf2a76399e` completed a balanced 12-task CPU calibration: one
+phrase-match and one nonmatch control per topic. It returned a parseable Yes for every task and
+achieved only 41.7% exact agreement with the human labels. It is rejected for weak-label generation.
+No generated label enters the taxonomy, training, or analytical dataset; the human/dictionary path
+remains selected.

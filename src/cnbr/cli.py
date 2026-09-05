@@ -25,6 +25,7 @@ from cnbr.config import (
     load_transcript_audit_config,
     load_transcript_normalize_config,
     load_universe_config,
+    load_weak_label_config,
 )
 from cnbr.financials import (
     build_concept_coverage,
@@ -46,6 +47,7 @@ from cnbr.transcripts import (
     build_narrative_structure_features,
     build_transcript_audit,
     normalize_transcripts,
+    run_local_weak_label_benchmark,
 )
 
 
@@ -114,6 +116,10 @@ def build_parser() -> argparse.ArgumentParser:
         "annotation-pilot", help="Create restricted local annotation-pilot tasks"
     )
     annotation_pilot.add_argument("--config", type=Path, required=True)
+    weak_label = subparsers.add_parser(
+        "weak-label", help="Benchmark a local pinned LLM against human labels"
+    )
+    weak_label.add_argument("--config", type=Path, required=True)
     panel_build = subparsers.add_parser(
         "panel-build", help="Build the point-in-time analytical thin-slice panel"
     )
@@ -195,6 +201,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         annotation_config = load_annotation_pilot_config(config_path)
         build_annotation_pilot(annotation_config, Path.cwd().resolve())
+    elif args.command == "weak-label":
+        config_path = args.config.resolve()
+        weak_config = load_weak_label_config(config_path)
+        run_local_weak_label_benchmark(weak_config, Path.cwd().resolve())
     elif args.command == "panel-build":
         config_path = args.config.resolve()
         panel_config = load_panel_build_config(config_path)

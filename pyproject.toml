@@ -30,6 +30,7 @@ analysis = [
 nlp = [
   "datasets>=3,<5",
   "sentence-transformers>=3,<6",
+  "torch>=2.4,<3",
   "transformers>=4.45,<6",
 ]
 

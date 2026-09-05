@@ -369,6 +369,27 @@ class AnnotationPilotConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class WeakLabelConfig(BaseModel):
+    """Bounded local LLM weak-labeling configuration."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    task_paths: list[Path] = Field(min_length=1)
+    human_label_paths: list[Path] = Field(min_length=1)
+    output_path: Path
+    manifest_path: Path
+    model_id: str
+    model_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
+    max_input_tokens: int = Field(default=512, ge=64, le=1024)
+    max_new_tokens: int = Field(default=4, ge=1, le=16)
+    max_tasks_per_topic_per_mode: int = Field(default=1, ge=1, le=3)
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class PanelBuildConfig(BaseModel):
     """Configuration for the frozen-key analytical thin-slice panel."""
 
@@ -494,6 +515,12 @@ def load_annotation_pilot_config(path: Path) -> AnnotationPilotConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return AnnotationPilotConfig.model_validate(raw)
+
+
+def load_weak_label_config(path: Path) -> WeakLabelConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return WeakLabelConfig.model_validate(raw)
 
 
 def load_panel_build_config(path: Path) -> PanelBuildConfig:

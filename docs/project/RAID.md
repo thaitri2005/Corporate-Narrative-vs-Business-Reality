@@ -15,6 +15,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 | R-07 | Infrastructure consumes research capacity | Medium | Medium | Tech lead | Adoption gates and modular monolith | Mitigated by design |
 | R-08 | Future MkDocs 2 ecosystem changes disrupt docs | Low | Medium | Tech lead | Keep MkDocs 1/Material 9 locked; reassess only during upgrade | Monitoring |
 | R-09 | Optional DVC stack includes unfixed `diskcache` advisory PYSEC-2026-2447 | Low in trusted local use | High if cache is attacker-writable | Tech lead / project owner | Keep out of base runtime; owner-controlled local cache only; review before remote; upgrade when patched | Accepted/monitoring |
+| R-10 | Small local LLM produces biased weak labels | High | Medium | NLP lead | Calibration required before scale-out; SmolLM2-360M rejected at 41.7% agreement | Mitigated/rejected baseline |
 
 ## Assumptions
 

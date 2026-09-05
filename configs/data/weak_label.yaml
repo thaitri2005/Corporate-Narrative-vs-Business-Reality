@@ -1,0 +1,14 @@
+schema_version: "1.0"
+task_paths:
+  - data/review/annotation_pilot_tasks.json
+  - data/review/annotation_control_tasks.json
+human_label_paths:
+  - data/review/annotation_pilot_labels.json
+  - data/review/annotation_control_labels.json
+output_path: data/review/local_weak_labels.json
+manifest_path: reports/tables/local_weak_label_benchmark.json
+model_id: HuggingFaceTB/SmolLM2-360M-Instruct
+model_revision: cbcad7f4d160a10174f725b968ab6faf2a76399e
+max_input_tokens: 512
+max_new_tokens: 4
+max_tasks_per_topic_per_mode: 1
