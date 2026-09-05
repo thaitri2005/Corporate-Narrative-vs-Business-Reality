@@ -1,0 +1,24 @@
+site_name: Corporate Narrative vs. Business Reality
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Decisions:
+      - Architecture: adr/ADR-001-modular-batch-architecture.md
+      - Toolchain: adr/ADR-002-python-data-toolchain.md
+      - Data sources: adr/ADR-003-data-source-hierarchy.md
+      - DVC cache security: adr/ADR-004-dvc-cache-security.md
+      - Consumer Staples universe: adr/ADR-005-consumer-staples-universe.md
+  - Runbooks:
+      - Development: runbooks/development.md
+  - Project control:
+      - Responsibilities: project/RESPONSIBILITIES.md
+      - RAID register: project/RAID.md
+      - Hypothesis register: project/HYPOTHESIS_REGISTER.md
+      - Stage 0 report: project/STAGE_0_REPORT.md
+      - Capacity estimate: project/CAPACITY_ESTIMATE.md
+      - Data source register: project/DATA_SOURCE_REGISTER.md
+      - Stage 1 feasibility: project/STAGE_1_FEASIBILITY.md
+      - STRUX permission request: project/STRUX_PERMISSION_REQUEST.md
+docs_dir: docs
+site_dir: site

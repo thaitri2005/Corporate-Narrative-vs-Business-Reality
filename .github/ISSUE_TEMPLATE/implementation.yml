@@ -1,0 +1,48 @@
+name: Implementation work
+description: A testable unit of project implementation.
+title: "[WPxx-xx] "
+labels: [implementation]
+body:
+  - type: input
+    id: traceability
+    attributes:
+      label: Requirement and work-package IDs
+      placeholder: "FR-..., WPxx-xx"
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Intended outcome
+      description: State the research or engineering value.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: In scope and out of scope
+    validations:
+      required: true
+  - type: textarea
+    id: contracts
+    attributes:
+      label: Inputs, outputs, and affected contracts
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance evidence
+      description: List observable tests or artifacts proving completion.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Data, security, licensing, and research-validity considerations
+    validations:
+      required: true
+  - type: input
+    id: dependencies
+    attributes:
+      label: Dependencies and reviewer

@@ -1,0 +1,10 @@
+schema_version: "1.0"
+source_id: datahub-sp500
+source_url: https://raw.githubusercontent.com/datasets/s-and-p-500-companies/3b2bb60e6269439cd75541eded6281c48e7681d1/data/constituents.csv
+source_revision: 3b2bb60e6269439cd75541eded6281c48e7681d1  # pragma: allowlist secret
+source_license: ODC-PDDL-1.0
+snapshot_date: 2026-09-05
+sector: Consumer Staples
+raw_path: data/raw/reference/sp500-constituents-2026-09-05.csv
+curated_path: data/curated/company_universe-2026-09-05.parquet
+manifest_path: data/curated/company_universe-2026-09-05.manifest.json

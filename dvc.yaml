@@ -1,0 +1,22 @@
+stages:
+  universe:
+    cmd: python -m cnbr universe-build --config configs/data/consumer_staples_universe.yaml
+    deps:
+      - configs/data/consumer_staples_universe.yaml
+      - src/cnbr/config.py
+      - src/cnbr/registry
+    outs:
+      - data/raw/reference/sp500-constituents-2026-09-05.csv
+      - data/curated/company_universe-2026-09-05.parquet
+      - data/curated/company_universe-2026-09-05.manifest.json
+  synthetic:
+    cmd: python -m cnbr synthetic-run --config configs/data/synthetic.yaml
+    deps:
+      - configs/data/synthetic.yaml
+      - src/cnbr
+      - tests/fixtures/synthetic_calls.jsonl
+    outs:
+      - data/interim/synthetic_calls.parquet
+      - data/features/synthetic_company_quarter.parquet
+      - reports/tables/synthetic_summary.csv
+      - reports/tables/synthetic_run.json

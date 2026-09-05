@@ -1,0 +1,36 @@
+name: Design decision
+description: Propose a material design, data, research, or technology choice.
+title: "[ADR] "
+labels: [decision]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and decision deadline
+    validations:
+      required: true
+  - type: textarea
+    id: drivers
+    attributes:
+      label: Decision drivers
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Credible options
+      description: Include the status quo or do-nothing option.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and unknowns
+    validations:
+      required: true
+  - type: textarea
+    id: consequences
+    attributes:
+      label: Consequences, validation, and rollback
+    validations:
+      required: true

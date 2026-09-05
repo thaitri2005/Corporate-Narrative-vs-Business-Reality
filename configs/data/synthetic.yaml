@@ -1,0 +1,7 @@
+schema_version: "1.0"
+seed: 20260905
+input_path: tests/fixtures/synthetic_calls.jsonl
+interim_path: data/interim/synthetic_calls.parquet
+feature_path: data/features/synthetic_company_quarter.parquet
+summary_path: reports/tables/synthetic_summary.csv
+run_manifest_path: reports/tables/synthetic_run.json

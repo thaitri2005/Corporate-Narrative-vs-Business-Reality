@@ -1,0 +1,7 @@
+from cnbr.cli import build_parser
+
+
+def test_cli_parses_synthetic_command() -> None:
+    args = build_parser().parse_args(["synthetic-run", "--config", "config.yaml"])
+    assert args.command == "synthetic-run"
+    assert args.config.name == "config.yaml"

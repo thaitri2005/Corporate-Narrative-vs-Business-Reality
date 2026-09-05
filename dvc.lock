@@ -1,0 +1,65 @@
+schema: '2.0'
+stages:
+  synthetic:
+    cmd: python -m cnbr synthetic-run --config configs/data/synthetic.yaml
+    deps:
+    - path: configs/data/synthetic.yaml
+      hash: md5
+      md5: 987ab3dde3dfde5c070fd3b1f06442ca
+      size: 303
+    - path: src/cnbr
+      hash: md5
+      md5: 3de80481458451f4b122f3430b046b26.dir
+      size: 47118
+      nfiles: 22
+    - path: tests/fixtures/synthetic_calls.jsonl
+      hash: md5
+      md5: 40c8061022e68ae29aca41f7695beeef
+      size: 2244
+    outs:
+    - path: data/features/synthetic_company_quarter.parquet
+      hash: md5
+      md5: feb700ab172f4c6c4c636f8ad294d4ae
+      size: 3434
+    - path: data/interim/synthetic_calls.parquet
+      hash: md5
+      md5: 008ca2efd053afd146257ece3cd9efe2
+      size: 5108
+    - path: reports/tables/synthetic_run.json
+      hash: md5
+      md5: adcf5a3eea00ab89ac5c84f7c1fe94f0
+      size: 758
+    - path: reports/tables/synthetic_summary.csv
+      hash: md5
+      md5: 75e7211a10f6c7eb526875247a9d1a31
+      size: 88
+  universe:
+    cmd: python -m cnbr universe-build --config 
+      configs/data/consumer_staples_universe.yaml
+    deps:
+    - path: configs/data/consumer_staples_universe.yaml
+      hash: md5
+      md5: 9d7df40ccc9badb8ef4dcda248ef2525
+      size: 521
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: e4a4db34fceefb8002b1e5b1bc007a37
+      size: 1732
+    - path: src/cnbr/registry
+      hash: md5
+      md5: 552af0294913a3fce7b481a83a8ea155.dir
+      size: 10800
+      nfiles: 4
+    outs:
+    - path: data/curated/company_universe-2026-09-05.manifest.json
+      hash: md5
+      md5: 45027ccdf1097aebf0474c3724a64cbb
+      size: 701
+    - path: data/curated/company_universe-2026-09-05.parquet
+      hash: md5
+      md5: 57d815c4cb7200cccc7493b57c06170c
+      size: 6619
+    - path: data/raw/reference/sp500-constituents-2026-09-05.csv
+      hash: md5
+      md5: 38e29d9064c87fe2dcfaaa83c34308d2
+      size: 53646
