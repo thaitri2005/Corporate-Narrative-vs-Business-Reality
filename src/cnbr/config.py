@@ -277,6 +277,23 @@ class FinancialFeatureConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class NarrativeFeatureConfig(BaseModel):
+    """Configuration for role-aware, non-semantic transcript structure features."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    utterances_path: Path
+    call_mappings_path: Path
+    output_path: Path
+    manifest_path: Path
+    excluded_quality_flags: list[str]
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -347,3 +364,9 @@ def load_financial_feature_config(path: Path) -> FinancialFeatureConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return FinancialFeatureConfig.model_validate(raw)
+
+
+def load_narrative_feature_config(path: Path) -> NarrativeFeatureConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return NarrativeFeatureConfig.model_validate(raw)

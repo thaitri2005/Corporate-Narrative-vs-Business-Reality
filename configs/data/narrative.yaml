@@ -1,0 +1,8 @@
+schema_version: "1.0"
+utterances_path: data/curated/utterances.parquet
+call_mappings_path: data/curated/call_fiscal_mappings.parquet
+output_path: data/features/narrative_structure_features.parquet
+manifest_path: reports/tables/narrative_structure_features.json
+excluded_quality_flags:
+  - blank_text
+  - possible_source_footer

@@ -1,4 +1,15 @@
 stages:
+  narrative_features:
+    cmd: python -m cnbr narrative-features --config configs/data/narrative.yaml
+    deps:
+      - configs/data/narrative.yaml
+      - data/curated/utterances.parquet
+      - data/curated/call_fiscal_mappings.parquet
+      - src/cnbr/config.py
+      - src/cnbr/transcripts/features.py
+    outs:
+      - data/features/narrative_structure_features.parquet
+      - reports/tables/narrative_structure_features.json
   financial_features:
     cmd: python -m cnbr financial-features --config configs/data/features.yaml
     deps:

@@ -10,6 +10,7 @@ from cnbr.config import (
     load_financial_feature_config,
     load_financial_normalize_config,
     load_fiscal_alignment_config,
+    load_narrative_feature_config,
     load_sec_coverage_config,
     load_sec_filing_index_config,
     load_sec_spike_config,
@@ -31,7 +32,11 @@ from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
 from cnbr.sources import ingest_strux_subset, run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
-from cnbr.transcripts import build_transcript_audit, normalize_transcripts
+from cnbr.transcripts import (
+    build_narrative_structure_features,
+    build_transcript_audit,
+    normalize_transcripts,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -83,6 +88,10 @@ def build_parser() -> argparse.ArgumentParser:
         "financial-features", help="Derive transparent quarterly financial features"
     )
     financial_features.add_argument("--config", type=Path, required=True)
+    narrative_features = subparsers.add_parser(
+        "narrative-features", help="Derive role-aware non-semantic transcript structure features"
+    )
+    narrative_features.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -140,3 +149,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         feature_config = load_financial_feature_config(config_path)
         build_financial_features(feature_config, Path.cwd().resolve())
+    elif args.command == "narrative-features":
+        config_path = args.config.resolve()
+        narrative_config = load_narrative_feature_config(config_path)
+        build_narrative_structure_features(narrative_config, Path.cwd().resolve())

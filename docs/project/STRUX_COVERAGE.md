@@ -56,3 +56,8 @@ operators, and retained 668 as unknown. Source participant lists omitted speaker
 Quality flags identify 457 repeated utterances of at least 20 words, 98 possible source footers, 197
 inaudible markers, and 3,875 very short segments. These records are flagged rather than deleted.
 Fiscal mapping remains explicitly pending.
+
+For the five-company aligned thin slice, a structural baseline aggregates 983,194 eligible words
+across 102 company-quarter calls. It excludes 16 source-footer/blank utterances under a versioned
+rule and records management-prepared, management-Q&A, analyst-prepared, analyst-Q&A, operator, and
+unknown word counts/shares. These are non-semantic diagnostic features, not topic signals.

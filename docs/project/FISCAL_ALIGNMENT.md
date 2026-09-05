@@ -64,3 +64,7 @@ The mechanical feature stage then produced 1,234 long-form rows: 159 operating m
 CapEx/revenue ratios, 140 revenue YoY values, 140 inventory YoY values, and their resolved canonical
 inputs. Same-quarter year-over-year comparisons require an actual prior fiscal-year key; missing
 predecessors remain absent. No narrative/outcome association has been run.
+
+A matching role/section structural baseline covers all 102 mapped calls and 983,194 eligible words.
+It supplies leakage-safe corpus diagnostics for the thin slice, but deliberately does not stand in
+for the later theory-grounded narrative taxonomy or semantic model.
