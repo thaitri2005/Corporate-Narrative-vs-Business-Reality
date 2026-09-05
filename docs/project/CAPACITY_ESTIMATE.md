@@ -50,6 +50,11 @@ Metadata, Parquet encoding, multiple section views, and alternate model versions
 
 For the 34-company sampling frame, selected SEC submissions and Company Facts JSON plus normalized Parquet tables should usually remain below **0.1–1 GB**. The uncertainty comes from retaining full company histories, filing versions, and source documents. Bulk all-company SEC archives are unnecessary for v1 and would increase storage by many gigabytes.
 
+Measured Stage 1 evidence: submissions plus Company Facts for five deliberately varied companies
+occupy 20,894,726 bytes (~19.9 MiB). Linear extrapolation to all 34 candidates is approximately
+142 MB before filesystem/versioning overhead. A 0.25–0.5 GB raw SEC allowance is therefore practical;
+the broader 0.1–1 GB planning range remains conservative.
+
 Company presentations or PDF filings can dominate the financial footprint if downloaded indiscriminately. Store only source documents required for governed Tier C metrics and preserve locators/checksums where rights permit.
 
 ## 5. Model and experiment storage

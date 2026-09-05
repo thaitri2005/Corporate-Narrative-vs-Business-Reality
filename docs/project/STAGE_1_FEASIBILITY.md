@@ -27,6 +27,26 @@ Determine whether the intended Consumer Staples study is legally usable, suffici
 - Company-specific fiscal calendars and XBRL mappings still require a multi-company spike.
 - Automated requests require an identifying user-agent and compliance with SEC access policy.
 
+The project owner approved read-only SEC API use on 2026-09-05 and supplied a monitored contact
+email. The runtime identity is not committed. The implemented client uses at most three workers,
+limits request starts to 8/second across threads, retries only bounded transient failures, validates
+JSON objects, writes atomically, hashes artifacts, and resumes from valid local files.
+
+The five-company spike acquired submissions and Company Facts for KO, PG, COST, WMT, and MO:
+
+| Measure | Result |
+|---|---:|
+| Companies | 5 |
+| Endpoints/artifacts | 10 |
+| Successful | 10 |
+| Failed | 0 |
+| Raw bytes | 20,894,726 (~19.9 MiB) |
+| Workers | 3 maximum |
+| Request-start cap | 8/second |
+
+This is an acquisition success, not yet evidence that fiscal-period mappings or concepts are
+comparable. That assessment is the next local step.
+
 ### Capacity
 
 - No big-data infrastructure is justified.

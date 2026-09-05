@@ -592,6 +592,7 @@ Do not rank truthfulness or infer intent. Present NLP as imperfect measurement. 
 | D-014 | No causal language | Accepted | Observational design | Identification design approved |
 | D-015 | Point-in-time S&P 500 GICS Consumer Staples universe from the ODC-PDDL Data Package | Accepted | Reproducible, openly licensed, supplies CIK and standard sector labels | Historical-membership source becomes necessary or source/license changes |
 | D-016 | Local-first resource envelope and approval gate | Accepted | Keeps the project viable on ordinary hardware and prevents unapproved external processing/cost | Owner approves a measured exception |
+| D-017 | Three-worker, 8-request/second SEC acquisition with file manifests | Accepted | Reliable and resumable at 34-company scale without a metadata database | Scale or multi-process coordination invalidates file-level checkpointing |
 
 Full ADRs record context, drivers, alternatives, decision, consequences, validation, and rollback.
 

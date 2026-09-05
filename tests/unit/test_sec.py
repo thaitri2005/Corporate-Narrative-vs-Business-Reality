@@ -40,3 +40,30 @@ def test_sec_client_rejects_invalid_cik_before_request() -> None:
         pytest.raises(ValueError, match="Invalid SEC CIK"),
     ):
         client.company_facts("not-a-cik")
+
+
+def test_sec_client_retries_transient_response() -> None:
+    attempts = 0
+    sleeps: list[float] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        status = 503 if attempts == 1 else 200
+        return httpx.Response(status, json={"ok": True}, request=request)
+
+    with SecClient(
+        "CNBR Research team@organization.org",
+        transport=httpx.MockTransport(handler),
+        sleeper=sleeps.append,
+    ) as client:
+        result = client.company_facts("21344")
+
+    assert result == {"ok": True}
+    assert attempts == 2
+    assert 0.5 in sleeps
+
+
+def test_sec_client_enforces_conservative_rate_configuration() -> None:
+    with pytest.raises(ValueError, match="no more than 8"):
+        SecClient("CNBR Research team@organization.org", requests_per_second=10)

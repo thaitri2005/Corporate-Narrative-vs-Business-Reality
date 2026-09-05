@@ -115,6 +115,9 @@ The implementation must not add these merely because tooling makes them easy:
   project data/artifacts, and no unattended single job expected to exceed 30 minutes on an ordinary
   development machine. Benchmark first; seek approval for a measured exception rather than silently
   scaling infrastructure.
+- SEC and other bounded network acquisition uses no more than three workers. SEC request starts are
+  process-wide limited to 8/second, below the published 10/second ceiling. Increasing either limit
+  requires owner approval and an updated access-policy check.
 
 ### 3.3 Schedule model
 

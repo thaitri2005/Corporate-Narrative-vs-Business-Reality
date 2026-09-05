@@ -9,6 +9,7 @@ nav:
       - Data sources: adr/ADR-003-data-source-hierarchy.md
       - DVC cache security: adr/ADR-004-dvc-cache-security.md
       - Consumer Staples universe: adr/ADR-005-consumer-staples-universe.md
+      - SEC acquisition: adr/ADR-006-sec-acquisition-reliability.md
   - Runbooks:
       - Development: runbooks/development.md
   - Data contracts:

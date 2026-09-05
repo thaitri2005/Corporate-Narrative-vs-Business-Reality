@@ -49,6 +49,32 @@ class UniverseConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class SecCompanyConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    cik: str = Field(pattern=r"^\d{1,10}$")
+    ticker: str = Field(min_length=1)
+    reason: str = Field(min_length=1)
+
+
+class SecSpikeConfig(BaseModel):
+    """Bounded SEC feasibility-spike configuration."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    companies: list[SecCompanyConfig] = Field(min_length=1, max_length=5)
+    max_workers: int = Field(default=3, ge=1, le=3)
+    requests_per_second: float = Field(default=8.0, gt=0, le=8.0)
+    max_attempts: int = Field(default=4, ge=1, le=5)
+    output_dir: Path
+    manifest_path: Path
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -59,3 +85,9 @@ def load_universe_config(path: Path) -> UniverseConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return UniverseConfig.model_validate(raw)
+
+
+def load_sec_spike_config(path: Path) -> SecSpikeConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return SecSpikeConfig.model_validate(raw)

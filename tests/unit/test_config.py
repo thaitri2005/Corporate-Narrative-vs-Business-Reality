@@ -1,6 +1,9 @@
 from pathlib import Path
 
-from cnbr.config import SyntheticConfig
+import pytest
+from pydantic import ValidationError
+
+from cnbr.config import SecSpikeConfig, SyntheticConfig
 
 
 def test_config_hash_is_stable() -> None:
@@ -34,3 +37,15 @@ def test_config_hash_changes_with_seed() -> None:
         run_manifest_path=Path("run.json"),
     )
     assert first.content_hash() != second.content_hash()
+
+
+def test_sec_spike_caps_workers_and_request_rate() -> None:
+    payload = {
+        "companies": [{"cik": "21344", "ticker": "KO", "reason": "fixture"}],
+        "max_workers": 4,
+        "requests_per_second": 9,
+        "output_dir": "data/raw/sec",
+        "manifest_path": "data/raw/sec.manifest.json",
+    }
+    with pytest.raises(ValidationError):
+        SecSpikeConfig.model_validate(payload)

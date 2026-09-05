@@ -1,4 +1,13 @@
 stages:
+  sec_spike:
+    cmd: python -m cnbr sec-spike --config configs/data/sec_feasibility_spike.yaml
+    deps:
+      - configs/data/sec_feasibility_spike.yaml
+      - src/cnbr/config.py
+      - src/cnbr/sources
+    outs:
+      - data/raw/sec/feasibility-2026-09-05
+      - data/raw/sec/feasibility-2026-09-05.manifest.json
   universe:
     cmd: python -m cnbr universe-build --config configs/data/consumer_staples_universe.yaml
     deps:

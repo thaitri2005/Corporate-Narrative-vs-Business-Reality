@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import os
 from collections.abc import Sequence
 from pathlib import Path
 
-from cnbr.config import load_synthetic_config, load_universe_config
+from cnbr.config import load_sec_spike_config, load_synthetic_config, load_universe_config
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
+from cnbr.sources import run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
 
 
@@ -19,6 +21,10 @@ def build_parser() -> argparse.ArgumentParser:
         "universe-build", help="Acquire and build a point-in-time company universe"
     )
     universe.add_argument("--config", type=Path, required=True)
+    sec_spike = subparsers.add_parser(
+        "sec-spike", help="Run the bounded Stage 1 SEC feasibility acquisition"
+    )
+    sec_spike.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -33,3 +39,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         universe_config = load_universe_config(config_path)
         build_company_universe(universe_config, Path.cwd().resolve())
+    elif args.command == "sec-spike":
+        config_path = args.config.resolve()
+        sec_config = load_sec_spike_config(config_path)
+        user_agent = os.environ.get("CNBR_SEC_USER_AGENT")
+        if user_agent is None:
+            raise RuntimeError("CNBR_SEC_USER_AGENT is required for SEC requests")
+        run_sec_spike(sec_config, Path.cwd().resolve(), user_agent)

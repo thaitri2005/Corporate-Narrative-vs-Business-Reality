@@ -1,0 +1,22 @@
+schema_version: "1.0"
+max_workers: 3
+requests_per_second: 8.0
+max_attempts: 4
+output_dir: data/raw/sec/feasibility-2026-09-05
+manifest_path: data/raw/sec/feasibility-2026-09-05.manifest.json
+companies:
+  - cik: "21344"
+    ticker: KO
+    reason: Calendar-year beverage manufacturer
+  - cik: "80424"
+    ticker: PG
+    reason: Calendar-year household and personal products manufacturer
+  - cik: "909832"
+    ticker: COST
+    reason: Non-calendar consumer staples retailer
+  - cik: "104169"
+    ticker: WMT
+    reason: Non-calendar mass retailer with grocery exposure
+  - cik: "764180"
+    ticker: MO
+    reason: Tobacco company with distinct reporting concepts

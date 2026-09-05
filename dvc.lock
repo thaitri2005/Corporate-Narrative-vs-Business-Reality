@@ -82,3 +82,30 @@ stages:
       hash: md5
       md5: 38e29d9064c87fe2dcfaaa83c34308d2
       size: 53646
+  sec_spike:
+    cmd: python -m cnbr sec-spike --config 
+      configs/data/sec_feasibility_spike.yaml
+    deps:
+    - path: configs/data/sec_feasibility_spike.yaml
+      hash: md5
+      md5: e953ed419cc16aabce0696dbb95be489
+      size: 660
+    - path: src/cnbr/config.py
+      hash: md5
+      md5: e11f6cf6d64910b8d7daf577d4f5b882
+      size: 2803
+    - path: src/cnbr/sources
+      hash: md5
+      md5: da507b1a32e410ad2395980f9191464c.dir
+      size: 26961
+      nfiles: 6
+    outs:
+    - path: data/raw/sec/feasibility-2026-09-05
+      hash: md5
+      md5: e9041d38342a83f4d771f343514a5cf7.dir
+      size: 20894726
+      nfiles: 10
+    - path: data/raw/sec/feasibility-2026-09-05.manifest.json
+      hash: md5
+      md5: 56a52f6d390bf7e697b256b504302bf1
+      size: 4009

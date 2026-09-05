@@ -9,8 +9,8 @@ No source may move from `candidate` to `approved` until acquisition, storage, tr
 |---|---|---|---|---|---|---|
 | SRC-001 | STRUX Transcripts on Hugging Face | Prepared remarks, Q&A, participants, dates | Public download | No explicit dataset license found in current card/repository metadata; upstream text attributed to Motley Fool | Restricted pending review | Candidate; metadata inspection only, no corpus download yet |
 | SRC-002 | STRUX project site/paper | Corpus documentation, counts, methodology | Public web/paper | Publication citation applies; not evidence of transcript redistribution rights | Public metadata | Approved for documentation |
-| SRC-003 | SEC EDGAR submissions API | Filing history, accepted timestamps, accession records | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Proposed primary source |
-| SRC-004 | SEC Company Facts/XBRL API | Quarterly standardized financial facts | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Proposed primary source |
+| SRC-003 | SEC EDGAR submissions API | Filing history, accepted timestamps, accession records | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Approved for feasibility ingestion; proposed primary source |
+| SRC-004 | SEC Company Facts/XBRL API | Quarterly standardized financial facts | Public API, no key | SEC automated-access and privacy/security policies apply | Public source data | Approved for feasibility ingestion; proposed primary source pending concept audit |
 | SRC-005 | Company filings/investor relations | Verify mappings; narrow operating metrics | Public company sites/EDGAR | Per-site/document terms; retain source locator | Public or source-restricted | Candidate per metric |
 | SRC-006 | `datasets/s-and-p-500-companies` Data Package | Point-in-time S&P 500 membership, GICS classification, ticker and CIK | Public GitHub CSV | Data Package declares ODC-PDDL-1.0; upstream attributes Wikipedia | Public metadata | Approved for point-in-time universe snapshots; pin revision and SHA-256 |
 
@@ -41,6 +41,16 @@ Published split metadata reports:
 | `full` | 11,411 | 588,031,777 |
 
 The combined published download is approximately 343 MB. Train/test appear to be selected evaluation subsets alongside the full corpus; overlap must be tested before using any split counts as unique calls.
+
+## SRC-003/004 implemented controls
+
+- Project-owner approval recorded before live API use.
+- Identifying User-Agent supplied only at runtime and rejected if absent/placeholder.
+- Maximum three workers and process-wide 8 request starts/second.
+- Bounded retries for 429/5xx responses with exponential/`Retry-After` backoff.
+- JSON-object validation, same-directory atomic replacement, SHA-256, partial-failure manifest, and
+  valid-file resume behavior.
+- Five-company spike completed with 10/10 artifacts and 20,894,726 bytes.
 
 ## Approval checklist
 
