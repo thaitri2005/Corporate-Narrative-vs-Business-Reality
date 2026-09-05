@@ -36,6 +36,7 @@ data/interim/
 data/curated/
 data/features/
 data/analytical/
+data/review/
 !data/.gitkeep
 
 reports/figures/

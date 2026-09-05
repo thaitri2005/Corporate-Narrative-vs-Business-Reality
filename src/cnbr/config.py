@@ -312,6 +312,19 @@ class PanelBuildConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class FiscalReviewConfig(BaseModel):
+    """Configuration for a restricted local fiscal-mapping review packet."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    mappings_path: Path
+    utterances_path: Path
+    html_path: Path
+    checklist_path: Path
+    samples_per_company: int = Field(default=3, ge=1, le=5)
+    excerpt_characters: int = Field(default=2000, ge=500, le=5000)
+
+
 def load_synthetic_config(path: Path) -> SyntheticConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
@@ -394,3 +407,9 @@ def load_panel_build_config(path: Path) -> PanelBuildConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return PanelBuildConfig.model_validate(raw)
+
+
+def load_fiscal_review_config(path: Path) -> FiscalReviewConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return FiscalReviewConfig.model_validate(raw)

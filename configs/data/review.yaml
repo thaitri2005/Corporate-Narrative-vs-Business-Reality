@@ -1,0 +1,6 @@
+mappings_path: data/curated/call_fiscal_mappings.parquet
+utterances_path: data/curated/utterances.parquet
+html_path: data/review/fiscal_alignment_review.html
+checklist_path: data/review/fiscal_alignment_checklist.csv
+samples_per_company: 3
+excerpt_characters: 2000

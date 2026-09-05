@@ -36,3 +36,8 @@ while taxonomy, manual reconciliation, and cohort rules are still being validate
 
 Gross margin is intentionally absent because the earlier concept audit rejected universal direct
 comparability. No external API, cloud execution, GPU, database, or distributed system is required.
+
+Run `cnbr fiscal-review-build --config configs/data/review.yaml` to create a restricted local HTML
+packet and metadata-only CSV checklist for 15 early/middle/late calls (three per company). The
+command never overwrites an existing checklist. The HTML contains transcript excerpts and must not
+be published; reviewer notes must not copy transcript text.

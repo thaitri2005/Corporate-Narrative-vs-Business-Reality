@@ -11,6 +11,7 @@ from cnbr.config import (
     load_financial_feature_config,
     load_financial_normalize_config,
     load_fiscal_alignment_config,
+    load_fiscal_review_config,
     load_narrative_feature_config,
     load_panel_build_config,
     load_sec_coverage_config,
@@ -32,6 +33,7 @@ from cnbr.financials import (
 )
 from cnbr.logging import configure_logging
 from cnbr.registry import build_company_universe
+from cnbr.review import build_fiscal_review_packet
 from cnbr.sources import ingest_strux_subset, run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
 from cnbr.transcripts import (
@@ -98,6 +100,10 @@ def build_parser() -> argparse.ArgumentParser:
         "panel-build", help="Build the point-in-time analytical thin-slice panel"
     )
     panel_build.add_argument("--config", type=Path, required=True)
+    fiscal_review = subparsers.add_parser(
+        "fiscal-review-build", help="Create a restricted local fiscal-mapping review packet"
+    )
+    fiscal_review.add_argument("--config", type=Path, required=True)
     return parser
 
 
@@ -163,3 +169,7 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         panel_config = load_panel_build_config(config_path)
         build_thin_slice_panel(panel_config, Path.cwd().resolve())
+    elif args.command == "fiscal-review-build":
+        config_path = args.config.resolve()
+        review_config = load_fiscal_review_config(config_path)
+        build_fiscal_review_packet(review_config, Path.cwd().resolve())
