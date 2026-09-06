@@ -195,9 +195,20 @@ def run_hosted_weak_label_calibration(
         token=token,
         timeout=config.timeout_seconds,
     )
-    rows: list[dict[str, object]] = []
+    output_path = repo_root / config.output_path
+    if output_path.exists():
+        existing = json.loads(output_path.read_text(encoding="utf-8"))
+        if not isinstance(existing, list) or not all(isinstance(row, dict) for row in existing):
+            raise ValueError("Hosted weak-label checkpoint must be a list of objects")
+        rows = cast(list[dict[str, object]], existing)
+    else:
+        rows = []
+    completed_task_ids = {str(row.get("task_id")) for row in rows}
     for task in tasks:
         data = cast(dict[str, Any], task["data"])
+        task_id = str(data["task_id"])
+        if task_id in completed_task_ids:
+            continue
         text = str(data["text"])[: config.max_input_characters]
         response = client.chat_completion(
             messages=[
@@ -211,7 +222,6 @@ def run_hosted_weak_label_calibration(
             temperature=0.0,
         )
         completion = str(response.choices[0].message.content or "")
-        task_id = str(data["task_id"])
         rows.append(
             {
                 "task_id": task_id,
@@ -221,6 +231,11 @@ def run_hosted_weak_label_calibration(
                 "human_verdict": human.get(task_id),
             }
         )
+        completed_task_ids.add(task_id)
+        # This ignored local checkpoint prevents duplicate external processing after a provider
+        # or credit failure. It contains no excerpt text.
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
     return _write_weak_label_outputs(
         config=config,
         repo_root=repo_root,

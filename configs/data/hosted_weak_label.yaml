@@ -8,9 +8,9 @@ human_label_paths:
 output_path: data/review/hosted_weak_labels.json
 manifest_path: reports/tables/hosted_weak_label_calibration.json
 # Fixed provider avoids opaque cross-provider routing. Availability is checked at run time.
-model_id: Qwen/Qwen2.5-7B-Instruct
+model_id: openai/gpt-oss-20b
 model_revision: main
-provider: hf-inference
+provider: groq
 timeout_seconds: 60
 max_input_characters: 1600
 max_new_tokens: 4

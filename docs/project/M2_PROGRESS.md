@@ -51,7 +51,11 @@ The local 360M checkpoint was rejected after a 12-task calibration (41.7% agreem
 all-`Yes` collapse). ADR-010 records the owner's approval for a separate 12-excerpt Hugging Face
 hosted calibration. It has fixed provider/model settings, an environment-only fine-grained token,
 an audit manifest, and no scale-up authority. The command is `cnbr hosted-weak-label --config
-configs/data/hosted_weak_label.yaml`; it remains unrun until a local `HF_TOKEN` is supplied.
+configs/data/hosted_weak_label.yaml`. On 2026-09-06, the original `hf-inference` model choice was
+rejected before inference; the owner approved fixed Groq routing through Hugging Face. Nine requests
+then completed before Hugging Face returned HTTP 402 for exhausted included credits. No aggregate
+result was produced, no scale-up occurred, and the next code revision checkpoints each completed
+request locally before attempting another.
 
 ## Financial reconciliation control
 

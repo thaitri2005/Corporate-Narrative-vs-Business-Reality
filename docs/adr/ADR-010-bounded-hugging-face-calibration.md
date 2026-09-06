@@ -21,16 +21,18 @@ maximum 1,600-character excerpt for each selected task. No raw corpus file, SEC 
 table, task packet, or unselected call is sent.
 
 Use the Hugging Face Inference Providers API with a fine-grained `HF_TOKEN` carrying only **Make
-calls to Inference Providers**. Configure a fixed provider (`hf-inference`), model
-(`Qwen/Qwen2.5-7B-Instruct`), deterministic decoding, 60-second request timeout, and four-token
-maximum response. The token is supplied only through the local environment and is never written to
-configuration, outputs, Git, logs, or reports.
+calls to Inference Providers**. Configure a fixed provider (`groq`), model
+(`openai/gpt-oss-20b`), deterministic decoding, 60-second request timeout, and four-token maximum
+response. The token is supplied only through the local environment and is never written to
+configuration, outputs, Git, logs, or reports. The owner explicitly authorized the fixed
+third-party routed provider on 2026-09-06 after the originally selected `hf-inference` provider
+rejected the Qwen model before inference.
 
 Capture the requested model revision and the Hub-resolved SHA, provider, configuration hash,
-per-input SHA-256, aggregate agreement, and verdict counts. Keep row-level results ignored under
-`data/review/`; commit only non-reconstructable aggregate reports after review. Human labels remain
-the evaluation reference. The run cannot label additional records; any scale-up needs a new owner
-decision and ADR.
+per-input SHA-256, aggregate agreement, and verdict counts. Checkpoint each successful request in
+ignored local storage so a provider/credit failure cannot cause duplicate excerpt transmission.
+Commit only non-reconstructable aggregate reports after review. Human labels remain the evaluation
+reference. The run cannot label additional records; any scale-up needs a new owner decision and ADR.
 
 ## Preconditions and stop conditions
 
