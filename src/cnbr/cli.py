@@ -7,6 +7,7 @@ from pathlib import Path
 
 from cnbr.analysis import build_thin_slice_panel
 from cnbr.config import (
+    load_annotation_agreement_config,
     load_annotation_pilot_config,
     load_annotation_review_config,
     load_financial_extract_config,
@@ -49,6 +50,7 @@ from cnbr.transcripts import (
     build_lexical_baseline,
     build_narrative_structure_features,
     build_transcript_audit,
+    measure_annotation_agreement,
     normalize_transcripts,
     review_annotation_exports,
     run_hosted_weak_label_calibration,
@@ -127,6 +129,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Validate local annotation exports and emit aggregate-only results",
     )
     annotation_review.add_argument("--config", type=Path, required=True)
+    annotation_agreement = subparsers.add_parser(
+        "annotation-agreement",
+        help="Measure agreement between two complete local annotation exports",
+    )
+    annotation_agreement.add_argument("--config", type=Path, required=True)
     weak_label = subparsers.add_parser(
         "weak-label", help="Benchmark a local pinned LLM against human labels"
     )
@@ -226,6 +233,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         review_config = load_annotation_review_config(config_path)
         review_annotation_exports(review_config, Path.cwd().resolve())
+    elif args.command == "annotation-agreement":
+        config_path = args.config.resolve()
+        agreement_config = load_annotation_agreement_config(config_path)
+        measure_annotation_agreement(agreement_config, Path.cwd().resolve())
     elif args.command == "weak-label":
         config_path = args.config.resolve()
         weak_config = load_weak_label_config(config_path)

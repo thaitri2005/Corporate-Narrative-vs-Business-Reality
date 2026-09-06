@@ -7,7 +7,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
 
-from cnbr.config import AnnotationReviewConfig
+from cnbr.config import AnnotationAgreementConfig, AnnotationReviewConfig
 
 _VERDICTS = {"yes", "no", "unsure"}
 
@@ -101,6 +101,85 @@ def review_annotation_exports(config: AnnotationReviewConfig, repo_root: Path) -
         "task_sha256": task_hashes,
         "label_sha256": label_hashes,
         "release_class": "aggregate-only-annotation-review",
+    }
+    manifest_path = repo_root / config.manifest_path
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return manifest
+
+
+def _cohen_kappa(reviewer_a: list[str], reviewer_b: list[str]) -> float | None:
+    if not reviewer_a:
+        return None
+    observed = sum(a == b for a, b in zip(reviewer_a, reviewer_b, strict=True)) / len(reviewer_a)
+    a_counts = Counter(reviewer_a)
+    b_counts = Counter(reviewer_b)
+    expected = sum(
+        (a_counts[verdict] / len(reviewer_a)) * (b_counts[verdict] / len(reviewer_a))
+        for verdict in _VERDICTS
+    )
+    return None if expected == 1 else (observed - expected) / (1 - expected)
+
+
+def measure_annotation_agreement(
+    config: AnnotationAgreementConfig, repo_root: Path
+) -> dict[str, object]:
+    """Measure two complete local reviews using aggregate-only agreement statistics."""
+    by_topic_mode: dict[tuple[str, str], list[tuple[str, str]]] = defaultdict(list)
+    all_pairs: list[tuple[str, str]] = []
+    hashes: dict[str, list[str]] = {"task": [], "reviewer_a": [], "reviewer_b": []}
+    seen_task_ids: set[str] = set()
+    for task_rel, a_rel, b_rel in zip(
+        config.task_paths, config.reviewer_a_label_paths, config.reviewer_b_label_paths, strict=True
+    ):
+        task_path, a_path, b_path = repo_root / task_rel, repo_root / a_rel, repo_root / b_rel
+        tasks, reviewer_a, reviewer_b = (
+            _load_tasks(task_path),
+            _load_labels(a_path),
+            _load_labels(b_path),
+        )
+        if set(tasks) != set(reviewer_a) or set(tasks) != set(reviewer_b):
+            raise ValueError(f"Task/label IDs differ for agreement pair: {task_rel}")
+        if seen_task_ids & set(tasks):
+            raise ValueError("Annotation agreement packets must not reuse task IDs")
+        seen_task_ids.update(tasks)
+        for task_id, task in tasks.items():
+            pair = (reviewer_a[task_id], reviewer_b[task_id])
+            by_topic_mode[(task["candidate_topic"], task["selection_mode"])].append(pair)
+            all_pairs.append(pair)
+        hashes["task"].append(_sha256(task_path))
+        hashes["reviewer_a"].append(_sha256(a_path))
+        hashes["reviewer_b"].append(_sha256(b_path))
+
+    def metrics(pairs: list[tuple[str, str]]) -> dict[str, object]:
+        a, b = [pair[0] for pair in pairs], [pair[1] for pair in pairs]
+        return {
+            "task_count": len(pairs),
+            "exact_agreement": sum(left == right for left, right in pairs) / len(pairs)
+            if pairs
+            else None,
+            "cohen_kappa_three_class": _cohen_kappa(a, b),
+            "disagreement_counts": {
+                f"{left}_to_{right}": count
+                for (left, right), count in sorted(
+                    Counter(pair for pair in pairs if pair[0] != pair[1]).items()
+                )
+            },
+        }
+
+    manifest: dict[str, object] = {
+        "schema_version": config.schema_version,
+        "created_at": datetime.now(UTC).isoformat(),
+        "config_sha256": config.content_hash(),
+        **metrics(all_pairs),
+        "strata": [
+            {"candidate_topic": topic, "selection_mode": mode, **metrics(pairs)}
+            for (topic, mode), pairs in sorted(by_topic_mode.items())
+        ],
+        "sha256": hashes,
+        "release_class": "aggregate-only-annotation-agreement",
     }
     manifest_path = repo_root / config.manifest_path
     manifest_path.parent.mkdir(parents=True, exist_ok=True)

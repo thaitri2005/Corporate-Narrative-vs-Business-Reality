@@ -400,6 +400,39 @@ class AnnotationReviewConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class AnnotationAgreementConfig(BaseModel):
+    """Configuration for aggregate-only agreement measurement between two local reviewers."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    task_paths: list[Path] = Field(min_length=1)
+    reviewer_a_label_paths: list[Path] = Field(min_length=1)
+    reviewer_b_label_paths: list[Path] = Field(min_length=1)
+    manifest_path: Path
+
+    @model_validator(mode="after")
+    def validate_pairs(self) -> AnnotationAgreementConfig:
+        if (
+            len(
+                {
+                    len(self.task_paths),
+                    len(self.reviewer_a_label_paths),
+                    len(self.reviewer_b_label_paths),
+                }
+            )
+            != 1
+        ):
+            raise ValueError(
+                "task paths and both reviewer label path lists must have the same length"
+            )
+        return self
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class WeakLabelConfig(BaseModel):
     """Bounded local LLM weak-labeling configuration."""
 
@@ -602,6 +635,12 @@ def load_annotation_review_config(path: Path) -> AnnotationReviewConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return AnnotationReviewConfig.model_validate(raw)
+
+
+def load_annotation_agreement_config(path: Path) -> AnnotationAgreementConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return AnnotationAgreementConfig.model_validate(raw)
 
 
 def load_weak_label_config(path: Path) -> WeakLabelConfig:

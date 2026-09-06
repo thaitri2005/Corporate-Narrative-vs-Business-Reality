@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from cnbr.config import AnnotationReviewConfig
-from cnbr.transcripts import review_annotation_exports
+from cnbr.config import AnnotationAgreementConfig, AnnotationReviewConfig
+from cnbr.transcripts import measure_annotation_agreement, review_annotation_exports
 
 
 def _write_pair(root: Path, suffix: str, mode: str, verdict: str) -> tuple[Path, Path]:
@@ -68,3 +68,33 @@ def test_annotation_review_rejects_mismatched_task_ids(tmp_path: Path) -> None:
             ),
             tmp_path,
         )
+
+
+def test_annotation_agreement_writes_aggregate_only_metrics(tmp_path: Path) -> None:
+    task_a, label_a = _write_pair(tmp_path, "a", "lexical_match", "yes")
+    task_b, label_b = _write_pair(tmp_path, "b", "lexical_nonmatch", "no")
+    label_a_second = tmp_path / "labels-a-second.json"
+    label_b_second = tmp_path / "labels-b-second.json"
+    label_a_second.write_text(json.dumps([{"task_id": "id-a", "verdict": "yes"}]), encoding="utf-8")
+    label_b_second.write_text(
+        json.dumps([{"task_id": "id-b", "verdict": "unsure"}]), encoding="utf-8"
+    )
+
+    result = measure_annotation_agreement(
+        AnnotationAgreementConfig(
+            task_paths=[task_a.relative_to(tmp_path), task_b.relative_to(tmp_path)],
+            reviewer_a_label_paths=[label_a.relative_to(tmp_path), label_b.relative_to(tmp_path)],
+            reviewer_b_label_paths=[
+                label_a_second.relative_to(tmp_path),
+                label_b_second.relative_to(tmp_path),
+            ],
+            manifest_path=Path("reports/agreement.json"),
+        ),
+        tmp_path,
+    )
+
+    manifest = (tmp_path / "reports/agreement.json").read_text(encoding="utf-8")
+    assert result["task_count"] == 2
+    assert result["exact_agreement"] == 0.5
+    assert "restricted text" not in manifest
+    assert '"release_class": "aggregate-only-annotation-agreement"' in manifest

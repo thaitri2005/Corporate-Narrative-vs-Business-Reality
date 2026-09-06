@@ -138,3 +138,7 @@ Decision: retain the current three stable IDs without semantic expansion; use th
 for a deliberately stratified double-annotation pilot before choosing revisions. The next design
 task is to define the independent-reviewer workflow and a locked holdout allocation, not to run
 another weak-label model.
+
+The independent-review protocol is now recorded in `INDEPENDENT_REVIEW_PROTOCOL.md`. Its agreement
+command emits only aggregate statistics and cannot be run until a second complete local export is
+present.
