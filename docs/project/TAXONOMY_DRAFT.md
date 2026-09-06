@@ -89,3 +89,11 @@ Providers after the local baseline rejection. It is a model-selection measuremen
 run: exact agreement must reach 0.80 with parseable responses before the owner is asked to consider
 any subsequent pilot. It never changes taxonomy status, creates ground truth, or authorizes broader
 external transcript processing.
+
+## Hosted calibration outcome — rejected on included tier
+
+The fixed Groq route was attempted twice through Hugging Face after the local-model rejection. Both
+attempts exhausted included credits at request 10. The second attempt safely checkpointed nine
+responses, all unparseable under the predeclared one-word verdict contract. This is inconclusive
+and rejected as weak-supervision evidence. It does not alter the taxonomy, and no further hosted
+attempt will occur without a new paid-budget and structured-output decision.

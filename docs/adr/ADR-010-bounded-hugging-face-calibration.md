@@ -28,6 +28,14 @@ configuration, outputs, Git, logs, or reports. The owner explicitly authorized t
 third-party routed provider on 2026-09-06 after the originally selected `hf-inference` provider
 rejected the Qwen model before inference.
 
+## Outcome
+
+Two bounded attempts on 2026-09-06 stopped at the tenth request because the account had exhausted
+its included credits. The second attempt checkpointed nine text-free result rows; all were
+unparseable under the one-word response contract. The calibration is rejected as inconclusive. No
+further request, purchase, or scale-up is authorized by this ADR; a future paid retry must first
+demonstrate structured output on non-restricted synthetic text in a new decision.
+
 Capture the requested model revision and the Hub-resolved SHA, provider, configuration hash,
 per-input SHA-256, aggregate agreement, and verdict counts. Checkpoint each successful request in
 ignored local storage so a provider/credit failure cannot cause duplicate excerpt transmission.

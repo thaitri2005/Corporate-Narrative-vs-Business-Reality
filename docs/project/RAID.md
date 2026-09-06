@@ -17,7 +17,8 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 | R-09 | Optional DVC stack includes unfixed `diskcache` advisory PYSEC-2026-2447 | Low in trusted local use | High if cache is attacker-writable | Tech lead / project owner | Keep out of base runtime; owner-controlled local cache only; review before remote; upgrade when patched | Accepted/monitoring |
 | R-10 | Small local LLM produces biased weak labels | High | Medium | NLP lead | Calibration required before scale-out; SmolLM2-360M rejected at 41.7% agreement | Mitigated/rejected baseline |
 | R-11 | Hosted calibration sends restricted excerpts to a provider | Medium | High | Project owner / NLP lead | ADR-010 limits 12 inputs, fixed provider, fine-grained token, no scale-up, and audit metadata; stop on provider/model failure or <0.80 agreement | Accepted/bounded |
-| R-12 | Hugging Face included credits are insufficient for the calibration | High | Medium | Project owner | Stop on HTTP 402; do not purchase credits without owner approval; checkpoint future successful calls to prevent retransmission after interruption | Open/blocked on funding decision |
+| R-12 | Hugging Face included credits are insufficient for the calibration | High | Medium | Project owner | Stop on HTTP 402; do not purchase credits without owner approval; checkpoint successful calls to prevent retransmission after interruption | Closed: hosted path rejected on included tier |
+| R-13 | Hosted model output can violate the strict verdict contract | High | Medium | NLP lead | Require structured-output capability and test it on non-restricted synthetic text before any future paid retry; do not reinterpret unparseable completions | Open/future-only |
 
 ## Assumptions
 

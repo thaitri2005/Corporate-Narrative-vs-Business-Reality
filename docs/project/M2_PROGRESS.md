@@ -52,10 +52,11 @@ all-`Yes` collapse). ADR-010 records the owner's approval for a separate 12-exce
 hosted calibration. It has fixed provider/model settings, an environment-only fine-grained token,
 an audit manifest, and no scale-up authority. The command is `cnbr hosted-weak-label --config
 configs/data/hosted_weak_label.yaml`. On 2026-09-06, the original `hf-inference` model choice was
-rejected before inference; the owner approved fixed Groq routing through Hugging Face. Nine requests
-then completed before Hugging Face returned HTTP 402 for exhausted included credits. No aggregate
-result was produced, no scale-up occurred, and the next code revision checkpoints each completed
-request locally before attempting another.
+rejected before inference; the owner approved fixed Groq routing through Hugging Face. Two attempts
+both stopped at request 10 with HTTP 402 for exhausted included credits. The second attempt preserved
+nine text-free checkpoint rows; all nine responses were unparseable under the four-token verdict
+contract. This hosted calibration is rejected as inconclusive: no aggregate result, taxonomy change,
+or scale-up occurred. The code now checkpoints each completed request locally before another attempt.
 
 ## Financial reconciliation control
 
