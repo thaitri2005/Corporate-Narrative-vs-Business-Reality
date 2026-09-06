@@ -1,6 +1,6 @@
 # Independent annotation review protocol
 
-> Status: ready for one independent second reviewer  
+> Status: ready for one independent second reviewer
 > Scope: the existing 24-task refinement packet only
 
 ## Purpose
