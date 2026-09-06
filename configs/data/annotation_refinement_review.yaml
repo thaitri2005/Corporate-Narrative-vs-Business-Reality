@@ -1,0 +1,8 @@
+schema_version: "1.0"
+task_paths:
+  - data/review/annotation_refinement_matches_tasks.json
+  - data/review/annotation_refinement_controls_tasks.json
+label_paths:
+  - data/review/annotation_refinement_matches_labels.json
+  - data/review/annotation_refinement_controls_labels.json
+manifest_path: reports/tables/annotation_refinement_review.json

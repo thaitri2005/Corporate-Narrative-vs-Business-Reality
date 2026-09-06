@@ -8,6 +8,7 @@ from pathlib import Path
 from cnbr.analysis import build_thin_slice_panel
 from cnbr.config import (
     load_annotation_pilot_config,
+    load_annotation_review_config,
     load_financial_extract_config,
     load_financial_feature_config,
     load_financial_normalize_config,
@@ -49,6 +50,7 @@ from cnbr.transcripts import (
     build_narrative_structure_features,
     build_transcript_audit,
     normalize_transcripts,
+    review_annotation_exports,
     run_hosted_weak_label_calibration,
     run_local_gguf_weak_label_calibration,
     run_local_weak_label_benchmark,
@@ -120,6 +122,11 @@ def build_parser() -> argparse.ArgumentParser:
         "annotation-pilot", help="Create restricted local annotation-pilot tasks"
     )
     annotation_pilot.add_argument("--config", type=Path, required=True)
+    annotation_review = subparsers.add_parser(
+        "annotation-review",
+        help="Validate local annotation exports and emit aggregate-only results",
+    )
+    annotation_review.add_argument("--config", type=Path, required=True)
     weak_label = subparsers.add_parser(
         "weak-label", help="Benchmark a local pinned LLM against human labels"
     )
@@ -215,6 +222,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         annotation_config = load_annotation_pilot_config(config_path)
         build_annotation_pilot(annotation_config, Path.cwd().resolve())
+    elif args.command == "annotation-review":
+        config_path = args.config.resolve()
+        review_config = load_annotation_review_config(config_path)
+        review_annotation_exports(review_config, Path.cwd().resolve())
     elif args.command == "weak-label":
         config_path = args.config.resolve()
         weak_config = load_weak_label_config(config_path)

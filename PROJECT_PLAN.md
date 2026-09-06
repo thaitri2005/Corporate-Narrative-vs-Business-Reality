@@ -879,6 +879,12 @@ Decision after gate: finalize eligible cohort and which Tier A/B/C metrics advan
 **Indicative effort:** 2–4 weeks  
 **Depends on:** M2 corpus sample; can begin pilot during late M2
 
+**Current evidence (2026-09-06):** The first 42 single-reviewer judgments narrowed the draft
+taxonomy; a 24-task focused refinement then returned 9 Yes, 12 No, and 3 Unsure results. Local
+and bounded hosted weak-label calibrations were both rejected. The next work item is a
+double-annotated, stratified pilot with an explicitly reserved locked holdout; M3 is not yet at its
+exit gate.
+
 Exit gate:
 
 - Taxonomy v1.0 and codebook frozen.

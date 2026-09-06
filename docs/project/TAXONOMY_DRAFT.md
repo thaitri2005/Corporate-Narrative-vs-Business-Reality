@@ -1,7 +1,7 @@
 # Taxonomy draft 0.1 — local lexical discovery baseline
 
 > Status: implemented discovery baseline; not an annotation codebook or research label set  
-> Updated: 2026-09-05
+> Updated: 2026-09-06
 
 ## Decision
 
@@ -116,10 +116,25 @@ local calibration. Against 11 comparable human Yes/No judgments, it achieved 63.
 below the 0.80 promotion threshold. It is rejected for weak-label generation. No output enters the
 taxonomy, training, or analytical dataset; the human/dictionary path remains selected.
 
-## Human refinement packet — ready
+## Human refinement review — 2026-09-06
 
-The next local packet narrows effort to the three constructs whose initial controls exposed recall
-or boundary uncertainty: `cost_pressure`, `demand_volume`, and `supply_chain`. It contains 24 new
-deterministically selected tasks: 12 lexical matches and 12 lexical-nonmatch controls, four per
-topic in each mode. It skips all previously reviewed deterministic selections. The accompanying
-codebook is `ANNOTATION_CODEBOOK_DRAFT.md`; exports remain in ignored `data/review/`.
+One reviewer completed the 24 new local tasks for `cost_pressure`, `demand_volume`, and
+`supply_chain`: 12 lexical matches and 12 lexical-nonmatch controls, four per topic in each mode.
+The aggregate-only validation manifest reports 9 Yes, 12 No, and 3 Unsure verdicts. Among the
+10 comparable lexical matches, 8 were Yes (80%); among the 11 comparable controls, 1 was Yes
+(9.1%). These small single-reviewer rates are diagnostic evidence, not precision/recall estimates.
+
+By topic, cost pressure had two candidate Yes and two Unsure, with four control No judgments;
+demand/volume had three candidate Yes, one candidate No, and one control Yes; supply chain had
+three candidate Yes, one candidate No, three control No, and one control Unsure. The patterns
+support retaining all three topics for the next double-annotated pilot, but they do not support
+freezing a taxonomy, promoting a classifier, or interpreting lexical matches as ground truth.
+
+`cnbr annotation-review --config configs/data/annotation_refinement_review.yaml` validates that
+every local export matches its task packet, rejects duplicate/missing/invalid verdicts, and writes
+only aggregate counts, rates, and file hashes. It never releases task text or reviewer notes.
+
+Decision: retain the current three stable IDs without semantic expansion; use the draft codebook
+for a deliberately stratified double-annotation pilot before choosing revisions. The next design
+task is to define the independent-reviewer workflow and a locked holdout allocation, not to run
+another weak-label model.

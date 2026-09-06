@@ -368,7 +368,13 @@ Each taxonomy version defines stable IDs, economic meaning, inclusion/exclusion 
 
 ### 7.2 Annotation
 
-Sampling is stratified by company, time, section, role, length, and candidate topic. A pilot precedes scale. A meaningful overlap is double-annotated, disagreements are analyzed per label, and a locked test set is adjudicated. Label Studio is the interface; versioned export with annotator/codebook lineage is canonical.
+Sampling is stratified by company, time, section, role, length, and candidate topic. A pilot precedes scale. A meaningful overlap is double-annotated, disagreements are analyzed per label, and a locked test set is adjudicated. Label Studio is the interface; versioned export with annotator/codebook lineage is canonical. Restricted local exports are first paired back to their deterministic task packets; the committed review manifest contains only task counts, verdict aggregates, strata, and content hashes—never text, task-level labels, or reviewer notes.
+
+The completed single-reviewer refinement is evidence for pilot design only. It retains the
+`cost_pressure`, `demand_volume`, and `supply_chain` IDs pending independent double annotation;
+it neither freezes taxonomy semantics nor supplies classifier labels. Both attempted bounded
+weak-label calibrations were rejected, so no LLM-derived label is part of the corpus or research
+dataset.
 
 ### 7.3 Model ladder
 

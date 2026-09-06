@@ -379,6 +379,27 @@ class AnnotationPilotConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class AnnotationReviewConfig(BaseModel):
+    """Configuration for validating local annotation exports and releasing aggregates only."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    task_paths: list[Path] = Field(min_length=1)
+    label_paths: list[Path] = Field(min_length=1)
+    manifest_path: Path
+
+    @model_validator(mode="after")
+    def validate_pairs(self) -> AnnotationReviewConfig:
+        if len(self.task_paths) != len(self.label_paths):
+            raise ValueError("task_paths and label_paths must have the same length")
+        return self
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class WeakLabelConfig(BaseModel):
     """Bounded local LLM weak-labeling configuration."""
 
@@ -575,6 +596,12 @@ def load_annotation_pilot_config(path: Path) -> AnnotationPilotConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return AnnotationPilotConfig.model_validate(raw)
+
+
+def load_annotation_review_config(path: Path) -> AnnotationReviewConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return AnnotationReviewConfig.model_validate(raw)
 
 
 def load_weak_label_config(path: Path) -> WeakLabelConfig:

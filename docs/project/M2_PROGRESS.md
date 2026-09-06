@@ -90,6 +90,8 @@ The local calibration completed on 2026-09-06 after its synthetic gate passed: 1
 0.80 promotion threshold. Qwen2.5 1.5B Q4_K_M is therefore rejected for weak-label generation;
 no scale-up or analytical-dataset use is permitted.
 
-The human refinement packet is generated and ready: 24 new local tasks for cost pressure,
-demand/volume, and supply chain. This targeted packet replaces further LLM experiments and is the
-next M3 input; no taxonomy promotion occurs until its human review is complete.
+The targeted human refinement review is complete: 24 new local tasks for cost pressure,
+demand/volume, and supply chain yielded 9 Yes, 12 No, and 3 Unsure judgments. An aggregate-only
+review command now validates task/export identity and writes counts, rates, and hashes without
+transcript text or reviewer notes. The result narrows the next M3 task to a double-annotated pilot
+and locked holdout design; it does not promote the taxonomy or permit another weak-label run.
