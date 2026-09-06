@@ -361,8 +361,18 @@ class AnnotationPilotConfig(BaseModel):
     html_path: Path
     manifest_path: Path
     samples_per_topic: int = Field(default=4, ge=1, le=20)
+    skip_per_topic: int = Field(default=0, ge=0, le=100)
+    topic_ids: list[str] | None = None
     selection_mode: Literal["lexical_match", "lexical_nonmatch"] = "lexical_match"
     excluded_quality_flags: list[str]
+
+    @model_validator(mode="after")
+    def validate_topic_ids(self) -> AnnotationPilotConfig:
+        if self.topic_ids is not None and (
+            not self.topic_ids or len(set(self.topic_ids)) != len(self.topic_ids)
+        ):
+            raise ValueError("topic_ids must be non-empty and unique when supplied")
+        return self
 
     def content_hash(self) -> str:
         payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))

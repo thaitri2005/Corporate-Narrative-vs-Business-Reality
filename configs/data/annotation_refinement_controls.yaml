@@ -1,0 +1,12 @@
+schema_version: "1.0"
+utterances_path: data/curated/utterances.parquet
+call_mappings_path: data/curated/call_fiscal_mappings.parquet
+lexical_config_path: configs/data/lexical_baseline.yaml
+tasks_path: data/review/annotation_refinement_controls_tasks.json
+html_path: data/review/annotation_refinement_controls.html
+manifest_path: reports/tables/annotation_refinement_controls.json
+samples_per_topic: 4
+skip_per_topic: 3
+topic_ids: [cost_pressure, demand_volume, supply_chain]
+selection_mode: lexical_nonmatch
+excluded_quality_flags: [blank_text, possible_source_footer]

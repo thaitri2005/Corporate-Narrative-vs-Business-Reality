@@ -77,10 +77,16 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
     utterances = pl.read_parquet(repo_root / config.utterances_path)
     mappings = pl.read_parquet(repo_root / config.call_mappings_path)
     mapping_by_call = {str(row["call_id"]): row for row in mappings.iter_rows(named=True)}
-    patterns = [
+    all_patterns = [
         (topic.topic_id, re.compile("(?:" + "|".join(topic.patterns) + ")", re.I))
         for topic in lexical_config.topics
     ]
+    available_topic_ids = {topic_id for topic_id, _ in all_patterns}
+    requested_topic_ids = set(config.topic_ids or available_topic_ids)
+    unknown_topic_ids = requested_topic_ids - available_topic_ids
+    if unknown_topic_ids:
+        raise ValueError(f"Unknown annotation topic IDs: {sorted(unknown_topic_ids)}")
+    patterns = [(topic_id, pattern) for topic_id, pattern in all_patterns if topic_id in requested_topic_ids]
     excluded_flags = set(config.excluded_quality_flags)
     candidates: dict[str, list[dict[str, Any]]] = {topic_id: [] for topic_id, _ in patterns}
     for utterance in utterances.iter_rows(named=True):
@@ -113,7 +119,7 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
         selected = sorted(
             rows,
             key=lambda row: _task_id(topic_id, str(row["call_id"]), int(row["turn_index"])),
-        )[: config.samples_per_topic]
+        )[config.skip_per_topic : config.skip_per_topic + config.samples_per_topic]
         selected_by_topic[topic_id] = len(selected)
         for row in selected:
             tasks.append(
@@ -145,6 +151,8 @@ def build_annotation_pilot(config: AnnotationPilotConfig, repo_root: Path) -> di
         "task_count": len(tasks),
         "selected_by_candidate_topic": selected_by_topic,
         "selection_mode": config.selection_mode,
+        "skip_per_topic": config.skip_per_topic,
+        "topic_ids": [topic_id for topic_id, _ in patterns],
         "utterances_sha256": _sha256(repo_root / config.utterances_path),
         "call_mappings_sha256": _sha256(repo_root / config.call_mappings_path),
         "tasks_sha256": _sha256(tasks_path),
