@@ -74,3 +74,13 @@ Run `cnbr fiscal-review-build --config configs/data/review.yaml` to create a res
 packet and metadata-only CSV checklist for 15 early/middle/late calls (three per company). The
 command never overwrites an existing checklist. The HTML contains transcript excerpts and must not
 be published; reviewer notes must not copy transcript text.
+
+## Local GGUF replacement path
+
+`configs/data/local_gguf_weak_label.yaml` defines a CPU-only alternative using the official pinned
+Qwen2.5 1.5B Q4_K_M GGUF artifact. The 1.12 GB model is cached outside Git. It runs through one
+hidden loopback-only `llama-server` process per calibration, rather than launching an interactive
+CLI once per task; this prevents repeated model loads and keeps model work separate from the coding
+agent session. A three-case synthetic JSON-contract gate must pass before any restricted task is
+read. The adapter always terminates the local server at the end of a run and does not use an API,
+cloud service, or GPU.

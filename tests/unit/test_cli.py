@@ -10,3 +10,8 @@ def test_cli_parses_synthetic_command() -> None:
 def test_cli_parses_hosted_weak_label_command() -> None:
     args = build_parser().parse_args(["hosted-weak-label", "--config", "config.yaml"])
     assert args.command == "hosted-weak-label"
+
+
+def test_cli_parses_local_gguf_weak_label_command() -> None:
+    args = build_parser().parse_args(["local-gguf-weak-label", "--config", "config.yaml"])
+    assert args.command == "local-gguf-weak-label"

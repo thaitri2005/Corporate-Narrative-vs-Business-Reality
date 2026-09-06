@@ -4,6 +4,7 @@ __pycache__/
 .venv/
 .uv-cache/
 .hf-cache/
+.llama-cache/
 .pip-audit-cache/
 .pytest_cache/
 .ruff_cache/

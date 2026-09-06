@@ -6,6 +6,7 @@ from cnbr.transcripts.lexical import build_lexical_baseline
 from cnbr.transcripts.normalize import normalize_transcripts
 from cnbr.transcripts.weak_label import (
     run_hosted_weak_label_calibration,
+    run_local_gguf_weak_label_calibration,
     run_local_weak_label_benchmark,
 )
 
@@ -16,6 +17,7 @@ __all__ = [
     "build_transcript_audit",
     "normalize_transcripts",
     "run_hosted_weak_label_calibration",
+    "run_local_gguf_weak_label_calibration",
     "run_local_weak_label_benchmark",
 ]
 from cnbr.transcripts.annotation import build_annotation_pilot

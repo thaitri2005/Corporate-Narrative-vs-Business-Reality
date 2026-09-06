@@ -97,3 +97,11 @@ attempts exhausted included credits at request 10. The second attempt safely che
 responses, all unparseable under the predeclared one-word verdict contract. This is inconclusive
 and rejected as weak-supervision evidence. It does not alter the taxonomy, and no further hosted
 attempt will occur without a new paid-budget and structured-output decision.
+
+## Local GGUF replacement gate
+
+The free local replacement is the official Qwen2.5 1.5B Q4_K_M GGUF model, run CPU-only through
+llama.cpp. It is a distinct calibration and does not reuse or reinterpret hosted outputs. Before
+reading any annotation task, the model must return exactly the expected JSON verdicts for three
+synthetic pricing cases (positive, negative, and indeterminate). Failure keeps the human/dictionary
+path selected and records no transcript-derived weak labels.

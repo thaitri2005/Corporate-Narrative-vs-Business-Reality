@@ -6,13 +6,20 @@ import hashlib
 import json
 import os
 import re
+import shutil
+import socket
+import subprocess
+import time
 from collections import Counter
-from collections.abc import Mapping
+from collections.abc import Iterator, Mapping
+from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
 
-from cnbr.config import HostedWeakLabelConfig, WeakLabelConfig
+import httpx
+
+from cnbr.config import HostedWeakLabelConfig, LocalGgufWeakLabelConfig, WeakLabelConfig
 
 
 def _sha256(path: Path) -> str:
@@ -38,6 +45,22 @@ def _get_hf_token(repo_root: Path) -> str | None:
 def parse_verdict(text: str) -> str:
     match = re.search(r"\b(yes|no|unsure)\b", text.lower())
     return match.group(1) if match else "unparseable"
+
+
+def parse_json_verdict(text: str) -> str:
+    """Parse only the constrained JSON contract; never infer a label from prose."""
+    decoder = json.JSONDecoder()
+    candidates = [text]
+    candidates.extend(text[index:] for index, character in enumerate(text) if character == "{")
+    for candidate in candidates:
+        try:
+            payload, _ = decoder.raw_decode(candidate.lstrip())
+        except json.JSONDecodeError:
+            continue
+        verdict = payload.get("verdict") if isinstance(payload, dict) else None
+        if verdict in {"yes", "no", "unsure"} and set(payload) == {"verdict"}:
+            return str(verdict)
+    return "unparseable"
 
 
 def _select_calibration_tasks(
@@ -247,6 +270,162 @@ def run_hosted_weak_label_calibration(
             "provider": config.provider,
             "execution": "hugging_face_hosted",
             "external_processing_authorized": config.allow_external_processing,
+            "scale_up_allowed": False,
+        },
+    )
+
+
+def _resolve_llama_executable(name: str) -> Path:  # pragma: no cover - Windows runtime adapter
+    discovered = shutil.which(name)
+    if discovered:
+        return Path(discovered)
+    local_app_data = os.environ.get("LOCALAPPDATA")
+    if local_app_data:
+        package_root = Path(local_app_data) / "Microsoft" / "WinGet" / "Packages"
+        candidates = sorted(package_root.glob(f"ggml.llamacpp*/{name}.exe"))
+        if candidates:
+            return candidates[-1]
+    raise RuntimeError(f"{name} was not found; install the official llama.cpp Windows package")
+
+
+def _free_loopback_port() -> int:  # pragma: no cover - exercised with local runtime
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
+        listener.bind(("127.0.0.1", 0))
+        return int(listener.getsockname()[1])
+
+
+@contextmanager
+def _local_llama_server(
+    config: LocalGgufWeakLabelConfig, model_path: Path
+) -> Iterator[str]:  # pragma: no cover - exercised with local runtime
+    """Run one hidden loopback-only model server for the entire calibration."""
+    port = _free_loopback_port()
+    command = [
+        str(_resolve_llama_executable("llama-server")),
+        "-m",
+        str(model_path),
+        "--host",
+        "127.0.0.1",
+        "--port",
+        str(port),
+        "-c",
+        str(config.context_tokens),
+        "-t",
+        str(config.threads),
+    ]
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+    )
+    base_url = f"http://127.0.0.1:{port}"
+    deadline = time.monotonic() + config.timeout_seconds
+    try:
+        with httpx.Client(timeout=2) as client:
+            while time.monotonic() < deadline:
+                if process.poll() is not None:
+                    raise RuntimeError("llama-server exited during startup")
+                try:
+                    if client.get(f"{base_url}/health").is_success:
+                        yield base_url
+                        return
+                except httpx.HTTPError:
+                    pass
+                time.sleep(0.25)
+        raise RuntimeError("llama-server did not become ready before timeout")
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                process.kill()
+
+
+def _run_server_verdict(
+    client: httpx.Client, base_url: str, config: LocalGgufWeakLabelConfig, topic: str, text: str
+) -> str:  # pragma: no cover - exercised with local runtime
+    response = client.post(
+        f"{base_url}/v1/chat/completions",
+        json={
+            "messages": [
+                {
+                    "role": "system",
+                    "content": (
+                        "Reply only with a JSON object having one verdict field. "
+                        "Its value must be yes, no, or unsure."
+                    ),
+                },
+                {"role": "user", "content": f"Candidate topic: {topic}\nExcerpt:\n{text}"},
+            ],
+            "temperature": 0,
+            "max_tokens": config.max_new_tokens,
+            "response_format": {"type": "json_object"},
+        },
+    )
+    response.raise_for_status()
+    payload = response.json()
+    try:
+        content = str(payload["choices"][0]["message"]["content"])
+    except (IndexError, KeyError, TypeError) as error:
+        raise RuntimeError("llama-server returned an invalid chat-completion response") from error
+    return parse_json_verdict(content)
+
+
+def run_local_gguf_weak_label_calibration(
+    config: LocalGgufWeakLabelConfig, repo_root: Path
+) -> dict[str, object]:  # pragma: no cover - exercised with local runtime
+    """Calibrate a local GGUF model only after its JSON contract passes synthetic checks."""
+    model_path = repo_root / config.model_path
+    if not model_path.is_file():
+        raise RuntimeError(f"GGUF model is missing: {model_path}")
+    synthetic_cases = [
+        ("pricing", "The company increased prices across its products.", "yes"),
+        ("pricing", "The company hired additional warehouse staff.", "no"),
+        ("pricing", "The conference call began at 9 a.m.", "unsure"),
+    ]
+    with _local_llama_server(config, model_path) as base_url, httpx.Client(
+        timeout=config.timeout_seconds
+    ) as client:
+        gate_results = [
+            _run_server_verdict(client, base_url, config, topic, text)
+            for topic, text, _ in synthetic_cases
+        ]
+        expected = [expected for _, _, expected in synthetic_cases]
+        if gate_results != expected:
+            raise RuntimeError("Local GGUF synthetic structured-output gate failed")
+        tasks = _select_calibration_tasks(
+            config.task_paths, repo_root, config.max_tasks_per_topic_per_mode
+        )
+        human = _load_human_labels(config.human_label_paths, repo_root)
+        rows: list[dict[str, object]] = []
+        for task in tasks:
+            data = cast(dict[str, Any], task["data"])
+            text = str(data["text"])[: config.max_input_characters]
+            task_id = str(data["task_id"])
+            rows.append(
+                {
+                    "task_id": task_id,
+                    "candidate_topic": str(data["candidate_topic"]),
+                    "input_sha256": hashlib.sha256(text.encode()).hexdigest(),
+                    "weak_verdict": _run_server_verdict(
+                        client, base_url, config, str(data["candidate_topic"]), text
+                    ),
+                    "human_verdict": human.get(task_id),
+                }
+            )
+    return _write_weak_label_outputs(
+        config=config,
+        repo_root=repo_root,
+        rows=rows,
+        extra_manifest={
+            "model_id": config.model_id,
+            "model_revision": config.model_revision,
+            "model_sha256": _sha256(model_path),
+            "execution": "local_cpu_llama_cpp",
+            "synthetic_gate": "passed",
+            "external_processing_authorized": False,
             "scale_up_allowed": False,
         },
     )

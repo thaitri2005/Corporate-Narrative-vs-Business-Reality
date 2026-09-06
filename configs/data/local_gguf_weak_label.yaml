@@ -1,0 +1,19 @@
+schema_version: "1.0"
+task_paths:
+  - data/review/annotation_pilot_tasks.json
+  - data/review/annotation_control_tasks.json
+human_label_paths:
+  - data/review/annotation_pilot_labels.json
+  - data/review/annotation_control_labels.json
+output_path: data/review/local_gguf_weak_labels.json
+manifest_path: reports/tables/local_gguf_weak_label_benchmark.json
+model_id: Qwen/Qwen2.5-1.5B-Instruct-GGUF
+model_revision: 91cad51170dc346986eccefdc2dd33a9da36ead9
+model_path: .llama-cache/models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+context_tokens: 2048
+threads: 8
+timeout_seconds: 180
+max_input_characters: 1600
+max_new_tokens: 16
+max_tasks_per_topic_per_mode: 1
+synthetic_gate_required: true

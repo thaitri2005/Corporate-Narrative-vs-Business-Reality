@@ -16,6 +16,7 @@ from cnbr.config import (
     load_fiscal_review_config,
     load_hosted_weak_label_config,
     load_lexical_baseline_config,
+    load_local_gguf_weak_label_config,
     load_narrative_feature_config,
     load_panel_build_config,
     load_sec_coverage_config,
@@ -49,6 +50,7 @@ from cnbr.transcripts import (
     build_transcript_audit,
     normalize_transcripts,
     run_hosted_weak_label_calibration,
+    run_local_gguf_weak_label_calibration,
     run_local_weak_label_benchmark,
 )
 
@@ -127,6 +129,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Run the explicitly authorized bounded Hugging Face weak-label calibration",
     )
     hosted_weak_label.add_argument("--config", type=Path, required=True)
+    local_gguf_weak_label = subparsers.add_parser(
+        "local-gguf-weak-label",
+        help="Run a CPU-only GGUF weak-label calibration after a synthetic output gate",
+    )
+    local_gguf_weak_label.add_argument("--config", type=Path, required=True)
     panel_build = subparsers.add_parser(
         "panel-build", help="Build the point-in-time analytical thin-slice panel"
     )
@@ -216,6 +223,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         hosted_config = load_hosted_weak_label_config(config_path)
         run_hosted_weak_label_calibration(hosted_config, Path.cwd().resolve())
+    elif args.command == "local-gguf-weak-label":
+        config_path = args.config.resolve()
+        gguf_config = load_local_gguf_weak_label_config(config_path)
+        run_local_gguf_weak_label_calibration(gguf_config, Path.cwd().resolve())
     elif args.command == "panel-build":
         config_path = args.config.resolve()
         panel_config = load_panel_build_config(config_path)
