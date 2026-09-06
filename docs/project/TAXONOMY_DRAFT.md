@@ -108,3 +108,10 @@ judgments are excluded from its agreement denominator, retained as human evidenc
 collapsed into model ground truth. Before reading any annotation task, the binary synthetic gate
 must pass. Failure keeps the human/dictionary path selected and records no transcript-derived weak
 labels.
+
+## Local GGUF calibration outcome — rejected
+
+The synthetic gate passed, then the pinned Qwen2.5 1.5B Q4_K_M model completed the bounded 12-task
+local calibration. Against 11 comparable human Yes/No judgments, it achieved 63.6% exact agreement,
+below the 0.80 promotion threshold. It is rejected for weak-label generation. No output enters the
+taxonomy, training, or analytical dataset; the human/dictionary path remains selected.
