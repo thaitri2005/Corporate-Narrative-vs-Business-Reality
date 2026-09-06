@@ -354,8 +354,10 @@ def _run_server_verdict(
                 {
                     "role": "system",
                     "content": (
-                        "Reply only with a JSON object having one verdict field. "
-                        "Its value must be yes, no, or unsure."
+                        "Classify whether the excerpt expresses the candidate topic. "
+                        "Use yes for explicit evidence, no for clearly unrelated text, and unsure "
+                        "only for ambiguous evidence. Reply only with a JSON object having one "
+                        "verdict field whose value is yes, no, or unsure."
                     ),
                 },
                 {"role": "user", "content": f"Candidate topic: {topic}\nExcerpt:\n{text}"},
@@ -385,7 +387,7 @@ def run_local_gguf_weak_label_calibration(
     synthetic_cases = [
         ("pricing", "The company increased prices across its products.", "yes"),
         ("pricing", "The company hired additional warehouse staff.", "no"),
-        ("pricing", "The conference call began at 9 a.m.", "unsure"),
+        ("pricing", "We took targeted actions to address inflation.", "unsure"),
     ]
     with _local_llama_server(config, model_path) as base_url, httpx.Client(
         timeout=config.timeout_seconds
