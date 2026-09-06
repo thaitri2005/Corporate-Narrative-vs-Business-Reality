@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 import os
 import re
 import shutil
@@ -377,6 +378,7 @@ def run_local_gguf_weak_label_calibration(
     config: LocalGgufWeakLabelConfig, repo_root: Path
 ) -> dict[str, object]:  # pragma: no cover - exercised with local runtime
     """Calibrate a local GGUF model only after its JSON contract passes synthetic checks."""
+    logging.getLogger("httpx").setLevel(logging.WARNING)
     model_path = repo_root / config.model_path
     if not model_path.is_file():
         raise RuntimeError(f"GGUF model is missing: {model_path}")
@@ -394,7 +396,10 @@ def run_local_gguf_weak_label_calibration(
         ]
         expected = [expected for _, _, expected in synthetic_cases]
         if gate_results != expected:
-            raise RuntimeError("Local GGUF synthetic structured-output gate failed")
+            raise RuntimeError(
+                "Local GGUF synthetic structured-output gate failed: "
+                f"expected={expected}, received={gate_results}"
+            )
         tasks = _select_calibration_tasks(
             config.task_paths, repo_root, config.max_tasks_per_topic_per_mode
         )
