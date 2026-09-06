@@ -91,7 +91,7 @@ The implementation must not add these merely because tooling makes them easy:
 
 | ID | Assumption | Validation point | If false |
 |---|---|---|---|
-| A-01 | Owner accepts the unresolved STRUX license risk for private, local portfolio analysis | M1 | Keep raw/reconstructable data private; prohibit external processing and switch source if use expands |
+| A-01 | Owner accepts the unresolved STRUX license risk for private portfolio analysis | M1 | Keep raw/reconstructable data private; ADR-010 permits one 12-excerpt hosted calibration only; switch source if use expands |
 | A-02 | At least 15 companies retain 12 fiscally mapped, structurally valid calls | M1/M2 | Current acquisition screen has 28 candidates; reduce inference scope or revisit source/window if mapping drops below 15 |
 | A-03 | Speaker roles and call sections can be normalized reliably | M1/M2 | Exclude weak records, add manual mapping, or restrict signal sections |
 | A-04 | SEC filings cover core GAAP outcomes | M1/M2 | Add licensed source or narrow outcomes |
@@ -106,7 +106,8 @@ The implementation must not add these merely because tooling makes them easy:
 - Transcript coverage may end in 2024 even when the implementation occurs later.
 - Consumer Staples companies use non-uniform fiscal calendars and XBRL tags.
 - Price/mix, organic growth, volume, and other operating metrics are not standardized GAAP concepts.
-- Licensed transcript text may restrict sharing, external model APIs, or public fixtures.
+- Licensed transcript text may restrict sharing, external model APIs, or public fixtures. ADR-010 is
+  a single bounded hosted-calibration exception, not a general external-processing approval.
 - Main development environment must work on Windows and CI on Linux.
 - Default execution must remain local and single-node. Ask the project owner before using any cloud
   service, making production/external API requests, purchasing compute, or adopting a step expected

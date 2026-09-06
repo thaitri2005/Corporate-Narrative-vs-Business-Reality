@@ -36,7 +36,7 @@ while taxonomy, manual reconciliation, and cohort rules are still being validate
 - Finalize the eligible 28-company candidate and 12-company recent-coverage robustness cohorts.
 - Add semantic chunks only after a tokenizer/model benchmark; canonical utterances remain unchanged.
 
-## M3 pilot started without external model processing
+## M3 pilot and bounded hosted-calibration decision
 
 `configs/data/lexical_baseline.yaml` and `cnbr lexical-baseline` implement a local-only dictionary
 discovery baseline for six draft Consumer Staples constructs. Its aggregate output is explicitly
@@ -47,6 +47,12 @@ The two local pilot packets yielded 42 single-reviewer judgments. They are suffi
 draft taxonomy and choose the next annotation design, but not to train/evaluate a semantic model or
 freeze labels. Details and the promotion decision are recorded in `TAXONOMY_DRAFT.md`.
 
+The local 360M checkpoint was rejected after a 12-task calibration (41.7% agreement and an
+all-`Yes` collapse). ADR-010 records the owner's approval for a separate 12-excerpt Hugging Face
+hosted calibration. It has fixed provider/model settings, an environment-only fine-grained token,
+an audit manifest, and no scale-up authority. The command is `cnbr hosted-weak-label --config
+configs/data/hosted_weak_label.yaml`; it remains unrun until a local `HF_TOKEN` is supplied.
+
 ## Financial reconciliation control
 
 `cnbr financial-reconcile` independently recomputes every resolved canonical value from its stored
@@ -56,7 +62,8 @@ filing-presentation review remains required before M2 acceptance because the loc
 Company Facts, not filing-rendered statements.
 
 Gross margin is intentionally absent because the earlier concept audit rejected universal direct
-comparability. No external API, cloud execution, GPU, database, or distributed system is required.
+comparability. No GPU, database, or distributed system is required. The ADR-010 calibration is the
+only approved hosted API operation.
 
 Run `cnbr fiscal-review-build --config configs/data/review.yaml` to create a restricted local HTML
 packet and metadata-only CSV checklist for 15 early/middle/late calls (three per company). The

@@ -81,3 +81,11 @@ phrase-match and one nonmatch control per topic. It returned a parseable Yes for
 achieved only 41.7% exact agreement with the human labels. It is rejected for weak-label generation.
 No generated label enters the taxonomy, training, or analytical dataset; the human/dictionary path
 remains selected.
+
+## Hosted calibration gate
+
+ADR-010 authorizes one distinct, deterministic 12-task calibration through Hugging Face Inference
+Providers after the local baseline rejection. It is a model-selection measurement, not a labeling
+run: exact agreement must reach 0.80 with parseable responses before the owner is asked to consider
+any subsequent pilot. It never changes taxonomy status, creates ground truth, or authorizes broader
+external transcript processing.

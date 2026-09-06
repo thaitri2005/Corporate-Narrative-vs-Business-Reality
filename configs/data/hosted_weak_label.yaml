@@ -1,0 +1,20 @@
+schema_version: "1.0"
+task_paths:
+  - data/review/annotation_pilot_tasks.json
+  - data/review/annotation_control_tasks.json
+human_label_paths:
+  - data/review/annotation_pilot_labels.json
+  - data/review/annotation_control_labels.json
+output_path: data/review/hosted_weak_labels.json
+manifest_path: reports/tables/hosted_weak_label_calibration.json
+# Fixed provider avoids opaque cross-provider routing. Availability is checked at run time.
+model_id: Qwen/Qwen2.5-7B-Instruct
+model_revision: main
+provider: hf-inference
+timeout_seconds: 60
+max_input_characters: 1600
+max_new_tokens: 4
+# Exactly one deterministic task per topic/selection-mode cell; current packet yields 12 tasks.
+max_tasks_per_topic_per_mode: 1
+# This must be literal true: the configuration is invalid unless the documented exception is explicit.
+allow_external_processing: true

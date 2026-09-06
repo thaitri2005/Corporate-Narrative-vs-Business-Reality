@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from cnbr.config import SecSpikeConfig, SyntheticConfig
+from cnbr.config import HostedWeakLabelConfig, SecSpikeConfig, SyntheticConfig
 
 
 def test_config_hash_is_stable() -> None:
@@ -51,3 +51,17 @@ def test_sec_spike_caps_workers_and_request_rate() -> None:
     }
     with pytest.raises(ValidationError):
         SecSpikeConfig.model_validate(payload)
+
+
+def test_hosted_weak_label_requires_explicit_external_authorization() -> None:
+    payload = {
+        "task_paths": ["data/review/tasks.json"],
+        "human_label_paths": ["data/review/labels.json"],
+        "output_path": "data/review/output.json",
+        "manifest_path": "reports/tables/output.json",
+        "model_id": "Qwen/Qwen2.5-7B-Instruct",
+        "provider": "hf-inference",
+        "allow_external_processing": False,
+    }
+    with pytest.raises(ValidationError):
+        HostedWeakLabelConfig.model_validate(payload)

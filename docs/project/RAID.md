@@ -6,7 +6,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 
 | ID | Risk | Likelihood | Impact | Owner role | Response | Status |
 |---|---|---:|---:|---|---|---|
-| R-01 | STRUX has no explicit license for intended processing or release | Medium | Critical if scope expands | Project owner | Owner accepted private/local portfolio risk; prohibit external APIs and raw/reconstructable release; adapter fallback before expanded use | Accepted/monitored |
+| R-01 | STRUX has no explicit license for intended processing or release | Medium | Critical if scope expands | Project owner | Owner accepted private portfolio risk; prohibit raw/reconstructable release; ADR-010 permits one audited 12-excerpt hosted calibration only; adapter fallback before expanded use | Accepted/monitored |
 | R-02 | Continuous Consumer Staples coverage is inadequate | Medium | High | Research lead | Coverage-only cohort analysis before hypothesis selection | Open |
 | R-03 | Fiscal/call alignment leaks future information | Medium | Critical | Data engineer | Canonical time spine, golden records, future-invariance tests | Open |
 | R-04 | Cross-company XBRL mappings are inconsistent | High | High | Financial reviewer | Versioned mappings, reconciliation, narrow metrics; direct GrossProfit already fails 5-company coverage | Open/evidence confirmed |
@@ -16,6 +16,7 @@ RAID covers risks, assumptions, issues, and decisions. Review it at least weekly
 | R-08 | Future MkDocs 2 ecosystem changes disrupt docs | Low | Medium | Tech lead | Keep MkDocs 1/Material 9 locked; reassess only during upgrade | Monitoring |
 | R-09 | Optional DVC stack includes unfixed `diskcache` advisory PYSEC-2026-2447 | Low in trusted local use | High if cache is attacker-writable | Tech lead / project owner | Keep out of base runtime; owner-controlled local cache only; review before remote; upgrade when patched | Accepted/monitoring |
 | R-10 | Small local LLM produces biased weak labels | High | Medium | NLP lead | Calibration required before scale-out; SmolLM2-360M rejected at 41.7% agreement | Mitigated/rejected baseline |
+| R-11 | Hosted calibration sends restricted excerpts to a provider | Medium | High | Project owner / NLP lead | ADR-010 limits 12 inputs, fixed provider, fine-grained token, no scale-up, and audit metadata; stop on provider/model failure or <0.80 agreement | Accepted/bounded |
 
 ## Assumptions
 

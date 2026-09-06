@@ -14,6 +14,7 @@ from cnbr.config import (
     load_financial_reconciliation_config,
     load_fiscal_alignment_config,
     load_fiscal_review_config,
+    load_hosted_weak_label_config,
     load_lexical_baseline_config,
     load_narrative_feature_config,
     load_panel_build_config,
@@ -47,6 +48,7 @@ from cnbr.transcripts import (
     build_narrative_structure_features,
     build_transcript_audit,
     normalize_transcripts,
+    run_hosted_weak_label_calibration,
     run_local_weak_label_benchmark,
 )
 
@@ -120,6 +122,11 @@ def build_parser() -> argparse.ArgumentParser:
         "weak-label", help="Benchmark a local pinned LLM against human labels"
     )
     weak_label.add_argument("--config", type=Path, required=True)
+    hosted_weak_label = subparsers.add_parser(
+        "hosted-weak-label",
+        help="Run the explicitly authorized bounded Hugging Face weak-label calibration",
+    )
+    hosted_weak_label.add_argument("--config", type=Path, required=True)
     panel_build = subparsers.add_parser(
         "panel-build", help="Build the point-in-time analytical thin-slice panel"
     )
@@ -205,6 +212,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         weak_config = load_weak_label_config(config_path)
         run_local_weak_label_benchmark(weak_config, Path.cwd().resolve())
+    elif args.command == "hosted-weak-label":
+        config_path = args.config.resolve()
+        hosted_config = load_hosted_weak_label_config(config_path)
+        run_hosted_weak_label_calibration(hosted_config, Path.cwd().resolve())
     elif args.command == "panel-build":
         config_path = args.config.resolve()
         panel_config = load_panel_build_config(config_path)

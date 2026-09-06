@@ -390,6 +390,30 @@ class WeakLabelConfig(BaseModel):
         return hashlib.sha256(payload.encode()).hexdigest()
 
 
+class HostedWeakLabelConfig(BaseModel):
+    """Configuration for a deliberately bounded hosted weak-label calibration."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: str = "1.0"
+    task_paths: list[Path] = Field(min_length=1)
+    human_label_paths: list[Path] = Field(min_length=1)
+    output_path: Path
+    manifest_path: Path
+    model_id: str = Field(min_length=1)
+    model_revision: str = Field(default="main", min_length=1)
+    provider: str = Field(min_length=1)
+    timeout_seconds: float = Field(default=60, gt=0, le=120)
+    max_input_characters: int = Field(default=1600, ge=200, le=2000)
+    max_new_tokens: int = Field(default=4, ge=1, le=16)
+    max_tasks_per_topic_per_mode: int = Field(default=1, ge=1, le=1)
+    allow_external_processing: Literal[True]
+
+    def content_hash(self) -> str:
+        payload = json.dumps(self.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(payload.encode()).hexdigest()
+
+
 class PanelBuildConfig(BaseModel):
     """Configuration for the frozen-key analytical thin-slice panel."""
 
@@ -521,6 +545,12 @@ def load_weak_label_config(path: Path) -> WeakLabelConfig:
     with path.open("r", encoding="utf-8") as stream:
         raw: Any = yaml.safe_load(stream)
     return WeakLabelConfig.model_validate(raw)
+
+
+def load_hosted_weak_label_config(path: Path) -> HostedWeakLabelConfig:
+    with path.open("r", encoding="utf-8") as stream:
+        raw: Any = yaml.safe_load(stream)
+    return HostedWeakLabelConfig.model_validate(raw)
 
 
 def load_panel_build_config(path: Path) -> PanelBuildConfig:

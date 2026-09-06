@@ -2,9 +2,9 @@
 
 > **Document type:** Product, research, data, and technical design  
 > **Companion execution document:** [`PROJECT_PLAN.md`](PROJECT_PLAN.md)  
-> **Status:** Proposed baseline  
-> **Version:** 0.2.0  
-> **Last updated:** 2026-09-05  
+> **Status:** Implemented thin slice; design evolving
+> **Version:** 0.3.0
+> **Last updated:** 2026-09-06
 > **Owner:** Project lead
 
 ---
@@ -59,9 +59,10 @@ The thesis is to convert changes in what Consumer Staples companies say into str
 - Preferably 12–20+ usable quarterly calls per company.
 - Use an explicitly documented unbalanced-panel or revised-window rule because observed STRUX
   endpoints are uneven; do not imply uniform 2017–2024 coverage.
-- STRUX as a restricted, local-only transcript source for this personal portfolio project. Its
-  absent license remains a recorded risk: never publish raw/reconstructable text or send it to an
-  external model/API; publish code, provenance, and non-reconstructable aggregate results only.
+- STRUX as a restricted transcript source for this personal portfolio project. Its absent license
+  remains a recorded risk: never publish raw/reconstructable text. ADR-010 permits one
+  owner-approved Hugging Face calibration of 12 pre-reviewed excerpts; all other processing remains
+  local unless a new decision is accepted.
 - Company × fiscal quarter as the canonical observation.
 - Management prepared remarks, management answers, and analyst questions separated.
 - Roughly 10–15 economically meaningful topics.

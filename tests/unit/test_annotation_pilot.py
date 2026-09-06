@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import cast
 
 import polars as pl
 
@@ -12,24 +13,30 @@ def test_annotation_pilot_writes_restricted_tasks_and_text_free_manifest(tmp_pat
     data = tmp_path / "data"
     data.mkdir()
     pl.DataFrame(
-        {
-            "call_id": ["call-1"],
-            "company_id": ["company-1"],
-            "ticker": ["TEST"],
-            "fiscal_year": [2024],
-            "fiscal_quarter": [1],
-            "call_date": ["2024-04-10"],
-        }
+        cast(
+            dict[str, object],
+            {
+                "call_id": ["call-1"],
+                "company_id": ["company-1"],
+                "ticker": ["TEST"],
+                "fiscal_year": [2024],
+                "fiscal_quarter": [1],
+                "call_date": ["2024-04-10"],
+            },
+        )
     ).write_parquet(data / "mappings.parquet")
     pl.DataFrame(
-        {
-            "call_id": ["call-1"],
-            "sequence_no": [0],
-            "quality_flags": [[]],
-            "speaker_role": ["executive"],
-            "section": ["prepared_remarks"],
-            "text": ["Synthetic pricing example"],
-        },
+        cast(
+            dict[str, object],
+            {
+                "call_id": ["call-1"],
+                "sequence_no": [0],
+                "quality_flags": [[]],
+                "speaker_role": ["executive"],
+                "section": ["prepared_remarks"],
+                "text": ["Synthetic pricing example"],
+            },
+        ),
         schema_overrides={"quality_flags": pl.List(pl.String)},
     ).write_parquet(data / "utterances.parquet")
     lexical = tmp_path / "lexical.yaml"

@@ -19,7 +19,8 @@ Acquire only the two `full` Parquet shards pinned to revision
 `8c3d39f2d70a8fa2d619f8c7bef9176efcb89520`. Verify each published SHA-256, store raw and filtered
 data outside Git, and filter locally to the approved Consumer Staples universe.
 
-Do not send transcript content to external APIs/cloud services. Do not publish raw text, excerpts,
+Do not send transcript content to external APIs/cloud services, except for the bounded owner-approved
+calibration documented in ADR-010. Do not publish raw text, excerpts,
 row-level data, or derived artifacts from which transcript content can be reconstructed. A public
 portfolio may include code, tests, source attribution, lineage metadata, methods, schemas, and
 non-reconstructable aggregates.
