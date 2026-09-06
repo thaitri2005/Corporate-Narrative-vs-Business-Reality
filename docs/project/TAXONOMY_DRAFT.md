@@ -101,7 +101,10 @@ attempt will occur without a new paid-budget and structured-output decision.
 ## Local GGUF replacement gate
 
 The free local replacement is the official Qwen2.5 1.5B Q4_K_M GGUF model, run CPU-only through
-llama.cpp. It is a distinct calibration and does not reuse or reinterpret hosted outputs. Before
-reading any annotation task, the model must return exactly the expected JSON verdicts for three
-synthetic pricing cases (positive, negative, and indeterminate). Failure keeps the human/dictionary
-path selected and records no transcript-derived weak labels.
+llama.cpp. It is a distinct calibration and does not reuse or reinterpret hosted outputs. The model
+reliably distinguished explicit positive and unrelated synthetic pricing cases but treated an
+ambiguous case as `No`; it is therefore restricted to binary Yes/No discovery. Human `Unsure`
+judgments are excluded from its agreement denominator, retained as human evidence, and never
+collapsed into model ground truth. Before reading any annotation task, the binary synthetic gate
+must pass. Failure keeps the human/dictionary path selected and records no transcript-derived weak
+labels.

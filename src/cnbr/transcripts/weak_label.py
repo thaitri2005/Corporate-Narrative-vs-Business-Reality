@@ -96,6 +96,7 @@ def _write_weak_label_outputs(
     repo_root: Path,
     rows: list[dict[str, object]],
     extra_manifest: dict[str, object],
+    comparable_human_verdicts: frozenset[str] = frozenset({"yes", "no", "unsure"}),
 ) -> dict[str, object]:
     if len({str(row["task_id"]) for row in rows}) != len(rows):
         raise ValueError("Weak-label tasks are not unique")
@@ -104,7 +105,9 @@ def _write_weak_label_outputs(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
-    comparable = [row for row in rows if row["human_verdict"] in {"yes", "no", "unsure"}]
+    comparable = [
+        row for row in rows if str(row["human_verdict"]) in comparable_human_verdicts
+    ]
     agreements = sum(row["weak_verdict"] == row["human_verdict"] for row in comparable)
     manifest: dict[str, object] = {
         "schema_version": config.schema_version,
@@ -355,9 +358,8 @@ def _run_server_verdict(
                     "role": "system",
                     "content": (
                         "Classify whether the excerpt expresses the candidate topic. "
-                        "Use yes for explicit evidence, no for clearly unrelated text, and unsure "
-                        "only for ambiguous evidence. Reply only with a JSON object having one "
-                        "verdict field whose value is yes, no, or unsure."
+                        "Use yes for explicit evidence and no otherwise. Reply only with a JSON "
+                        "object having one verdict field whose value is yes or no."
                     ),
                 },
                 {"role": "user", "content": f"Candidate topic: {topic}\nExcerpt:\n{text}"},
@@ -387,7 +389,6 @@ def run_local_gguf_weak_label_calibration(
     synthetic_cases = [
         ("pricing", "The company increased prices across its products.", "yes"),
         ("pricing", "The company hired additional warehouse staff.", "no"),
-        ("pricing", "We took targeted actions to address inflation.", "unsure"),
     ]
     with _local_llama_server(config, model_path) as base_url, httpx.Client(
         timeout=config.timeout_seconds
@@ -432,7 +433,10 @@ def run_local_gguf_weak_label_calibration(
             "model_sha256": _sha256(model_path),
             "execution": "local_cpu_llama_cpp",
             "synthetic_gate": "passed",
+            "label_space": "binary_yes_no",
+            "excluded_human_verdicts": ["unsure"],
             "external_processing_authorized": False,
             "scale_up_allowed": False,
         },
+        comparable_human_verdicts=frozenset({"yes", "no"}),
     )
