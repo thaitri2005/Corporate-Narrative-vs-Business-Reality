@@ -142,3 +142,17 @@ another weak-label model.
 The independent-review protocol is now recorded in `INDEPENDENT_REVIEW_PROTOCOL.md`. Its agreement
 command emits only aggregate statistics and cannot be run until a second complete local export is
 present.
+
+## Independent-review outcome — 2026-09-07
+
+The two complete exports passed identity and completeness validation. Across 24 shared tasks,
+exact three-class agreement was 70.8% and Cohen's kappa was 0.491. There were seven disagreements:
+three first-reviewer No/second-reviewer Yes, three first-reviewer Unsure/second-reviewer Yes, and
+one first-reviewer Yes/second-reviewer No. Cost-pressure candidate matches and demand/volume
+controls account for the most uncertainty.
+
+Decision: do not freeze the taxonomy or create a training/test split from these labels. Preserve
+both reviewer exports locally, adjudicate the seven disagreements with the codebook, and record
+the rationale without copying transcript text. The all-Yes second-reviewer pattern on lexical
+matches is also a design warning: the next pilot must blind candidate selection mode and balance
+positive/negative sampling rather than treat lexical strata as labels.

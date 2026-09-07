@@ -95,3 +95,8 @@ demand/volume, and supply chain yielded 9 Yes, 12 No, and 3 Unsure judgments. An
 review command now validates task/export identity and writes counts, rates, and hashes without
 transcript text or reviewer notes. The result narrows the next M3 task to a double-annotated pilot
 and locked holdout design; it does not promote the taxonomy or permit another weak-label run.
+
+The independent second review completed on 2026-09-07. Exact agreement was 70.8% and three-class
+Cohen's kappa was 0.491 across 24 tasks. This is usable evidence for codebook refinement, not a
+quality threshold for label freeze. The immediate M3 task is restricted local adjudication of the
+seven disagreements, followed by a blinded, balanced next pilot.
