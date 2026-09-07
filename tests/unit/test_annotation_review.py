@@ -5,8 +5,16 @@ from pathlib import Path
 
 import pytest
 
-from cnbr.config import AnnotationAgreementConfig, AnnotationReviewConfig
-from cnbr.transcripts import measure_annotation_agreement, review_annotation_exports
+from cnbr.config import (
+    AnnotationAdjudicationConfig,
+    AnnotationAgreementConfig,
+    AnnotationReviewConfig,
+)
+from cnbr.transcripts import (
+    build_annotation_adjudication,
+    measure_annotation_agreement,
+    review_annotation_exports,
+)
 
 
 def _write_pair(root: Path, suffix: str, mode: str, verdict: str) -> tuple[Path, Path]:
@@ -98,3 +106,25 @@ def test_annotation_agreement_writes_aggregate_only_metrics(tmp_path: Path) -> N
     assert result["exact_agreement"] == 0.5
     assert "restricted text" not in manifest
     assert '"release_class": "aggregate-only-annotation-agreement"' in manifest
+
+
+def test_annotation_adjudication_contains_only_disagreements(tmp_path: Path) -> None:
+    task, reviewer_a = _write_pair(tmp_path, "a", "lexical_match", "yes")
+    reviewer_b = tmp_path / "labels-a-second.json"
+    reviewer_b.write_text(json.dumps([{"task_id": "id-a", "verdict": "no"}]), encoding="utf-8")
+    result = build_annotation_adjudication(
+        AnnotationAdjudicationConfig(
+            task_paths=[task.relative_to(tmp_path)],
+            reviewer_a_label_paths=[reviewer_a.relative_to(tmp_path)],
+            reviewer_b_label_paths=[reviewer_b.relative_to(tmp_path)],
+            tasks_path=Path("data/review/tasks.json"),
+            html_path=Path("data/review/tasks.html"),
+            manifest_path=Path("reports/adjudication.json"),
+        ),
+        tmp_path,
+    )
+
+    manifest = (tmp_path / "reports/adjudication.json").read_text(encoding="utf-8")
+    assert result["task_count"] == 1
+    assert "restricted text" not in manifest
+    assert '"release_class": "restricted-local-annotation-adjudication"' in manifest

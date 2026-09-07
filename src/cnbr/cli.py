@@ -7,6 +7,7 @@ from pathlib import Path
 
 from cnbr.analysis import build_thin_slice_panel
 from cnbr.config import (
+    load_annotation_adjudication_config,
     load_annotation_agreement_config,
     load_annotation_pilot_config,
     load_annotation_review_config,
@@ -46,6 +47,7 @@ from cnbr.review import build_fiscal_review_packet
 from cnbr.sources import ingest_strux_subset, run_sec_spike
 from cnbr.synthetic import run_synthetic_pipeline
 from cnbr.transcripts import (
+    build_annotation_adjudication,
     build_annotation_pilot,
     build_lexical_baseline,
     build_narrative_structure_features,
@@ -134,6 +136,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="Measure agreement between two complete local annotation exports",
     )
     annotation_agreement.add_argument("--config", type=Path, required=True)
+    annotation_adjudication = subparsers.add_parser(
+        "annotation-adjudication",
+        help="Create a restricted local packet for annotation disagreements",
+    )
+    annotation_adjudication.add_argument("--config", type=Path, required=True)
     weak_label = subparsers.add_parser(
         "weak-label", help="Benchmark a local pinned LLM against human labels"
     )
@@ -237,6 +244,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         config_path = args.config.resolve()
         agreement_config = load_annotation_agreement_config(config_path)
         measure_annotation_agreement(agreement_config, Path.cwd().resolve())
+    elif args.command == "annotation-adjudication":
+        config_path = args.config.resolve()
+        adjudication_config = load_annotation_adjudication_config(config_path)
+        build_annotation_adjudication(adjudication_config, Path.cwd().resolve())
     elif args.command == "weak-label":
         config_path = args.config.resolve()
         weak_config = load_weak_label_config(config_path)

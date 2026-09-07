@@ -29,3 +29,11 @@ counts, and hashes. It excludes text, task IDs, reviewer notes, and individual v
 
 Agreement does not itself freeze the taxonomy. The next decision is a documented adjudication and
 locked-holdout allocation based on the observed disagreement pattern.
+
+## Adjudication
+
+Run `cnbr annotation-adjudication --config configs/data/annotation_refinement_adjudication.yaml`.
+It creates a restricted local HTML page containing only disagreements, plus a text-free manifest.
+Resolve every item and save the downloaded export as
+`data/review/annotation_refinement_adjudications.json`. This export remains local and is the input
+to the next adjudication-validation step.

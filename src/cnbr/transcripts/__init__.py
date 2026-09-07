@@ -1,5 +1,6 @@
 """Transcript normalization and quality-audit operations."""
 
+from cnbr.transcripts.adjudication import build_annotation_adjudication
 from cnbr.transcripts.annotation import build_annotation_pilot
 from cnbr.transcripts.annotation_review import (
     measure_annotation_agreement,
@@ -16,6 +17,7 @@ from cnbr.transcripts.weak_label import (
 )
 
 __all__ = [
+    "build_annotation_adjudication",
     "build_annotation_pilot",
     "build_lexical_baseline",
     "build_narrative_structure_features",
