@@ -156,3 +156,14 @@ both reviewer exports locally, adjudicate the seven disagreements with the codeb
 the rationale without copying transcript text. The all-Yes second-reviewer pattern on lexical
 matches is also a design warning: the next pilot must blind candidate selection mode and balance
 positive/negative sampling rather than treat lexical strata as labels.
+
+## Adjudication outcome — 2026-09-08
+
+All seven disagreement tasks were adjudicated locally and passed completeness, uniqueness, and
+task-identity checks. The adjudication produced six Yes and one No verdict. Its review manifest is
+aggregate-only and records no task text, identifiers, notes, or individual decisions.
+
+Decision: retain the three stable IDs and the current codebook definitions. The adjudication
+resolves this pilot only; it does not convert the reviewed examples into a locked test set or
+change the taxonomy version. The next packet will be larger, balanced by lexical selection mode,
+and independently reviewed before any frozen-label or model decision.

@@ -100,3 +100,8 @@ The independent second review completed on 2026-09-07. Exact agreement was 70.8%
 Cohen's kappa was 0.491 across 24 tasks. This is usable evidence for codebook refinement, not a
 quality threshold for label freeze. The immediate M3 task is restricted local adjudication of the
 seven disagreements, followed by a blinded, balanced next pilot.
+
+The disagreement adjudication completed on 2026-09-08: all seven expected tasks were matched and
+resolved (six Yes, one No). The current codebook is retained without a taxonomy-version change.
+M3 now needs a fresh balanced, independently reviewed pilot; no model or research-label promotion
+is authorized yet.
