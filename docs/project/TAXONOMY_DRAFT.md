@@ -167,3 +167,11 @@ Decision: retain the three stable IDs and the current codebook definitions. The 
 resolves this pilot only; it does not convert the reviewed examples into a locked test set or
 change the taxonomy version. The next packet will be larger, balanced by lexical selection mode,
 and independently reviewed before any frozen-label or model decision.
+
+## Final balanced pilot — ready
+
+The final pre-freeze pilot contains 48 new, deterministically selected tasks: eight lexical matches
+and eight lexical-nonmatch controls for each of `cost_pressure`, `demand_volume`, and
+`supply_chain`. It begins after all 8 prior match selections and all 7 prior control selections per
+topic, so no reviewed task is reused. Two independent complete reviews are required before the
+agreement/adjudication gate; these tasks are not a training set or locked holdout.

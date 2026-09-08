@@ -105,3 +105,8 @@ The disagreement adjudication completed on 2026-09-08: all seven expected tasks 
 resolved (six Yes, one No). The current codebook is retained without a taxonomy-version change.
 M3 now needs a fresh balanced, independently reviewed pilot; no model or research-label promotion
 is authorized yet.
+
+The final 48-task balanced pilot is configured: eight new lexical matches and eight new controls
+per retained topic, with deterministic skips preventing reuse of earlier review tasks. It requires
+two independent local reviews before M3 can determine whether to freeze a narrow taxonomy baseline
+or cut/revise topics.

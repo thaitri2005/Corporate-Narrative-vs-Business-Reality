@@ -37,3 +37,16 @@ It creates a restricted local HTML page containing only disagreements, plus a te
 Resolve every item and save the downloaded export as
 `data/review/annotation_refinement_adjudications.json`. This export remains local and is the input
 to the next adjudication-validation step.
+
+## Final balanced pilot
+
+The final pre-freeze packet contains 48 new tasks: eight lexical matches and eight lexical
+nonmatches for each retained topic. It is non-overlapping with the earlier pilot and refinement
+samples. Candidate topic remains visible because the reviewer must apply a topic-specific
+definition; lexical selection mode is not displayed in the local HTML interface.
+
+Both reviewers independently complete `annotation_balanced_matches.html` and
+`annotation_balanced_controls.html`, each using the same codebook. Save the first reviewer's
+exports as `annotation_balanced_matches_labels.json` and `annotation_balanced_controls_labels.json`;
+save the second reviewer's exports with `_second_reviewer_labels` before `.json`. Do not inspect
+the other reviewer's decisions before completing both packets.
